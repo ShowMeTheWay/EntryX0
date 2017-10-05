@@ -11,10 +11,17 @@
 
 #include "stm32f4xx.h"
 #include "stm32f4xx_nucleo_144.h"
+
+// RCC(reset and clock control) configuration
+
+
 			
 
 int main(void)
 {
 
-	for(;;);
+	while(1)
+	{
+
+	}
 }
