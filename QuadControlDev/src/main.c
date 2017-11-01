@@ -9,37 +9,62 @@
 */
 
 
+
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_nucleo_144.h"
 
-// RCC(reset and clock control) configuration
+
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
 
 
-			
+/* Private function prototypes -----------------------------------------------*/
+
+/* Private functions ---------------------------------------------------------*/
+
+// create delay function
+void delay(int time)
+{
+	volatile int i,j;
+
+	for(i=0;i<time;i++)
+	{
+		j++;
+	}
+}
 
 int main(void)
 {
-	/*Init HAL library*/
-	HAL_Init();
+	//GPIO_MODER_MODER7   11
+	//GPIO_MODER_MODER7_0 01
+	//GPIO_MODER_MODER7_1 10
 
-	/*Enable HSI oscillator and configure the PLL to reach the maximum frequency 180 MHz when using HSI oscillator as PLL clock source*/
-	SystemClockConfiguration();
+	//RccR
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN ; // enable the RCC for the GPIO Port B
+	//ModerR
+	GPIOB->MODER |= GPIO_MODER_MODER7_0;  // set the PORB  Pin 7 as general purpose output mode
+	GPIOB->MODER &= ~(GPIO_MODER_MODER7_1);  // set the PORB  Pin 7 as general purpose output mode assure that second position is 0 (01)
+	//OtyperR
+	GPIOB->OTYPER &= ~(GPIO_OTYPER_OT_7); // set the pin as push pull(reset state)
+	//SpeedR
+	GPIOB->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR7; // set up the pin speed as high speed
+	GPIOB->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR7; // set up the pin speed as high speed
+	//PupdR
+	GPIOB->PUPDR &= ~(GPIO_PUPDR_PUPDR7); // set no pull up, pull down setting
 
-	/* Configure LED1,LED2,LED3 */
-	BSP_LED_Init(LED1);
-	BSP_LED_Init(LED2);
-	BSP_LED_Init(LED3);
+  /* Toggle some leds in an infinite loop */
+  while (1)
+  {
+	  GPIOB->BSRR |= GPIO_BSRR_BS_7;
+	  delay(200000);
+	  GPIOB->BSRR |= GPIO_BSRR_BR_7;
+	  delay(100000);
 
-	/* Initialize User push-button, will be used to trigger an interrupt each time it's pressed.*/
-	BSP_PB_Init(BUTTON_USER,BUTTON_MODE_EXTI);
-
-	/* Output SYSCLK  / 1 on MCO1 pin(PA.08) */
-	HAL_RCC_MCOnfig(RCC_MCO1,RCC_MCO1SOURCE_PLLCLK,RCC_MCODIV_1);
-
-
-	/*toggle LEDS*/
-	while(1)
-	{
-
-	}
+  }
 }
+
+
