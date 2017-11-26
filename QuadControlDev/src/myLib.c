@@ -104,7 +104,7 @@ void PWMConfig()
 	/* Compute the prescaler value to have TIM2 counter clock equal to 15000000 Hz */
 	uhPrescalerValue = (uint32_t)((SystemCoreClock/2) / 15000000) - 1;
 
-	TimHandle.Instance = TIM2;                       // choose the timer instance defined as tim2
+	TimHandle.Instance = TIMx;                       // choose the timer instance defined as tim2
 	TimHandle.Init.Prescaler = uhPrescalerValue;
 	TimHandle.Init.Period = PERIOD_VALUE;
 	TimHandle.Init.ClockDivision = 0;
@@ -197,7 +197,6 @@ void SetPWM(uint32_t pulse1 ,uint32_t pulse2 ,uint32_t pulse3 ,uint32_t pulse4)
 	sConfig.Pulse = pulse3;
 	sConfig.Pulse = pulse4;
 }
-
 
 
 /*create the delay function*/
