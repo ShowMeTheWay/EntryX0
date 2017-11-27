@@ -94,6 +94,39 @@ static void Error_Handler(void)
 
 void PWMConfig()
 {
+	/*##-1- Configure the TIM peripheral #######################################*/
+	  /* -----------------------------------------------------------------------
+	  TIM3 Configuration: generate 4 PWM signals with 4 different duty cycles.
+
+	    In this example TIM3 input clock (TIM3CLK) is set to APB1 clock x 2,
+	    since APB1 prescaler is equal to 2.
+	    TIM3CLK = APB1CLK*2 = 45MHz x 2  = 90MHz
+	    APB1CLK = HCLK/2; 180 MHz / 2 = 90 MHz
+	      => TIM3CLK = HCLK = SystemCoreClock
+
+	    To get TIM3 counter clock at 15 MHz, the prescaler is computed as follows:
+	       Prescaler = (TIM3CLK / TIM3 counter clock) - 1
+	       Prescaler = ((SystemCoreClock) /15 MHz) - 1
+
+	    To get TIM3 output clock at 22,52 KHz, the period (ARR)) is computed as follows:
+	       ARR = (TIM3 counter clock / TIM3 output clock) - 1
+	           = 665
+
+	    TIM3 Channel1 duty cycle = (TIM3_CCR1/ TIM3_ARR + 1)* 100 = 50%
+	    TIM3 Channel2 duty cycle = (TIM3_CCR2/ TIM3_ARR + 1)* 100 = 37.5%
+	    TIM3 Channel3 duty cycle = (TIM3_CCR3/ TIM3_ARR + 1)* 100 = 25%
+	    TIM3 Channel4 duty cycle = (TIM3_CCR4/ TIM3_ARR + 1)* 100 = 12.5%
+
+	    Note:
+	     SystemCoreClock variable holds HCLK frequency and is defined in system_stm32f4xx.c file.
+	     Each time the core clock (HCLK) changes, user had to update SystemCoreClock
+	     variable value. Otherwise, any configuration based on this variable will be incorrect.
+	     This variable is updated in three ways:
+	      1) by calling CMSIS function SystemCoreClockUpdate()
+	      2) by calling HAL API function HAL_RCC_GetSysClockFreq()
+	      3) each time HAL_RCC_ClockConfig() is called to configure the system clock frequency
+	  ----------------------------------------------------------------------- */
+
 	 /* Initialize TIMx peripheral as follows:
 	       + Prescaler = (SystemCoreClock / 15000000) - 1
 	       + Period = (666 - 1)
@@ -101,10 +134,10 @@ void PWMConfig()
 	       + Counter direction = Up
 	  */
 
-	/* Compute the prescaler value to have TIM2 counter clock equal to 15000000 Hz */
+	/* Compute the prescaler value to have TIM3 counter clock equal to 15000000 Hz */
 	uhPrescalerValue = (uint32_t)((SystemCoreClock/2) / 15000000) - 1;
 
-	TimHandle.Instance = TIMx;                       // choose the timer instance defined as tim2
+	TimHandle.Instance = TIMx;                       // choose the timer instance defined as tim3
 	TimHandle.Init.Prescaler = uhPrescalerValue;
 	TimHandle.Init.Period = PERIOD_VALUE;
 	TimHandle.Init.ClockDivision = 0;
