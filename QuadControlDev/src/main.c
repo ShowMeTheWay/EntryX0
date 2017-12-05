@@ -59,8 +59,8 @@ static void SystemClock_Config(void)
    *Clock for USB SDIO(sd card) clock
    *f_USB_OTG_FS_SDIO_RNG_clock = f_VCO_clock/PLLQ
    * */
-  RCC_OscInitStruct.PLL.PLLM = 8; // choose the division factor for main PLL set the PLLM in RCC_PLLCFGR to 8
-  RCC_OscInitStruct.PLL.PLLN = 360; // multiplication factor for main PLL set the PLLN in RCC_PLLCFGR to 360
+  RCC_OscInitStruct.PLL.PLLM = 14; // choose the division factor for main PLL set the PLLM in RCC_PLLCFGR to 8
+  RCC_OscInitStruct.PLL.PLLN = 201; // multiplication factor for main PLL set the PLLN in RCC_PLLCFGR to 360
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2; // division factor for the main system clock set PLLP in RCC_PLLCFGR
   RCC_OscInitStruct.PLL.PLLQ = 7; // set the OTG FS (on-the-go full speed) for USB minimum 48Hz to work correctly
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
@@ -105,6 +105,7 @@ int main(void)
 	  {
 		  SetResetLed(LED_BLUE,0U);
 	  }
+
 
 
   }
