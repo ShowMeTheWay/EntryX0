@@ -106,7 +106,10 @@ int main(void)
 		  SetResetLed(LED_BLUE,0U);
 	  }
 
-
+	  SetPWM(10000,10000,10000,10000);
+	  delay(2000000);
+	  SetPWM(30000,30000,30000,30000);
+	  delay(2000000);
 
   }
 }
