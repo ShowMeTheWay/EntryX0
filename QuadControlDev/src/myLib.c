@@ -10,7 +10,7 @@
 #include "myLib.h"
 
 /* Private typedef -----------------------------------------------------------*/
-#define  PERIOD_VALUE       (uint32_t)(666 - 1)  /* Period Value  */
+#define  PERIOD_VALUE       (uint32_t)(40900 - 1)  /* Period Value  */
 #define  PULSE1_VALUE       (uint32_t)(PERIOD_VALUE/2)        /* Capture Compare 1 Value  */
 #define  PULSE2_VALUE       (uint32_t)(PERIOD_VALUE*37.5/100) /* Capture Compare 2 Value  */
 #define  PULSE3_VALUE       (uint32_t)(PERIOD_VALUE/4)        /* Capture Compare 3 Value  */
@@ -135,7 +135,7 @@ void PWMConfig()
 	  */
 
 	/* Compute the prescaler value to have TIM3 counter clock equal to 15000000 Hz */
-	uhPrescalerValue = (uint32_t)((SystemCoreClock/2) / 15000000) - 1;
+	uhPrescalerValue = (uint32_t)((SystemCoreClock/2) / 2000000) - 1;
 
 	TimHandle.Instance = TIMx;                       // choose the timer instance defined as tim3
 	TimHandle.Init.Prescaler = uhPrescalerValue;
