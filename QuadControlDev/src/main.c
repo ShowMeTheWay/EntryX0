@@ -17,13 +17,11 @@
 #include "myLib.h"
 
 
-
-
-
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 #define ON 1
 #define OFF 0
+#define SYSTEM_CLOCK 180000000U
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim2;
@@ -59,8 +57,8 @@ static void SystemClock_Config(void)
    *Clock for USB SDIO(sd card) clock
    *f_USB_OTG_FS_SDIO_RNG_clock = f_VCO_clock/PLLQ
    * */
-  RCC_OscInitStruct.PLL.PLLM = 14; // choose the division factor for main PLL set the PLLM in RCC_PLLCFGR to 8
-  RCC_OscInitStruct.PLL.PLLN = 201; // multiplication factor for main PLL set the PLLN in RCC_PLLCFGR to 360
+  RCC_OscInitStruct.PLL.PLLM = 15; // choose the division factor for main PLL set the PLLM in RCC_PLLCFGR to 8
+  RCC_OscInitStruct.PLL.PLLN = 216; // multiplication factor for main PLL set the PLLN in RCC_PLLCFGR to 216
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2; // division factor for the main system clock set PLLP in RCC_PLLCFGR
   RCC_OscInitStruct.PLL.PLLQ = 7; // set the OTG FS (on-the-go full speed) for USB minimum 48Hz to work correctly
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
@@ -92,10 +90,10 @@ int main(void)
 	ConfigureButton();
 	PWMConfig();
 
-
-  /* Toggle some leds in an infinite loop */
-  while (1)
-  {
+	//__enable_irq();
+	/* Toggle some leds in an infinite loop */
+	while (1)
+	{
 
 	  if (GPIOC->IDR & (1<<13) )
 	  {
@@ -106,12 +104,9 @@ int main(void)
 		  SetResetLed(LED_BLUE,0U);
 	  }
 
-	  SetPWM(10000,10000,10000,10000);
-	  delay(2000000);
-	  SetPWM(30000,30000,30000,30000);
-	  delay(2000000);
+	}
 
-  }
 }
+
 
 
