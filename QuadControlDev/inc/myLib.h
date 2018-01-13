@@ -11,17 +11,19 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_nucleo_144.h"
+#include "stm32f4xx_hal_i2c.h"
 
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/* User can use this section to tailor TIMx instance used and associated
-   resources */
+
+/***********************************************Timers Sections**************************************************************************/
+/********************** User can use this section to tailor TIMx instance used and associated resources *********************************/
+/***********************************************TIMER 3**********************************************************************************/
+
 /* Definition for TIMx clock resources */
 #define TIMx                           TIM3
 #define TIMx_CLK_ENABLE()              __HAL_RCC_TIM3_CLK_ENABLE()
-
-
 
 /* Definition for TIMx Channel Pins */
 #define TIMx_CHANNEL_GPIO_PORT()       __HAL_RCC_GPIOB_CLK_ENABLE();
@@ -40,6 +42,9 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
+
+
+/***********************************************Functions prototype section************************************************************/
 void ControlClock(void);
 
 void ConfigureLED(void);
@@ -58,6 +63,7 @@ static void Error_Handler(void);
 
 void PWMConfig(void);
 
+void Config_I2C_Peripheral(void);
 
 
 #endif /* MYLIB_H_ */

@@ -15,21 +15,33 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_nucleo_144.h"
 #include "myLib.h"
+#include "mpu_6050.h"
 
+
+/*************************************************Start I2C Section*************************************************************/
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define ON 1
-#define OFF 0
-#define SYSTEM_CLOCK 180000000U
+/* Uncomment this line to use the board as master, if not it is used as slave */
+#define I2C_ADDRESS        mpu_6050_adress
 /* Private macro -------------------------------------------------------------*/
+
 /* Private variables ---------------------------------------------------------*/
-TIM_HandleTypeDef htim2;
-TIM_HandleTypeDef htim4;
+/* I2C handler declaration */
+I2C_HandleTypeDef I2cHandle;
+
+/* Buffer used for transmission */
+uint8_t aTxBuffer[] = "abuy kllt";
+
+/* Buffer used for reception */
+uint8_t aRxBuffer[RXBUFFERSIZE];
 
 /* Private function prototypes -----------------------------------------------*/
 
+
 /* Private functions ---------------------------------------------------------*/
+
+/*************************************************End I2C Section*************************************************************/
 
 static void SystemClock_Config(void)
 {
@@ -76,6 +88,83 @@ static void SystemClock_Config(void)
   HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
 }
 
+void Config_I2C_Peripheral(void)
+{
+
+	/*##-1- Configure the I2C peripheral #######################################*/
+	I2cHandle.Instance             = I2Cx;
+
+	I2cHandle.Init.AddressingMode  = I2C_ADDRESSINGMODE_7BIT;
+	I2cHandle.Init.ClockSpeed      = 400000;
+	I2cHandle.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+	I2cHandle.Init.DutyCycle       = I2C_DUTYCYCLE_16_9;
+	I2cHandle.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+	I2cHandle.Init.NoStretchMode   = I2C_NOSTRETCH_DISABLE;
+	I2cHandle.Init.OwnAddress1     = I2C_ADDRESS;
+	//I2cHandle.Init.OwnAddress2     = 0xFE;
+
+	if(HAL_I2C_Init(&I2cHandle) != HAL_OK)
+	{
+	  /* Initialization Error */
+	  Error_Handler();
+	}
+
+}
+
+void I2C_MasterTransmit_Single_Byte(void)
+{
+	do
+	{
+		/*##-2- Start the transmission process #####################################*/
+		/* While the I2C in reception process, user can transmit data through "aTxBuffer" buffer */
+		if(HAL_I2C_Master_Transmit_IT(&I2cHandle, (uint16_t)I2C_ADDRESS, (uint8_t*)aTxBuffer, TXBUFFERSIZE)!= HAL_OK)
+		{
+			/* Error_Handler() function is called in case of error. */
+			Error_Handler();
+		}
+
+		/*##-3- Wait for the end of the transfer ###################################*/
+		/*  Before starting a new communication transfer, you need to check the current
+        state of the peripheral; if it’s busy you need to wait for the end of current
+	    ransfer before starting a new one.
+		For simplicity reasons, this example is just waiting till the end of the
+		transfer, but application may perform other tasks while transfer operation
+		is ongoing. */
+		while (HAL_I2C_GetState(&I2cHandle) != HAL_I2C_STATE_READY)
+		{
+		}
+		/* When Acknowledge failure occurs (Slave don't acknowledge its address)
+		    Master restarts communication */
+	}
+	while(HAL_I2C_GetError(&I2cHandle) == HAL_I2C_ERROR_AF);
+}
+
+void I2C_MasterReceive_Single_Byte(void)
+{
+	/*##-4- Put I2C peripheral in reception process ############################*/
+	do
+	{
+		if(HAL_I2C_Master_Receive_IT(&I2cHandle, (uint16_t)I2C_ADDRESS, (uint8_t*)aRxBuffer, RXBUFFERSIZE) != HAL_OK)
+		{
+			/* Error_Handler() function is called in case of error. */
+			Error_Handler();
+		}
+
+		/* When Acknowledge failure occurs (Slave don't acknowledge its address)
+		  Master restarts communication */
+	}
+	while(HAL_I2C_GetError(&I2cHandle) == HAL_I2C_ERROR_AF);
+}
+
+static void Error_Handler(void)
+{
+  /* Turn LED Red on */
+	SetResetLed(LED_RED,1U);
+  while(1)
+  {
+  }
+
+}
 
 int main(void)
 {
@@ -89,9 +178,11 @@ int main(void)
 	ConfigureLED();
 	ConfigureButton();
 	PWMConfig();
+	Config_I2C_Peripheral();
 
-	//__enable_irq();
-	/* Toggle some leds in an infinite loop */
+
+
+
 	while (1)
 	{
 
@@ -105,6 +196,9 @@ int main(void)
 	  }
 
 	}
+
+
+	return 0;
 
 }
 

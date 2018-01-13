@@ -8,7 +8,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "myLib.h"
+#include "mpu_6050.h"
 
+/***********************************************Start PWM Section****************************************************************/
 /* Private typedef -----------------------------------------------------------*/
 #define  PERIOD_VALUE       (uint32_t)(40900 - 1)  /* Period Value  */
 #define  PULSE1_VALUE       (uint32_t)(PERIOD_VALUE/2)        /* Capture Compare 1 Value  */
@@ -33,6 +35,10 @@ TIM_OC_InitTypeDef sConfig;
 
 /* Counter Prescaler value */
 uint32_t uhPrescalerValue = 0;
+
+/***********************************************End PWM Section****************************************************************/
+
+
 
 void ControlClock(void)
 {
