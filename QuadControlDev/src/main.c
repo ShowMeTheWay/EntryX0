@@ -37,11 +37,37 @@ uint8_t aTxBuffer[] = "abuy kllt";
 uint8_t aRxBuffer[RXBUFFERSIZE];
 
 /* Private function prototypes -----------------------------------------------*/
+void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *I2cHandle);
+
+void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *I2cHandle);
 
 
 /* Private functions ---------------------------------------------------------*/
 
 /*************************************************End I2C Section*************************************************************/
+
+/*************************************************Start UART Section*************************************************************/
+
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+/* UART handler declaration */
+UART_HandleTypeDef UartHandle;
+
+/* Private function prototypes -----------------------------------------------*/
+#ifdef __GNUC__
+/* With GCC, small printf (option LD Linker->Libraries->Small printf
+   set to 'Yes') calls __io_putchar() */
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif /* __GNUC__ */
+
+
+/* Private functions ---------------------------------------------------------*/
+
+/*************************************************End UART Section*************************************************************/
 
 static void SystemClock_Config(void)
 {
@@ -72,7 +98,7 @@ static void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLM = 15; // choose the division factor for main PLL set the PLLM in RCC_PLLCFGR to 8
   RCC_OscInitStruct.PLL.PLLN = 216; // multiplication factor for main PLL set the PLLN in RCC_PLLCFGR to 216
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2; // division factor for the main system clock set PLLP in RCC_PLLCFGR
-  RCC_OscInitStruct.PLL.PLLQ = 7; // set the OTG FS (on-the-go full speed) for USB minimum 48Hz to work correctly
+  RCC_OscInitStruct.PLL.PLLQ = 4; // set the OTG FS (on-the-go full speed) for USB minimum 48Hz to work correctly
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
   /* Activate the Over-Drive mode */
@@ -156,6 +182,37 @@ void I2C_MasterReceive_Single_Byte(void)
 	while(HAL_I2C_GetError(&I2cHandle) == HAL_I2C_ERROR_AF);
 }
 
+void Config_USART_Peripheral(void)
+{
+	/*##-1- Configure the UART peripheral ######################################*/
+	/* Put the USART peripheral in the Asynchronous mode (UART Mode) */
+	/* UART configured as follows:
+	      - Word Length = 8 Bits (7 data bit + 1 parity bit) :
+		                  BE CAREFUL : Program 7 data bits + 1 parity bit in PC HyperTerminal
+	      - Stop Bit    = One Stop bit
+	      - Parity      = ODD parity
+	      - BaudRate    = 9600 baud
+	      - Hardware flow control disabled (RTS and CTS signals) */
+	UartHandle.Instance        = USARTx;
+
+	UartHandle.Init.BaudRate   = 9600;
+	UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
+	UartHandle.Init.StopBits   = UART_STOPBITS_1;
+	UartHandle.Init.Parity     = UART_PARITY_NONE;
+	UartHandle.Init.HwFlowCtl  = UART_HWCONTROL_NONE;
+	UartHandle.Init.Mode       = UART_MODE_TX_RX;
+	UartHandle.Init.OverSampling = UART_OVERSAMPLING_16;
+	if (HAL_UART_Init(&UartHandle) != HAL_OK)
+	{
+		/* Initialization Error */
+		Error_Handler();
+	}
+
+	/* Output a message on Hyperterminal using printf function */
+	printf("\n\r UART Printf Example: retarget the C library printf function to the UART\n\r");
+	printf("** Test finished successfully. ** \n\r");
+}
+
 static void Error_Handler(void)
 {
   /* Turn LED Red on */
@@ -165,9 +222,12 @@ static void Error_Handler(void)
   }
 
 }
+/***************************************************** MAIN START *******************************************************************/
 
 int main(void)
 {
+	char newL[2]="\r\n";
+	char del[1]=",";
 	/*Init hal drivers*/
 	HAL_Init();
 
@@ -179,6 +239,7 @@ int main(void)
 	ConfigureButton();
 	PWMConfig();
 	Config_I2C_Peripheral();
+	Config_USART_Peripheral();
 
 
 
@@ -189,6 +250,16 @@ int main(void)
 	  if (GPIOC->IDR & (1<<13) )
 	  {
 		  SetResetLed(LED_BLUE,1U);
+		  HAL_UART_Transmit(&UartHandle, (uint8_t *)newL, 2, 0xFFFF);
+		  //HAL_UART_Transmit(&huart5, (uint8_t *)del, 1, 0xFFFF);
+		  UART_Transmit_Data(UartHandle,-87);
+		  HAL_UART_Transmit(&UartHandle, (uint8_t *)del, 1, 0xFFFF);
+		  UART_Transmit_Data(UartHandle,68.5);
+		  HAL_UART_Transmit(&UartHandle, (uint8_t *)del, 1, 0xFFFF);
+		  UART_Transmit_Data(UartHandle,-0.6);
+		  HAL_UART_Transmit(&UartHandle, (uint8_t *)del, 1, 0xFFFF);
+		  UART_Transmit_Data(UartHandle,267);
+
 	  }
 	  else
 	  {
@@ -200,7 +271,72 @@ int main(void)
 
 	return 0;
 
+
 }
+
+/***************************************************** MAIN END *******************************************************************/
+
+
+/**
+  * @brief  Retargets the C library printf function to the USART.
+  * @param  None
+  * @retval None
+  */
+PUTCHAR_PROTOTYPE
+{
+  /* Place your implementation of fputc here */
+  /* e.g. write a character to the USART3 and Loop until the end of transmission */
+  HAL_UART_Transmit(&UartHandle, (uint8_t *)&ch, 1, 0xFFFF);
+
+  return ch;
+}
+
+/**
+  * @brief  Tx Transfer completed callback.
+  * @param  I2cHandle: I2C handle
+  * @note   This example shows a simple way to report end of IT Tx transfer, and
+  *         you can add your own implementation.
+  * @retval None
+  */
+void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *I2cHandle)
+{
+
+
+}
+
+/**
+  * @brief  Rx Transfer completed callback.
+  * @param  I2cHandle: I2C handle
+  * @note   This example shows a simple way to report end of IT Rx transfer, and
+  *         you can add your own implementation.
+  * @retval None
+  */
+void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *I2cHandle)
+{
+
+}
+
+
+#ifdef  USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+
+  /* Infinite loop */
+  while (1)
+  {
+  }
+}
+#endif
+
 
 
 

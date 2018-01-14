@@ -65,5 +65,7 @@ void PWMConfig(void);
 
 void Config_I2C_Peripheral(void);
 
+void UART_Transmit_Data(UART_HandleTypeDef UartHandle, float data_in);
+
 
 #endif /* MYLIB_H_ */
