@@ -23,7 +23,10 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Uncomment this line to use the board as master, if not it is used as slave */
-#define I2C_ADDRESS        mpu_6050_adress
+#define I2C_ADDRESS        (0x68)
+
+
+
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
@@ -31,15 +34,15 @@
 I2C_HandleTypeDef I2cHandle;
 
 /* Buffer used for transmission */
-uint8_t aTxBuffer[] = "abuy kllt";
+uint8_t aTxBuffer[]=" ****I2C_TwoBoards advanced communication";
 
 /* Buffer used for reception */
 uint8_t aRxBuffer[RXBUFFERSIZE];
+uint16_t hTxNumData = 0, hRxNumData = 0;
+uint8_t bTransferRequest = 0;
 
 /* Private function prototypes -----------------------------------------------*/
-void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *I2cHandle);
 
-void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *I2cHandle);
 
 
 /* Private functions ---------------------------------------------------------*/
@@ -127,7 +130,7 @@ void Config_I2C_Peripheral(void)
 	I2cHandle.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
 	I2cHandle.Init.NoStretchMode   = I2C_NOSTRETCH_DISABLE;
 	I2cHandle.Init.OwnAddress1     = I2C_ADDRESS;
-	//I2cHandle.Init.OwnAddress2     = 0xFE;
+	//I2cHandle.Init.OwnAddress2     = 0xFE;  // no use the dev board as slave
 
 	if(HAL_I2C_Init(&I2cHandle) != HAL_OK)
 	{
@@ -135,51 +138,6 @@ void Config_I2C_Peripheral(void)
 	  Error_Handler();
 	}
 
-}
-
-void I2C_MasterTransmit_Single_Byte(void)
-{
-	do
-	{
-		/*##-2- Start the transmission process #####################################*/
-		/* While the I2C in reception process, user can transmit data through "aTxBuffer" buffer */
-		if(HAL_I2C_Master_Transmit_IT(&I2cHandle, (uint16_t)I2C_ADDRESS, (uint8_t*)aTxBuffer, TXBUFFERSIZE)!= HAL_OK)
-		{
-			/* Error_Handler() function is called in case of error. */
-			Error_Handler();
-		}
-
-		/*##-3- Wait for the end of the transfer ###################################*/
-		/*  Before starting a new communication transfer, you need to check the current
-        state of the peripheral; if it’s busy you need to wait for the end of current
-	    ransfer before starting a new one.
-		For simplicity reasons, this example is just waiting till the end of the
-		transfer, but application may perform other tasks while transfer operation
-		is ongoing. */
-		while (HAL_I2C_GetState(&I2cHandle) != HAL_I2C_STATE_READY)
-		{
-		}
-		/* When Acknowledge failure occurs (Slave don't acknowledge its address)
-		    Master restarts communication */
-	}
-	while(HAL_I2C_GetError(&I2cHandle) == HAL_I2C_ERROR_AF);
-}
-
-void I2C_MasterReceive_Single_Byte(void)
-{
-	/*##-4- Put I2C peripheral in reception process ############################*/
-	do
-	{
-		if(HAL_I2C_Master_Receive_IT(&I2cHandle, (uint16_t)I2C_ADDRESS, (uint8_t*)aRxBuffer, RXBUFFERSIZE) != HAL_OK)
-		{
-			/* Error_Handler() function is called in case of error. */
-			Error_Handler();
-		}
-
-		/* When Acknowledge failure occurs (Slave don't acknowledge its address)
-		  Master restarts communication */
-	}
-	while(HAL_I2C_GetError(&I2cHandle) == HAL_I2C_ERROR_AF);
 }
 
 void Config_USART_Peripheral(void)
@@ -190,7 +148,7 @@ void Config_USART_Peripheral(void)
 	      - Word Length = 8 Bits (7 data bit + 1 parity bit) :
 		                  BE CAREFUL : Program 7 data bits + 1 parity bit in PC HyperTerminal
 	      - Stop Bit    = One Stop bit
-	      - Parity      = ODD parity
+	      - Parity      = none parity
 	      - BaudRate    = 9600 baud
 	      - Hardware flow control disabled (RTS and CTS signals) */
 	UartHandle.Instance        = USARTx;
@@ -209,8 +167,7 @@ void Config_USART_Peripheral(void)
 	}
 
 	/* Output a message on Hyperterminal using printf function */
-	printf("\n\r UART Printf Example: retarget the C library printf function to the UART\n\r");
-	printf("** Test finished successfully. ** \n\r");
+	printf("\n\r Target has been RESET and is active ! \n\r");
 }
 
 static void Error_Handler(void)
@@ -221,6 +178,95 @@ static void Error_Handler(void)
   {
   }
 
+}
+
+void WHO_AM_I_vTest()
+{
+	/* Initialize number of data variables */
+	hTxNumData = TXBUFFERSIZE;
+	hRxNumData = RXBUFFERSIZE;
+
+	/*Step 1 - Transmit the adress and the register adress that shall be read*/
+	/* Update bTransferRequest to send buffer write request for Slave */
+	bTransferRequest = mpu_6050_who_am_I;
+	while(HAL_I2C_Master_Transmit(&I2cHandle, (uint16_t)(I2C_ADDRESS), (uint8_t*)&bTransferRequest, TXBUFFERSIZE,10000)!= HAL_OK)
+	{
+		/* Error_Handler() function is called when Timeout error occurs.
+		       When Acknowledge failure occurs (Slave don't acknowledge it's address)
+		       Master restarts communication */
+		if (HAL_I2C_GetError(&I2cHandle) != HAL_I2C_ERROR_AF)
+		{
+			Error_Handler();
+		}
+	}
+
+	/*Step 2 - transmit the adress and the buffer where the slave will write the content of the mpu_6050_who_am_I register  */
+
+	while(HAL_I2C_Master_Receive(&I2cHandle, (uint16_t)(I2C_ADDRESS), (uint8_t *)aRxBuffer, RXBUFFERSIZE,10000) != HAL_OK)
+	{
+		/* Error_Handler() function is called when Timeout error occurs.
+		       When Acknowledge failure occurs (Slave don't acknowledge it's address)
+		       Master restarts communication */
+		if (HAL_I2C_GetError(&I2cHandle) != HAL_I2C_ERROR_AF)
+		{
+			Error_Handler();
+		}
+	}
+
+	/*wait until the current transfer is done*/
+	while (HAL_I2C_GetState(&I2cHandle) != HAL_I2C_STATE_READY)
+	{
+	}
+
+	/* Check correctness of received buffer ##################################*/
+	if(Buffercmp((uint8_t*)aRxBuffer,0x68,1))
+	{
+		printf("\n\r I2c succes \n\r");
+	}
+
+	printf(aRxBuffer);
+
+	/* Flush Rx buffers */
+	Flush_Buffer((uint8_t*)aRxBuffer,RXBUFFERSIZE);
+}
+
+
+/**
+  * @brief  Compares two buffers.
+  * @param  pBuffer1, pBuffer2: buffers to be compared.
+  * @param  BufferLength: buffer's length
+  * @retval 0  : pBuffer1 identical to pBuffer2
+  *         >0 : pBuffer1 differs from pBuffer2
+  */
+static uint16_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferLength)
+{
+  while (BufferLength--)
+  {
+    if ((*pBuffer1) != *pBuffer2)
+    {
+      return BufferLength;
+    }
+    pBuffer1++;
+    pBuffer2++;
+  }
+
+  return 0;
+}
+
+/**
+  * @brief  Flushes the buffer
+  * @param  pBuffer: buffers to be flushed.
+  * @param  BufferLength: buffer's length
+  * @retval None
+  */
+static void Flush_Buffer(uint8_t* pBuffer, uint16_t BufferLength)
+{
+  while (BufferLength--)
+  {
+    *pBuffer = 0;
+
+    pBuffer++;
+  }
 }
 /***************************************************** MAIN START *******************************************************************/
 
@@ -241,30 +287,30 @@ int main(void)
 	Config_I2C_Peripheral();
 	Config_USART_Peripheral();
 
-
-
+	WHO_AM_I_vTest();
 
 	while (1)
 	{
-
-	  if (GPIOC->IDR & (1<<13) )
-	  {
-		  SetResetLed(LED_BLUE,1U);
-		  HAL_UART_Transmit(&UartHandle, (uint8_t *)newL, 2, 0xFFFF);
-		  //HAL_UART_Transmit(&huart5, (uint8_t *)del, 1, 0xFFFF);
-		  UART_Transmit_Data(UartHandle,-87);
-		  HAL_UART_Transmit(&UartHandle, (uint8_t *)del, 1, 0xFFFF);
-		  UART_Transmit_Data(UartHandle,68.5);
-		  HAL_UART_Transmit(&UartHandle, (uint8_t *)del, 1, 0xFFFF);
-		  UART_Transmit_Data(UartHandle,-0.6);
-		  HAL_UART_Transmit(&UartHandle, (uint8_t *)del, 1, 0xFFFF);
-		  UART_Transmit_Data(UartHandle,267);
-
-	  }
-	  else
-	  {
-		  SetResetLed(LED_BLUE,0U);
-	  }
+//
+//	  if (GPIOC->IDR & (1<<13) )
+//	  {
+//		  SetResetLed(LED_BLUE,1U);
+//////		  HAL_UART_Transmit(&UartHandle, (uint8_t *)newL, 2, 0xFFFF);
+//////		  //HAL_UART_Transmit(&huart5, (uint8_t *)del, 1, 0xFFFF);
+//////		  UART_Transmit_Data(UartHandle,-87);
+//////		  HAL_UART_Transmit(&UartHandle, (uint8_t *)del, 1, 0xFFFF);
+//////		  UART_Transmit_Data(UartHandle,68.5);
+//////		  HAL_UART_Transmit(&UartHandle, (uint8_t *)del, 1, 0xFFFF);
+//////		  UART_Transmit_Data(UartHandle,-0.6);
+//////		  HAL_UART_Transmit(&UartHandle, (uint8_t *)del, 1, 0xFFFF);
+//////		  UART_Transmit_Data(UartHandle,267);
+//////		  printf(str);
+////
+////	  }
+////	  else
+////	  {
+////		  SetResetLed(LED_BLUE,0U);
+////	  }
 
 	}
 
@@ -291,51 +337,7 @@ PUTCHAR_PROTOTYPE
   return ch;
 }
 
-/**
-  * @brief  Tx Transfer completed callback.
-  * @param  I2cHandle: I2C handle
-  * @note   This example shows a simple way to report end of IT Tx transfer, and
-  *         you can add your own implementation.
-  * @retval None
-  */
-void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *I2cHandle)
-{
 
-
-}
-
-/**
-  * @brief  Rx Transfer completed callback.
-  * @param  I2cHandle: I2C handle
-  * @note   This example shows a simple way to report end of IT Rx transfer, and
-  *         you can add your own implementation.
-  * @retval None
-  */
-void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *I2cHandle)
-{
-
-}
-
-
-#ifdef  USE_FULL_ASSERT
-/**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
-void assert_failed(uint8_t *file, uint32_t line)
-{
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-
-  /* Infinite loop */
-  while (1)
-  {
-  }
-}
-#endif
 
 
 

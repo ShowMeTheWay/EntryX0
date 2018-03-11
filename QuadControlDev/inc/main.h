@@ -26,18 +26,12 @@
 #define I2Cx_RELEASE_RESET()             __HAL_RCC_I2C1_RELEASE_RESET()
 
 /* Definition for I2Cx Pins */
-#define I2Cx_SCL_PIN                    GPIO_PIN_6
+#define I2Cx_SCL_PIN                    GPIO_PIN_8
 #define I2Cx_SCL_GPIO_PORT              GPIOB
 #define I2Cx_SCL_AF                     GPIO_AF4_I2C1
 #define I2Cx_SDA_PIN                    GPIO_PIN_9
 #define I2Cx_SDA_GPIO_PORT              GPIOB
 #define I2Cx_SDA_AF                     GPIO_AF4_I2C1
-
-/* Definition for I2Cx's NVIC */
-#define I2Cx_EV_IRQn                    I2C1_EV_IRQn
-#define I2Cx_EV_IRQHandler              I2C1_EV_IRQHandler
-#define I2Cx_ER_IRQn                    I2C1_ER_IRQn
-#define I2Cx_ER_IRQHandler              I2C1_ER_IRQHandler
 
 /* Size of Transmission buffer */
 #define TXBUFFERSIZE                      (COUNTOF(aTxBuffer) - 1)
@@ -94,7 +88,8 @@ static void Error_Handler(void);
 int main(void);
 
 
+static uint16_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferLength);
 
-
+static void Flush_Buffer(uint8_t* pBuffer, uint16_t BufferLength);
 
 #endif /* MAIN_H_ */

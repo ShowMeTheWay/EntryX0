@@ -140,12 +140,6 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c)
 
 	HAL_GPIO_Init(I2Cx_SDA_GPIO_PORT, &GPIO_InitStruct);
 
-	/*##-3- Configure the NVIC for I2C #########################################*/
-	  /* NVIC for I2C1 */
-	HAL_NVIC_SetPriority(I2Cx_ER_IRQn, 0, 1);
-	HAL_NVIC_EnableIRQ(I2Cx_ER_IRQn);
-	HAL_NVIC_SetPriority(I2Cx_EV_IRQn, 0, 2);
-	HAL_NVIC_EnableIRQ(I2Cx_EV_IRQn);
 
 }
 
@@ -169,9 +163,6 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef *hi2c)
   /* Configure I2C Rx as alternate function  */
   HAL_GPIO_DeInit(I2Cx_SDA_GPIO_PORT, I2Cx_SDA_PIN);
 
-  /*##-3- Disable the NVIC for I2C ###########################################*/
-  HAL_NVIC_DisableIRQ(I2Cx_ER_IRQn);
-  HAL_NVIC_DisableIRQ(I2Cx_EV_IRQn);
 }
 
 /**
