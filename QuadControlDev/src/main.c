@@ -23,7 +23,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Uncomment this line to use the board as master, if not it is used as slave */
-#define I2C_ADDRESS        (0x68)
+#define I2C_ADDRESS        0x68F
 
 
 
@@ -180,51 +180,81 @@ static void Error_Handler(void)
 
 }
 
+void I2C__vWriteBuffer(uint8_t I2c_add, uint8_t *aTxBuffer, uint8_t txbuffsz)
+{
+    /* -> Start the transmission process */
+    /* While the I2C in reception process, user can transmit data through "aTxBuffer" buffer */
+    while(HAL_I2C_Master_Transmit(&I2cHandle, (uint16_t)(I2c_add<<1), (uint8_t*)aTxBuffer, (uint16_t)txbuffsz, (uint32_t)1000)!= HAL_OK)
+    {
+        /*
+         * Error_Handler() function is called when Timeout error occurs.
+         * When Acknowledge failure occurs (Slave don't acknowledge it's address)
+         * Master restarts communication
+         */
+
+        if (HAL_I2C_GetError(&I2cHandle) != HAL_I2C_ERROR_AF)
+        {
+            Error_Handler();
+        }
+
+    }
+
+    /* -> Wait for the end of the transfer */
+    /* Before starting a new communication transfer, you need to check the current
+     * state of the peripheral; if it’s busy you need to wait for the end of current
+     * transfer before starting a new one.
+     * For simplicity reasons, this example is just waiting till the end of the
+     * transfer, but application may perform other tasks while transfer operation
+     * is ongoing.
+     */
+      while (HAL_I2C_GetState(&I2cHandle) != HAL_I2C_STATE_READY)
+      {
+      }
+}
+
+void I2C__vReadBuffer(uint8_t I2c_add, uint8_t RegAddr, uint8_t *aRxBuffer, uint8_t rxbuffsz)
+{
+    /* -> Lets ask for register's address */
+	I2C__vWriteBuffer(I2c_add, &RegAddr, 1);
+
+    /* -> Put I2C peripheral in reception process */
+    while(HAL_I2C_Master_Receive(&I2cHandle, (uint16_t)(I2c_add<<1), aRxBuffer, (uint16_t)rxbuffsz, (uint32_t)1000) != HAL_OK)
+    {
+        /* Error_Handler() function is called when Timeout error occurs.
+         * When Acknowledge failure occurs (Slave don't acknowledge it's address)
+         * Master restarts communication
+         */
+        if (HAL_I2C_GetError(&I2cHandle) != HAL_I2C_ERROR_AF)
+        {
+            Error_Handler();
+        }
+    }
+
+    /* -> Wait for the end of the transfer */
+    /* Before starting a new communication transfer, you need to check the current
+     * state of the peripheral; if it’s busy you need to wait for the end of current
+     * transfer before starting a new one.
+     * For simplicity reasons, this example is just waiting till the end of the
+     * transfer, but application may perform other tasks while transfer operation
+     * is ongoing.
+     **/
+    while (HAL_I2C_GetState(&I2cHandle) != HAL_I2C_STATE_READY)
+    {
+    }
+}
+
 void WHO_AM_I_vTest()
 {
 	/* Initialize number of data variables */
-	hTxNumData = TXBUFFERSIZE;
-	hRxNumData = RXBUFFERSIZE;
+	static uint8_t registerContent;
 
 	/*Step 1 - Transmit the adress and the register adress that shall be read*/
 	/* Update bTransferRequest to send buffer write request for Slave */
-	bTransferRequest = mpu_6050_who_am_I;
-	while(HAL_I2C_Master_Transmit(&I2cHandle, (uint16_t)(I2C_ADDRESS), (uint8_t*)&bTransferRequest, TXBUFFERSIZE,10000)!= HAL_OK)
-	{
-		/* Error_Handler() function is called when Timeout error occurs.
-		       When Acknowledge failure occurs (Slave don't acknowledge it's address)
-		       Master restarts communication */
-		if (HAL_I2C_GetError(&I2cHandle) != HAL_I2C_ERROR_AF)
-		{
-			Error_Handler();
-		}
-	}
 
-	/*Step 2 - transmit the adress and the buffer where the slave will write the content of the mpu_6050_who_am_I register  */
+	I2C__vReadBuffer(0x68,117,(uint8_t*)&registerContent,1);
 
-	while(HAL_I2C_Master_Receive(&I2cHandle, (uint16_t)(I2C_ADDRESS), (uint8_t *)aRxBuffer, RXBUFFERSIZE,10000) != HAL_OK)
-	{
-		/* Error_Handler() function is called when Timeout error occurs.
-		       When Acknowledge failure occurs (Slave don't acknowledge it's address)
-		       Master restarts communication */
-		if (HAL_I2C_GetError(&I2cHandle) != HAL_I2C_ERROR_AF)
-		{
-			Error_Handler();
-		}
-	}
-
-	/*wait until the current transfer is done*/
-	while (HAL_I2C_GetState(&I2cHandle) != HAL_I2C_STATE_READY)
-	{
-	}
-
-	/* Check correctness of received buffer ##################################*/
-	if(Buffercmp((uint8_t*)aRxBuffer,0x68,1))
-	{
-		printf("\n\r I2c succes \n\r");
-	}
-
-	printf(aRxBuffer);
+	printf("\n\r Who are you ? \n\r");
+	printf("\n\r My chip adress is = %d \n\r",registerContent);
 
 	/* Flush Rx buffers */
 	Flush_Buffer((uint8_t*)aRxBuffer,RXBUFFERSIZE);
