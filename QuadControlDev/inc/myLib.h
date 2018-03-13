@@ -59,7 +59,7 @@ void PWMConfig(void);
 
 void SetPWM(uint32_t pulse1 ,uint32_t pulse2 ,uint32_t pulse3 ,uint32_t pulse4);
 
-static void Error_Handler(void);
+
 
 void PWMConfig(void);
 

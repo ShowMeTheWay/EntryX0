@@ -9,6 +9,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "myLib.h"
 #include "mpu_6050.h"
+#include "main.h"
 
 /***********************************************Start PWM Section****************************************************************/
 /* Private typedef -----------------------------------------------------------*/
@@ -87,15 +88,6 @@ void ConfigureButton(void)
 	GPIOC->PUPDR &= ~(GPIO_PUPDR_PUPDR13); //set no pull up, pull down setting
 }
 
-static void Error_Handler(void)
-{
-    /* Turn LEDRed on */
-	SetResetLed(LED_RED,1U);
-    while (1)
-    {
-    	//do nothing
-    }
-}
 
 void PWMConfig()
 {
