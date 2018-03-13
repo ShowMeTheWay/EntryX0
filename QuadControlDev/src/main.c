@@ -16,7 +16,7 @@
 #include "stm32f4xx_nucleo_144.h"
 #include "myLib.h"
 #include "mpu_6050.h"
-
+#include "Com_ReadWrite.h"
 
 /*************************************************Start I2C Section*************************************************************/
 
@@ -40,6 +40,9 @@ uint8_t aTxBuffer[]=" ****I2C_TwoBoards advanced communication";
 uint8_t aRxBuffer[RXBUFFERSIZE];
 uint16_t hTxNumData = 0, hRxNumData = 0;
 uint8_t bTransferRequest = 0;
+
+/******************************** Buffer for all Communication variables **********************************************/
+ComLayer_tstComData ComLayer_stComData;
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -247,14 +250,19 @@ void WHO_AM_I_vTest()
 {
 	/* Initialize number of data variables */
 	static uint8_t registerContent;
+	uint8_t regV;
 
 	/*Step 1 - Transmit the adress and the register adress that shall be read*/
 	/* Update bTransferRequest to send buffer write request for Slave */
 
 	I2C__vReadBuffer(0x68,117,(uint8_t*)&registerContent,1);
 
+	Com_Write_ComLayer_IMUData(registerContent);
+
+	Com_Read_ComLayer_IMUData(&regV);
+
 	printf("\n\r Who are you ? \n\r");
-	printf("\n\r My chip adress is = %d \n\r",registerContent);
+	printf("\n\r My chip adress is = %d \n\r",regV);
 
 	/* Flush Rx buffers */
 	Flush_Buffer((uint8_t*)aRxBuffer,RXBUFFERSIZE);
@@ -299,6 +307,8 @@ static void Flush_Buffer(uint8_t* pBuffer, uint16_t BufferLength)
   }
 }
 /***************************************************** MAIN START *******************************************************************/
+
+
 
 int main(void)
 {
