@@ -3,8 +3,8 @@
   <board id="nucleo-f429zi">
     <name>NUCLEO-F429ZI</name>
     <mcuId>stm32f429zitx</mcuId>
-    <dbgIF>SWD</dbgIF>
     <dbgIF>JTAG</dbgIF>
+    <dbgIF>SWD</dbgIF>
     <dbgDEV>ST-Link</dbgDEV>
   </board>
 </targetDefinitions>

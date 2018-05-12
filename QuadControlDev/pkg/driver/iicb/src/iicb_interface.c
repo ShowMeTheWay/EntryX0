@@ -12,8 +12,6 @@ uint8_t aTxBuffer[]=" ****I2C_TwoBoards advanced communication";
 
 /* Buffer used for reception */
 uint8_t aRxBuffer[RXBUFFERSIZE];
-uint16_t hTxNumData = 0, hRxNumData = 0;
-uint8_t bTransferRequest = 0;
 
 /**
   * @brief I2C MSP Initialization
