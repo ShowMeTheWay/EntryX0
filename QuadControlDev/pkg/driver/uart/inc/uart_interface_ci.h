@@ -8,7 +8,7 @@
 #ifndef DRIVER_UART_INC_UART_INTERFACE_CI_H_
 #define DRIVER_UART_INC_UART_INTERFACE_CI_H_
 
-
+#include "stm32f4xx.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/

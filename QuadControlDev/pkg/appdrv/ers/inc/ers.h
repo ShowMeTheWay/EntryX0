@@ -5,11 +5,12 @@
  *      Author: User
  */
 
-#ifndef APP_ERS_INC_ERS_H_
-#define APP_ERS_INC_ERS_H_
+#ifndef APPDRV_ERS_INC_ERS_H_
+#define APPDRV_ERS_INC_ERS_H_
 
 #include "stm32f4xx_nucleo_144.h"
+#include "ers.h"
 
 void Error_Handler(char msg[]);
 
-#endif /* APP_ERS_INC_ERS_H_ */
+#endif /* APPDRV_ERS_INC_ERS_H_ */

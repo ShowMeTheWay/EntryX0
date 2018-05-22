@@ -89,7 +89,7 @@ void PWMConfig()
 	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_1) != HAL_OK)
 	{
 		/* Configuration Error */
-		Error_Handler();
+		Error_Handler("pwm error");
 	}
 
 	/* Set the pulse value for channel 2 */
@@ -97,7 +97,7 @@ void PWMConfig()
 	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_2) != HAL_OK)
 	{
 	  /* Configuration Error */
-	  Error_Handler();
+		Error_Handler("pwm error");
 	}
 
 	/* Set the pulse value for channel 3 */
@@ -105,7 +105,7 @@ void PWMConfig()
 	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_3) != HAL_OK)
 	{
 	  /* Configuration Error */
-	  Error_Handler();
+		Error_Handler("pwm error");
 	}
 
 	/* Set the pulse value for channel 4 */
@@ -113,7 +113,7 @@ void PWMConfig()
 	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_4) != HAL_OK)
 	{
 	  /* Configuration Error */
-	  Error_Handler();
+		Error_Handler("pwm error");
 	}
 
 	/*##-3- Start PWM signals generation #######################################*/
@@ -121,25 +121,25 @@ void PWMConfig()
 	if (HAL_TIM_PWM_Start(&TimHandle, TIM_CHANNEL_1) != HAL_OK)
 	{
 	  /* PWM Generation Error */
-	  Error_Handler();
+		Error_Handler("pwm error");
 	}
 	/* Start channel 2 */
 	if (HAL_TIM_PWM_Start(&TimHandle, TIM_CHANNEL_2) != HAL_OK)
 	{
 	  /* PWM Generation Error */
-	  Error_Handler();
+		Error_Handler("pwm error");
 	}
 	/* Start channel 3 */
 	if (HAL_TIM_PWM_Start(&TimHandle, TIM_CHANNEL_3) != HAL_OK)
 	{
 	  /* PWM generation Error */
-	  Error_Handler();
+		Error_Handler("pwm error");
 	}
 	/* Start channel 4 */
 	if (HAL_TIM_PWM_Start(&TimHandle, TIM_CHANNEL_4) != HAL_OK)
 	{
 	  /* PWM generation Error */
-	  Error_Handler();
+		Error_Handler("pwm error");
 	}
 
 	HAL_TIM_PWM_MspInit(&TimHandle);
@@ -153,7 +153,7 @@ void SetPWM(uint32_t pulse1 ,uint32_t pulse2 ,uint32_t pulse3 ,uint32_t pulse4)
 	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_1) != HAL_OK)
 	{
 		/* Configuration Error */
-		Error_Handler();
+			Error_Handler("pwm error");
 	}
 
 	/* Set the pulse value for channel 2 */
@@ -161,7 +161,7 @@ void SetPWM(uint32_t pulse1 ,uint32_t pulse2 ,uint32_t pulse3 ,uint32_t pulse4)
 	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_2) != HAL_OK)
 	{
 		/* Configuration Error */
-		Error_Handler();
+		Error_Handler("pwm error");
 	}
 
 	/* Set the pulse value for channel 3 */
@@ -169,7 +169,7 @@ void SetPWM(uint32_t pulse1 ,uint32_t pulse2 ,uint32_t pulse3 ,uint32_t pulse4)
 	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_3) != HAL_OK)
 	{
 		/* Configuration Error */
-		Error_Handler();
+		Error_Handler("pwm error");
 	}
 
 	/* Set the pulse value for channel 4 */
@@ -177,7 +177,7 @@ void SetPWM(uint32_t pulse1 ,uint32_t pulse2 ,uint32_t pulse3 ,uint32_t pulse4)
 	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_4) != HAL_OK)
 	{
 		/* Configuration Error */
-		Error_Handler();
+		Error_Handler("pwm error");
 	}
 
 	/*##-3- Start PWM signals generation #######################################*/
@@ -185,25 +185,25 @@ void SetPWM(uint32_t pulse1 ,uint32_t pulse2 ,uint32_t pulse3 ,uint32_t pulse4)
 	if (HAL_TIM_PWM_Start(&TimHandle, TIM_CHANNEL_1) != HAL_OK)
 	{
 		/* PWM Generation Error */
-		Error_Handler();
+		Error_Handler("pwm error");
 	}
 	/* Start channel 2 */
 	if (HAL_TIM_PWM_Start(&TimHandle, TIM_CHANNEL_2) != HAL_OK)
 	{
 		/* PWM Generation Error */
-		Error_Handler();
+		Error_Handler("pwm error");
 	}
 	/* Start channel 3 */
 	if (HAL_TIM_PWM_Start(&TimHandle, TIM_CHANNEL_3) != HAL_OK)
 	{
 		/* PWM generation Error */
-		Error_Handler();
+		Error_Handler("pwm error");
 	}
 	/* Start channel 4 */
 	if (HAL_TIM_PWM_Start(&TimHandle, TIM_CHANNEL_4) != HAL_OK)
 	{
 		/* PWM generation Error */
-		Error_Handler();
+		Error_Handler("pwm error");
 	}
 }
 

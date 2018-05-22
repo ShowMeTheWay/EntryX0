@@ -9,6 +9,7 @@
 #define DRIVER_PWM_INC_PWM_INTERFACE_H_
 
 #include "pwm_interface_ci.h"
+#include "ers.h"
 
 void PWMConfig();
 

@@ -15,13 +15,14 @@
 #include "main.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_nucleo_144.h"
-#include "mpu_6050.h"
 #include "iicb_interface.h"
 #include "Com_ReadWrite.h"
 #include "uart_interface.h"
 #include "pwm_interface.h"
 #include "clk_interface.h"
+#include "dio_interface.h"
 #include "ers.h"
+#include "imu.h"
 
 /******************************** Buffer for all Communication variables **********************************************/
 ComLayer_tstComData ComLayer_stComData;
@@ -33,7 +34,7 @@ ComLayer_tstComData ComLayer_stComData;
 
 
 /*create the delay function*/
-void delay(int time)
+void _delay_ms(int time)
 {
 	volatile int i,j;
 
@@ -57,26 +58,26 @@ int main(void)
 	PWMConfig();
 	Config_I2C_Peripheral();
 	Config_USART_Peripheral();
+	Init__vMPU_6050();
 
-	/* Initialize number of data variables */
-		static uint8_t registerContent;
-		uint8_t regV;
-
-		/*Step 1 - Transmit the adress and the register adress that shall be read*/
-		/* Update bTransferRequest to send buffer write request for Slave */
-
-		I2C__vReadBuffer(0x68,117,(uint8_t*)&registerContent,1);
-
-		Com_Write_ComLayer_IMUData(registerContent);
-
-		Com_Read_ComLayer_IMUData(&regV);
-
-		printf("\r\n Ba mere %d \r\n",regV);
-
+	static uint8_t dest[14];
+	static uint16_t destf[6];
+	uint8_t idx = 0;
 	while (1)
 	{
-		SensAdapt_step();
-		delay(1000);
+		//SensAdapt_step();
+		//I2C__vReadBuffer(mpu_6050_adress,mpu_6050_accel_x_h,dest,14);
+		I2C__vReadBuffer(mpu_6050_adress,mpu_6050_accel_x_h,dest,14);
+
+		destf[0] = (dest[0]<<8)|(dest[1]); //acc_x
+		destf[1] = (dest[2]<<8)|(dest[3]); //acc_y
+		destf[2] = (dest[4]<<8)|(dest[5]); //acc_z
+		destf[3] = (dest[8]<<8)|(dest[9]); //gyro_x
+		destf[4] = (dest[10]<<8)|(dest[11]); //gyro_y
+		destf[5] = (dest[12]<<8)|(dest[13]); //gyro_z
+
+		printf("\r\n %d,%d,%d,%d,%d,%d \r\n",destf[0],destf[1],destf[2],destf[3],destf[4],destf[5]);
+		_delay_ms(1000);
 	}
 
 

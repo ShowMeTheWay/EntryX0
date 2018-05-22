@@ -8,8 +8,8 @@
 #ifndef DRIVER_UART_INC_UART_INTERFACE_H_
 #define DRIVER_UART_INC_UART_INTERFACE_H_
 
-#include "stm32f4xx.h"
 #include "uart_interface_ci.h"
+#include "ers.h"
 
 void Config_USART_Peripheral(void);
 

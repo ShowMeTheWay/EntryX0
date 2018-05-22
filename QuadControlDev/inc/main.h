@@ -15,6 +15,6 @@
 
 int main(void);
 
-void delay(int time);
+void _delay_ms(int time);
 
 #endif /* MAIN_H_ */
