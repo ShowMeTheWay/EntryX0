@@ -11,6 +11,7 @@
 
 
 /* Includes ------------------------------------------------------------------*/
+#include <SensAdapt.h>
 #include "main.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_nucleo_144.h"
@@ -19,7 +20,7 @@
 #include "iicb_interface.h"
 #include "Com_ReadWrite.h"
 #include "uart_interface.h"
-#include "model.h"
+#include "pwm_interface.h"
 
 /******************************** Buffer for all Communication variables **********************************************/
 ComLayer_tstComData ComLayer_stComData;
@@ -122,7 +123,7 @@ int main(void)
 
 	while (1)
 	{
-		model_step();
+		SensAdapt_step();
 		delay(1000);
 	}
 

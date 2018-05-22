@@ -1,0 +1,146 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>RTW Report - SensAdapt.c</title>
+<style> .LN { font-style: italic; color: #888888 } </style>
+<style> .CT { font-style: italic; color: #117755 } </style>
+<style> .PP { font-style: bold;   color: #992211 } </style>
+<style> .KW { font-style: bold;   color: #112266 } </style>
+<style> .DT { font-style: bold;   color: #112266 } </style>
+<link rel="stylesheet" type="text/css" href="rtwreport.css"></link><script language="JavaScript" type="text/javascript" src="rtwreport_utils.js"></script>
+<SCRIPT type="text/javascript" src="rtwannotate.js"></SCRIPT>
+</head>
+<body bgcolor="#eeeeee" text="#1122aa" onload="try {if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window.document); else local_onload();}} catch(err) {};if (typeof rtwannotate === 'function') {rtwannotate('SensAdapt_c_cov.xml');}">
+<p>
+<table border="0" cellspacing="0" cellpadding="6" width="100%%" height="100%%"><tr><td width="100%%" valign="top" bgcolor="#ffffff">
+<h4>File: <a href="../SensAdapt.c" target="rtwreport_document_frame" id="linkToText_plain">SensAdapt.c</a></h4>
+<pre id="RTWcode">
+<span><a class="LN" name="1">    1   </a><span class="CT">/*</span>
+</span><span><a class="LN" name="2">    2   </a><span class="CT"> * File: SensAdapt.c</span>
+</span><span><a class="LN" name="3">    3   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="4">    4   </a><span class="CT"> * Code generated for Simulink model 'SensAdapt'.</span>
+</span><span><a class="LN" name="5">    5   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="6">    6   </a><span class="CT"> * Model version                  : 1.63</span>
+</span><span><a class="LN" name="7">    7   </a><span class="CT"> * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013</span>
+</span><span><a class="LN" name="8">    8   </a><span class="CT"> * TLC version                    : 8.4 (Jan 19 2013)</span>
+</span><span><a class="LN" name="9">    9   </a><span class="CT"> * C/C++ source code generated on : Tue May 15 00:45:34 2018</span>
+</span><span><a class="LN" name="10">   10   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="11">   11   </a><span class="CT"> * Target selection: ert.tlc</span>
+</span><span><a class="LN" name="12">   12   </a><span class="CT"> * Embedded hardware selection: ARM Compatible-&gt;ARM Cortex</span>
+</span><span><a class="LN" name="13">   13   </a><span class="CT"> * Code generation objectives: Unspecified</span>
+</span><span><a class="LN" name="14">   14   </a><span class="CT"> * Validation result: Not run</span>
+</span><span><a class="LN" name="15">   15   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="16">   16   </a>
+</span><span><a class="LN" name="17">   17   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;SensAdapt.h&quot;</font>
+</span><span><a class="LN" name="18">   18   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;SensAdapt_private.h&quot;</font>
+</span><span><a class="LN" name="19">   19   </a>
+</span><span><a class="LN" name="20">   20   </a><span class="CT">/* Block states (auto storage) */</span>
+</span><span><a class="LN" name="21">   21   </a><a href="SensAdapt_h.html#type_D_Work_SensAdapt" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_D_Work_SensAdapt');" target="rtwreport_document_frame"><font color="#1122aa">D_Work_SensAdapt</font></a> <a name="var_SensAdapt_DWork">SensAdapt_DWork</a>;
+</span><span><a class="LN" name="22">   22   </a>
+</span><span><a class="LN" name="23">   23   </a><span class="CT">/* Model step function */</span>
+</span><span><a class="LN" name="24">   24   </a><span class="DT">void</span> <a name="fcn_SensAdapt_step">SensAdapt_step</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="25">   25   </a><b>{</b>
+</span><span><a class="LN" name="26">   26   </a>  <a href="rtwtypes_h.html#type_int32_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_int32_T');" target="rtwreport_document_frame"><font color="#1122aa">int32_T</font></a> rtb_data2;
+</span><span><a class="LN" name="27">   27   </a>  <a href="rtwtypes_h.html#type_uint8_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_uint8_T');" target="rtwreport_document_frame"><font color="#1122aa">uint8_T</font></a> rtb_FixPtSum1;
+</span><span><a class="LN" name="28">   28   </a>  <a href="rtwtypes_h.html#type_int32_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_int32_T');" target="rtwreport_document_frame"><font color="#1122aa">int32_T</font></a> PulseGenerator;
+</span><span><a class="LN" name="29">   29   </a>
+</span><span><a class="LN" name="30">   30   </a>  <span class="CT">/* UnitDelay: '<a href="matlab:rtwprivate('code2model','SensAdapt:48')" name="code2model"><font color="#117755"><i>&lt;Root&gt;/Unit Delay</i></font></a>' */</span>
+</span><span><a class="LN" name="31">   31   </a>  UART_DisplayData(<a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.UnitDelay_DSTATE);
+</span><span><a class="LN" name="32">   32   </a>
+</span><span><a class="LN" name="33">   33   </a>  <span class="CT">/* DiscretePulseGenerator: '<a href="matlab:rtwprivate('code2model','SensAdapt:38')" name="code2model"><font color="#117755"><i>&lt;Root&gt;/Pulse Generator1</i></font></a>' */</span>
+</span><span><a class="LN" name="34">   34   </a>  rtb_data2 = ((<a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.clockTickCounter &lt; 650) &amp;&amp;
+</span><span><a class="LN" name="35">   35   </a>               (<a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.clockTickCounter &gt;= 0)) ? 1 : 0;
+</span><span><a class="LN" name="36">   36   </a>  <span class="KW">if</span> (<a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.clockTickCounter &gt;= 1299) <b>{</b>
+</span><span><a class="LN" name="37">   37   </a>    <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.clockTickCounter = 0;
+</span><span><a class="LN" name="38">   38   </a>  <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="39">   39   </a>    <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.clockTickCounter++;
+</span><span><a class="LN" name="40">   40   </a>  <b>}</b>
+</span><span><a class="LN" name="41">   41   </a>
+</span><span><a class="LN" name="42">   42   </a>  <span class="CT">/* End of DiscretePulseGenerator: '<a href="matlab:rtwprivate('code2model','SensAdapt:38')" name="code2model"><font color="#117755"><i>&lt;Root&gt;/Pulse Generator1</i></font></a>' */</span>
+</span><span><a class="LN" name="43">   43   </a>
+</span><span><a class="LN" name="44">   44   </a>  <span class="CT">/* DiscretePulseGenerator: '<a href="matlab:rtwprivate('code2model','SensAdapt:34')" name="code2model"><font color="#117755"><i>&lt;Root&gt;/Pulse Generator</i></font></a>' */</span>
+</span><span><a class="LN" name="45">   45   </a>  PulseGenerator = ((<a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.clockTickCounter_a01h &lt; 650) &amp;&amp;
+</span><span><a class="LN" name="46">   46   </a>                    (<a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.clockTickCounter_a01h &gt;= 0)) ? 1 : 0;
+</span><span><a class="LN" name="47">   47   </a>  <span class="KW">if</span> (<a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.clockTickCounter_a01h &gt;= 1299) <b>{</b>
+</span><span><a class="LN" name="48">   48   </a>    <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.clockTickCounter_a01h = 0;
+</span><span><a class="LN" name="49">   49   </a>  <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="50">   50   </a>    <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.clockTickCounter_a01h++;
+</span><span><a class="LN" name="51">   51   </a>  <b>}</b>
+</span><span><a class="LN" name="52">   52   </a>
+</span><span><a class="LN" name="53">   53   </a>  <span class="CT">/* End of DiscretePulseGenerator: '<a href="matlab:rtwprivate('code2model','SensAdapt:34')" name="code2model"><font color="#117755"><i>&lt;Root&gt;/Pulse Generator</i></font></a>' */</span>
+</span><span><a class="LN" name="54">   54   </a>
+</span><span><a class="LN" name="55">   55   </a>  <span class="CT">/* Sum: '<a href="matlab:rtwprivate('code2model','SensAdapt:33:2:3:4')" name="code2model"><font color="#117755"><i>&lt;S4&gt;/FixPt Sum1</i></font></a>' incorporates:</span>
+</span><span><a class="LN" name="56">   56   </a><span class="CT">   *  Constant: '<a href="matlab:rtwprivate('code2model','SensAdapt:33:2:3:2')" name="code2model"><font color="#117755"><i>&lt;S4&gt;/FixPt Constant</i></font></a>'</span>
+</span><span><a class="LN" name="57">   57   </a><span class="CT">   *  UnitDelay: '<a href="matlab:rtwprivate('code2model','SensAdapt:33:2:4')" name="code2model"><font color="#117755"><i>&lt;S3&gt;/Output</i></font></a>'</span>
+</span><span><a class="LN" name="58">   58   </a><span class="CT">   */</span>
+</span><span><a class="LN" name="59">   59   </a>  rtb_FixPtSum1 = (<a href="rtwtypes_h.html#type_uint8_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_uint8_T');" target="rtwreport_document_frame"><font color="#1122aa">uint8_T</font></a>)(<a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.Output_DSTATE + 1U);
+</span><span><a class="LN" name="60">   60   </a>
+</span><span><a class="LN" name="61">   61   </a>  <span class="CT">/* Switch: '<a href="matlab:rtwprivate('code2model','SensAdapt:33:2:5:3')" name="code2model"><font color="#117755"><i>&lt;S5&gt;/FixPt Switch</i></font></a>' incorporates:</span>
+</span><span><a class="LN" name="62">   62   </a><span class="CT">   *  Constant: '<a href="matlab:rtwprivate('code2model','SensAdapt:33:2:5:4')" name="code2model"><font color="#117755"><i>&lt;S5&gt;/Constant</i></font></a>'</span>
+</span><span><a class="LN" name="63">   63   </a><span class="CT">   */</span>
+</span><span><a class="LN" name="64">   64   </a>  <span class="KW">if</span> (rtb_FixPtSum1 &gt; 8) <b>{</b>
+</span><span><a class="LN" name="65">   65   </a>    rtb_FixPtSum1 = 0U;
+</span><span><a class="LN" name="66">   66   </a>  <b>}</b>
+</span><span><a class="LN" name="67">   67   </a>
+</span><span><a class="LN" name="68">   68   </a>  <span class="CT">/* End of Switch: '<a href="matlab:rtwprivate('code2model','SensAdapt:33:2:5:3')" name="code2model"><font color="#117755"><i>&lt;S5&gt;/FixPt Switch</i></font></a>' */</span>
+</span><span><a class="LN" name="69">   69   </a>
+</span><span><a class="LN" name="70">   70   </a>  <span class="CT">/* Update for UnitDelay: '<a href="matlab:rtwprivate('code2model','SensAdapt:48')" name="code2model"><font color="#117755"><i>&lt;Root&gt;/Unit Delay</i></font></a>' incorporates:</span>
+</span><span><a class="LN" name="71">   71   </a><span class="CT">   *  BusCreator: '<a href="matlab:rtwprivate('code2model','SensAdapt:43')" name="code2model"><font color="#117755"><i>&lt;Root&gt;/Bus Creator</i></font></a>'</span>
+</span><span><a class="LN" name="72">   72   </a><span class="CT">   *  Constant: '<a href="matlab:rtwprivate('code2model','SensAdapt:33:5')" name="code2model"><font color="#117755"><i>&lt;S1&gt;/Vector</i></font></a>'</span>
+</span><span><a class="LN" name="73">   73   </a><span class="CT">   *  DiscreteTransferFcn: '<a href="matlab:rtwprivate('code2model','SensAdapt:35')" name="code2model"><font color="#117755"><i>&lt;S2&gt;/Discrete Transfer Fcn</i></font></a>'</span>
+</span><span><a class="LN" name="74">   74   </a><span class="CT">   *  MultiPortSwitch: '<a href="matlab:rtwprivate('code2model','SensAdapt:33:4')" name="code2model"><font color="#117755"><i>&lt;S1&gt;/Output</i></font></a>'</span>
+</span><span><a class="LN" name="75">   75   </a><span class="CT">   *  Sin: '<a href="matlab:rtwprivate('code2model','SensAdapt:32')" name="code2model"><font color="#117755"><i>&lt;Root&gt;/Sine Wave</i></font></a>'</span>
+</span><span><a class="LN" name="76">   76   </a><span class="CT">   *  UnitDelay: '<a href="matlab:rtwprivate('code2model','SensAdapt:33:2:4')" name="code2model"><font color="#117755"><i>&lt;S3&gt;/Output</i></font></a>'</span>
+</span><span><a class="LN" name="77">   77   </a><span class="CT">   */</span>
+</span><span><a class="LN" name="78">   78   </a>  <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.UnitDelay_DSTATE.data1 = 0.00995 *
+</span><span><a class="LN" name="79">   79   </a>    <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.DiscreteTransferFcn_states;
+</span><span><a class="LN" name="80">   80   </a>  <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.UnitDelay_DSTATE.data2 = rtb_data2;
+</span><span><a class="LN" name="81">   81   </a>  <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.UnitDelay_DSTATE.data3 = <a href="SensAdapt_data_c.html#var_SensAdapt_ConstP" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_ConstP');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_ConstP</font></a>.Vector_Value
+</span><span><a class="LN" name="82">   82   </a>    [(<a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.Output_DSTATE)];
+</span><span><a class="LN" name="83">   83   </a>  <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.UnitDelay_DSTATE.data4 = 2.0 * sin(((((<a href="rtwtypes_h.html#type_real_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real_T');" target="rtwreport_document_frame"><font color="#1122aa">real_T</font></a>)
+</span><span><a class="LN" name="84">   84   </a>    <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.counter) * 2.0) * 3.1415926535897931) / 100.0);
+</span><span><a class="LN" name="85">   85   </a>
+</span><span><a class="LN" name="86">   86   </a>  <span class="CT">/* Update for DiscreteTransferFcn: '<a href="matlab:rtwprivate('code2model','SensAdapt:35')" name="code2model"><font color="#117755"><i>&lt;S2&gt;/Discrete Transfer Fcn</i></font></a>' */</span>
+</span><span><a class="LN" name="87">   87   </a>  <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.DiscreteTransferFcn_states = ((<a href="rtwtypes_h.html#type_real_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real_T');" target="rtwreport_document_frame"><font color="#1122aa">real_T</font></a>)PulseGenerator) - (-0.99
+</span><span><a class="LN" name="88">   88   </a>    * <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.DiscreteTransferFcn_states);
+</span><span><a class="LN" name="89">   89   </a>
+</span><span><a class="LN" name="90">   90   </a>  <span class="CT">/* Update for UnitDelay: '<a href="matlab:rtwprivate('code2model','SensAdapt:33:2:4')" name="code2model"><font color="#117755"><i>&lt;S3&gt;/Output</i></font></a>' */</span>
+</span><span><a class="LN" name="91">   91   </a>  <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.Output_DSTATE = rtb_FixPtSum1;
+</span><span><a class="LN" name="92">   92   </a>
+</span><span><a class="LN" name="93">   93   </a>  <span class="CT">/* Update for Sin: '<a href="matlab:rtwprivate('code2model','SensAdapt:32')" name="code2model"><font color="#117755"><i>&lt;Root&gt;/Sine Wave</i></font></a>' */</span>
+</span><span><a class="LN" name="94">   94   </a>  <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.counter++;
+</span><span><a class="LN" name="95">   95   </a>  <span class="KW">if</span> (<a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.counter == 100) <b>{</b>
+</span><span><a class="LN" name="96">   96   </a>    <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.counter = 0;
+</span><span><a class="LN" name="97">   97   </a>  <b>}</b>
+</span><span><a class="LN" name="98">   98   </a>
+</span><span><a class="LN" name="99">   99   </a>  <span class="CT">/* End of Update for Sin: '<a href="matlab:rtwprivate('code2model','SensAdapt:32')" name="code2model"><font color="#117755"><i>&lt;Root&gt;/Sine Wave</i></font></a>' */</span>
+</span><span><a class="LN" name="100">  100   </a><b>}</b>
+</span><span><a class="LN" name="101">  101   </a>
+</span><span><a class="LN" name="102">  102   </a><span class="CT">/* Model initialize function */</span>
+</span><span><a class="LN" name="103">  103   </a><span class="DT">void</span> <a name="fcn_SensAdapt_initialize">SensAdapt_initialize</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="104">  104   </a><b>{</b>
+</span><span><a class="LN" name="105">  105   </a>  <span class="CT">/* Registration code */</span>
+</span><span><a class="LN" name="106">  106   </a>
+</span><span><a class="LN" name="107">  107   </a>  <span class="CT">/* states (dwork) */</span>
+</span><span><a class="LN" name="108">  108   </a>  (<span class="DT">void</span>) memset((<span class="DT">void</span> *)&amp;<a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>, 0,
+</span><span><a class="LN" name="109">  109   </a>                <span class="KW">sizeof</span>(<a href="SensAdapt_h.html#type_D_Work_SensAdapt" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_D_Work_SensAdapt');" target="rtwreport_document_frame"><font color="#1122aa">D_Work_SensAdapt</font></a>));
+</span><span><a class="LN" name="110">  110   </a>  <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.DiscreteTransferFcn_states = 0.0;
+</span><span><a class="LN" name="111">  111   </a>
+</span><span><a class="LN" name="112">  112   </a>  <span class="CT">/* Start for DiscretePulseGenerator: '<a href="matlab:rtwprivate('code2model','SensAdapt:38')" name="code2model"><font color="#117755"><i>&lt;Root&gt;/Pulse Generator1</i></font></a>' */</span>
+</span><span><a class="LN" name="113">  113   </a>  <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.clockTickCounter = 0;
+</span><span><a class="LN" name="114">  114   </a>
+</span><span><a class="LN" name="115">  115   </a>  <span class="CT">/* Start for DiscretePulseGenerator: '<a href="matlab:rtwprivate('code2model','SensAdapt:34')" name="code2model"><font color="#117755"><i>&lt;Root&gt;/Pulse Generator</i></font></a>' */</span>
+</span><span><a class="LN" name="116">  116   </a>  <a href="#var_SensAdapt_DWork" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SensAdapt_DWork');" target="rtwreport_document_frame"><font color="#1122aa">SensAdapt_DWork</font></a>.clockTickCounter_a01h = 0;
+</span><span><a class="LN" name="117">  117   </a><b>}</b>
+</span><span><a class="LN" name="118">  118   </a>
+</span><span><a class="LN" name="119">  119   </a><span class="CT">/*</span>
+</span><span><a class="LN" name="120">  120   </a><span class="CT"> * File trailer for generated code.</span>
+</span><span><a class="LN" name="121">  121   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="122">  122   </a><span class="CT"> * [EOF]</span>
+</span><span><a class="LN" name="123">  123   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="124">  124   </a>
+</span></pre>
+</td></tr></table>
+</p>
+</body>
+</html>

@@ -111,3 +111,62 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
   HAL_GPIO_Init(USARTx_RX_GPIO_PORT, &GPIO_InitStruct);
 }
 
+
+void UART_Transmit_Data(UART_HandleTypeDef UartHandle, float data_in)
+{
+	int data_in_ = 0;
+	uint8_t cnt = 0;
+	float isInteger;
+	uint8_t buffLeng = 0;
+
+	/*check how many digits the integer part has*/
+	data_in_ = (int)data_in;
+	while(data_in_ != 0)
+	{
+		data_in_ = data_in_/10;
+		cnt++;
+	}
+
+	isInteger = data_in - (int)(data_in);
+	/*check if the input data is negative*/
+	if(data_in < (float)0.0)
+	{
+		if(cnt == 0)
+		{
+			buffLeng = cnt  + 5; // 5 digits: 1-sign; 1-"."; 2-digits for the fractional part;1-for the 0 ex: -0.23
+		}else
+		{
+			buffLeng = cnt  + 4; // 4 digits more: 1-sign;1-".";2-digits for the fraction part ex: -45.34
+		}
+
+		if(isInteger == 0)
+		{
+			buffLeng = cnt + 1; // add 1 digit for sign
+		}
+
+	}else if(data_in > (float)0.0)
+	{
+		if(cnt == 0)
+		{
+			buffLeng = cnt  + 4; // 4 digits: 1-"."; 2-digits for the fractional part;1-for the 0 ex: 0.23
+		}else
+		{
+			buffLeng = cnt  + 3; // 4 digits more: 1-sign;1-".";2-digits for the fraction part ex: 45.34
+		}
+
+		if(isInteger == 0)
+		{
+			buffLeng = cnt;
+		}
+	}
+	else
+	{
+		buffLeng  = 1;
+	}
+
+	char buff[buffLeng]; // define the buffer to be sent via UART
+	gcvt(data_in,buffLeng,buff); // converts the float number to ASCII characters
+
+	HAL_UART_Transmit(&UartHandle,(uint8_t *)buff,buffLeng,0xFFFF);
+
+}
