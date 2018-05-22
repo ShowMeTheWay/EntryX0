@@ -70,7 +70,7 @@ void PWMConfig()
 	if (HAL_TIM_PWM_Init(&TimHandle) != HAL_OK)
 	{
 		/* Initialization Error */
-	    Error_Handler();
+	    Error_Handler("Error: PWM init config !!!");
 	}
 
 	/*##-2- Configure the PWM channels #########################################*/

@@ -37,7 +37,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "myLib.h"
 
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{

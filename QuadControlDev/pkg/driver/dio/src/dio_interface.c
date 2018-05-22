@@ -1,32 +1,11 @@
 /*
- * myLib.c
+ * dio_interface.c
  *
- *  Created on: Nov 2, 2017
+ *  Created on: May 22, 2018
  *      Author: User
  */
 
-
-/* Includes ------------------------------------------------------------------*/
-#include "myLib.h"
-#include "mpu_6050.h"
-#include "main.h"
-
-/***********************************************Start PWM Section****************************************************************/
-/* Private typedef -----------------------------------------------------------*/
-
-/* Private define ------------------------------------------------------------*/
-
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-
-
-/* Private function prototypes -----------------------------------------------*/
-
-/* Private functions ---------------------------------------------------------*/
-
-
-
-/***********************************************End PWM Section****************************************************************/
+#include "dio_interface.h"
 
 
 void ControlClock(void)
@@ -75,16 +54,4 @@ void ConfigureButton(void)
 {
 	GPIOC->MODER &= ~(GPIO_MODER_MODER13); // set the pin as general purpose input output mode
 	GPIOC->PUPDR &= ~(GPIO_PUPDR_PUPDR13); //set no pull up, pull down setting
-}
-
-
-/*create the delay function*/
-void delay(int time)
-{
-	volatile int i,j;
-
-	for(i=0;i<time;i++)
-	{
-		j++;
-	}
 }

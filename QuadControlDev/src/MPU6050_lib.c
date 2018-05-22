@@ -6,7 +6,6 @@
  */
 
 #include "mpu_6050.h"
-#include "myLib.h"
 #include "main.h"
 
 void Init_MPU_6050()

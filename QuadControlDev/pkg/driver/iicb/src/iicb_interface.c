@@ -1,6 +1,6 @@
 
 #include "iicb_interface.h"
-#include "main.h"
+#include "ers.h"
 
 #define I2C_ADDRESS        0x68F
 
@@ -93,7 +93,7 @@ void Config_I2C_Peripheral(void)
 	if(HAL_I2C_Init(&I2cHandle) != HAL_OK)
 	{
 	  /* Initialization Error */
-	  Error_Handler();
+	  Error_Handler("Error in I2C config !!!");
 	}
 
 }
@@ -113,7 +113,7 @@ void I2C__vReadBuffer(uint8_t I2c_add, uint8_t RegAddr, uint8_t *aRxBuffer, uint
          */
         if (HAL_I2C_GetError(&I2cHandle) != HAL_I2C_ERROR_AF)
         {
-            Error_Handler();
+            Error_Handler("Error in I2C read !!!");
         }
     }
 
@@ -144,7 +144,7 @@ void I2C__vWriteBuffer(uint8_t I2c_add, uint8_t *aTxBuffer, uint8_t txbuffsz)
 
         if (HAL_I2C_GetError(&I2cHandle) != HAL_I2C_ERROR_AF)
         {
-            Error_Handler();
+            Error_Handler("Error in I2C write !!!");
         }
 
     }

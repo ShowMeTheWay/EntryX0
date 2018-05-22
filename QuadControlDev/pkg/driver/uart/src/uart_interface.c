@@ -65,7 +65,7 @@ void Config_USART_Peripheral(void)
 	if (HAL_UART_Init(&UartHandle) != HAL_OK)
 	{
 		/* Initialization Error */
-		Error_Handler();
+		Error_Handler("UART init error !!!");
 	}
 
 	/* Output a message on Hyperterminal using printf function */

@@ -15,7 +15,6 @@
 #include <cmsis_os.h>
 #endif
 #include "stm32f4xx_it.h"
-#include "myLib.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
