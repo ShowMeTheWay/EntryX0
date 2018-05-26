@@ -11,6 +11,6 @@
 #include "SensAdapt_types.h"
 #include "rtwtypes.h"
 
-void UART_DisplayData(UART_tstDataDisplayed data_in);
+void UART_DisplayData(IMU_tstRawData data_in);
 
 #endif /* MATLAB_SOURCE_SIMULINKADAPT_H_ */

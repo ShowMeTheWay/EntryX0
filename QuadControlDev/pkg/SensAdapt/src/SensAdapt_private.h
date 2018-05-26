@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.63
+ * Model version                  : 1.89
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Tue May 15 00:45:34 2018
+ * C/C++ source code generated on : Sun May 27 00:50:37 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -19,6 +19,7 @@
 #include "rtwtypes.h"
 
 /* Includes for objects with custom storage classes. */
+#include "imu.h"
 #include "mdlSensInterface.h"
 #ifndef __RTWTYPES_H__
 #error This file requires rtwtypes.h to be included
@@ -33,6 +34,20 @@
 #endif                                 /* RTWTYPES_ID_C08S16I32L32N32F1 */
 #endif                                 /* TMWTYPES_PREVIOUSLY_INCLUDED */
 #endif                                 /* __RTWTYPES_H__ */
+
+extern void SensAdapt_smoothData_Init(void);
+extern void SensAdapt_smoothData(void);
+extern void SensAdapt_smoothData1_Init(void);
+extern void SensAdapt_smoothData1(void);
+extern void SensAdapt_smoothData2_Init(void);
+extern void SensAdapt_smoothData2(void);
+extern void SensAdapt_smoothData3_Init(void);
+extern void SensAdapt_smoothData3(void);
+extern void SensAdapt_smoothData4_Init(void);
+extern void SensAdapt_smoothData4(void);
+extern void SensAdapt_smoothData5_Init(void);
+extern void SensAdapt_smoothData5(void);
+
 #endif                                 /* RTW_HEADER_SensAdapt_private_h_ */
 
 /*

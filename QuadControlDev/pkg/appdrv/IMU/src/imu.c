@@ -103,3 +103,33 @@ void Init__vMPU_6050()
 
 	return ;
 }
+
+IMU_tstInRawData GetData__stMPU_6050()
+{
+	uint8_t u16ImuRawData[14];
+	uint16_t u16FinalImuRawData[6];
+
+	IMU_tstInRawData IMUstRawData ;
+
+	I2C__vReadBuffer(mpu_6050_adress,mpu_6050_accel_x_h,u16ImuRawData,14);
+
+	u16FinalImuRawData[0] = (u16ImuRawData[0]<<8)|(u16ImuRawData[1]); //acc_x
+	u16FinalImuRawData[1] = (u16ImuRawData[2]<<8)|(u16ImuRawData[3]); //acc_y
+	u16FinalImuRawData[2] = (u16ImuRawData[4]<<8)|(u16ImuRawData[5]); //acc_z
+	u16FinalImuRawData[3] = (u16ImuRawData[8]<<8)|(u16ImuRawData[9]); //gyro_x
+	u16FinalImuRawData[4] = (u16ImuRawData[10]<<8)|(u16ImuRawData[11]); //gyro_y
+	u16FinalImuRawData[5] = (u16ImuRawData[12]<<8)|(u16ImuRawData[13]); //gyro_z
+
+	/*copy array data into dedicated structure*/
+
+	IMUstRawData.u16AccXData = u16FinalImuRawData[0];
+	IMUstRawData.u16AccYData = u16FinalImuRawData[1];
+	IMUstRawData.u16AccZData = u16FinalImuRawData[2];
+	IMUstRawData.u16GyroXData = u16FinalImuRawData[3];
+	IMUstRawData.u16GyroYData = u16FinalImuRawData[4];
+	IMUstRawData.u16GyroZData = u16FinalImuRawData[5];
+
+
+
+	return IMUstRawData;
+}

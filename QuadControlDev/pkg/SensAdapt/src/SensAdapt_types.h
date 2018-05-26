@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.63
+ * Model version                  : 1.89
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Tue May 15 00:45:34 2018
+ * C/C++ source code generated on : Sun May 27 00:50:37 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -17,16 +17,39 @@
 #ifndef RTW_HEADER_SensAdapt_types_h_
 #define RTW_HEADER_SensAdapt_types_h_
 #include "rtwtypes.h"
-#ifndef _DEFINED_TYPEDEF_FOR_UART_tstDataDisplayed_
-#define _DEFINED_TYPEDEF_FOR_UART_tstDataDisplayed_
+#ifndef _DEFINED_TYPEDEF_FOR_IMU_tstInRawData_
+#define _DEFINED_TYPEDEF_FOR_IMU_tstInRawData_
 
 /* Uart data to be displayed  */
 typedef struct {
-  real_T data1;
-  real_T data2;
-  real_T data3;
-  real_T data4;
-} UART_tstDataDisplayed;
+  uint16_T u16AccXData;
+  uint16_T u16AccYData;
+  uint16_T u16AccZData;
+  uint16_T u16GyroXData;
+  uint16_T u16GyroYData;
+  uint16_T u16GyroZData;
+} IMU_tstInRawData;
+
+#endif
+
+#ifndef _DEFINED_TYPEDEF_FOR_IMU_tstRawData_
+#define _DEFINED_TYPEDEF_FOR_IMU_tstRawData_
+
+/* Uart data to be displayed  */
+typedef struct {
+  uint16_T u16AccXDataS;
+  uint16_T u16AccYDataS;
+  uint16_T u16AccZDataS;
+  uint16_T u16GyroXDataS;
+  uint16_T u16GyroYDataS;
+  uint16_T u16GyroZDataS;
+  uint16_T u16AccXData;
+  uint16_T u16AccYData;
+  uint16_T u16AccZData;
+  uint16_T u16GyroXData;
+  uint16_T u16GyroYData;
+  uint16_T u16GyroZData;
+} IMU_tstRawData;
 
 #endif
 #endif                                 /* RTW_HEADER_SensAdapt_types_h_ */

@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.63
+ * Model version                  : 1.89
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Tue May 15 00:45:34 2018
+ * C/C++ source code generated on : Sun May 27 00:50:37 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -18,7 +18,6 @@
 #define RTW_HEADER_SensAdapt_h_
 #ifndef SensAdapt_COMMON_INCLUDES_
 # define SensAdapt_COMMON_INCLUDES_
-#include <math.h>
 #include <string.h>
 #include "rtwtypes.h"
 #endif                                 /* SensAdapt_COMMON_INCLUDES_ */
@@ -27,42 +26,42 @@
 
 /* Macros for accessing real-time model data structure */
 
+/* Block signals (auto storage) */
+typedef struct {
+  uint16_T u16AccXData;                /* '<Root>/Bus Selector' */
+  uint16_T u16AccYData;                /* '<Root>/Bus Selector' */
+  uint16_T u16AccZData;                /* '<Root>/Bus Selector' */
+  uint16_T u16GyroXData;               /* '<Root>/Bus Selector' */
+  uint16_T u16GyroYData;               /* '<Root>/Bus Selector' */
+  uint16_T u16GyroZData;               /* '<Root>/Bus Selector' */
+  uint16_T Product;                    /* '<S6>/Product' */
+  uint16_T Product_chkv;               /* '<S5>/Product' */
+  uint16_T Product_a1oc;               /* '<S4>/Product' */
+  uint16_T Product_kzgj;               /* '<S3>/Product' */
+  uint16_T Product_bnex;               /* '<S2>/Product' */
+  uint16_T Product_mq0i;               /* '<S1>/Product' */
+} BlockIO_SensAdapt;
+
 /* Block states (auto storage) for system '<Root>' */
 typedef struct {
-  UART_tstDataDisplayed UnitDelay_DSTATE;/* '<Root>/Unit Delay' */
-  real_T DiscreteTransferFcn_states;   /* '<S2>/Discrete Transfer Fcn' */
-  int32_T clockTickCounter;            /* '<Root>/Pulse Generator1' */
-  int32_T counter;                     /* '<Root>/Sine Wave' */
-  int32_T clockTickCounter_a01h;       /* '<Root>/Pulse Generator' */
-  uint8_T Output_DSTATE;               /* '<S3>/Output' */
+  IMU_tstRawData UnitDelay12_DSTATE;   /* '<Root>/Unit Delay12' */
+  uint16_T TappedDelay_X[9];           /* '<S6>/Tapped Delay' */
+  uint16_T TappedDelay_X_b4iy[9];      /* '<S5>/Tapped Delay' */
+  uint16_T TappedDelay_X_cw5c[9];      /* '<S4>/Tapped Delay' */
+  uint16_T TappedDelay_X_ouxw[9];      /* '<S3>/Tapped Delay' */
+  uint16_T TappedDelay_X_ido1[9];      /* '<S2>/Tapped Delay' */
+  uint16_T TappedDelay_X_n51i[9];      /* '<S1>/Tapped Delay' */
 } D_Work_SensAdapt;
 
-/* Constant parameters (auto storage) */
-typedef struct {
-  /* Expression: OutValues
-   * Referenced by: '<S1>/Vector'
-   */
-  real_T Vector_Value[9];
-} ConstParam_SensAdapt;
+/* Block signals (auto storage) */
+extern BlockIO_SensAdapt SensAdapt_B;
 
 /* Block states (auto storage) */
 extern D_Work_SensAdapt SensAdapt_DWork;
 
-/* Constant parameters (auto storage) */
-extern const ConstParam_SensAdapt SensAdapt_ConstP;
-
 /* Model entry point functions */
 extern void SensAdapt_initialize(void);
 extern void SensAdapt_step(void);
-
-/*-
- * These blocks were eliminated from the model due to optimizations:
- *
- * Block '<S3>/Data Type Propagation' : Unused code path elimination
- * Block '<S4>/FixPt Data Type Duplicate' : Unused code path elimination
- * Block '<S5>/FixPt Data Type Duplicate1' : Unused code path elimination
- * Block '<S1>/Out' : Eliminate redundant signal conversion block
- */
 
 /*-
  * The generated code includes comments that allow you to trace directly
@@ -79,11 +78,12 @@ extern void SensAdapt_step(void);
  * Here is the system hierarchy for this model
  *
  * '<Root>' : 'SensAdapt'
- * '<S1>'   : 'SensAdapt/Repeating Sequence Stair1'
- * '<S2>'   : 'SensAdapt/Subsystem'
- * '<S3>'   : 'SensAdapt/Repeating Sequence Stair1/LimitedCounter'
- * '<S4>'   : 'SensAdapt/Repeating Sequence Stair1/LimitedCounter/Increment Real World'
- * '<S5>'   : 'SensAdapt/Repeating Sequence Stair1/LimitedCounter/Wrap To Zero'
+ * '<S1>'   : 'SensAdapt/smoothData'
+ * '<S2>'   : 'SensAdapt/smoothData1'
+ * '<S3>'   : 'SensAdapt/smoothData2'
+ * '<S4>'   : 'SensAdapt/smoothData3'
+ * '<S5>'   : 'SensAdapt/smoothData4'
+ * '<S6>'   : 'SensAdapt/smoothData5'
  */
 
 /*-
