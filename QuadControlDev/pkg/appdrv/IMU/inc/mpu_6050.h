@@ -37,7 +37,7 @@
 
 #define mpu_6050_adress 0b1101000
 
-#define init_byte_107 0b00001010
+#define init_byte_107 0b00001000
 #define init_byte_106 0b00000001
 #define init_byte_104 0b00000111
 

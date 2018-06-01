@@ -55,7 +55,7 @@ void Config_USART_Peripheral(void)
 	      - Hardware flow control disabled (RTS and CTS signals) */
 	UartHandle.Instance        = USARTx;
 
-	UartHandle.Init.BaudRate   = 9600;
+	UartHandle.Init.BaudRate   = 921600;
 	UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
 	UartHandle.Init.StopBits   = UART_STOPBITS_1;
 	UartHandle.Init.Parity     = UART_PARITY_NONE;

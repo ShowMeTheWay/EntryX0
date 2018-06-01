@@ -55,17 +55,16 @@ int main(void)
 	ControlClock();
 	ConfigureLED();
 	ConfigureButton();
-	PWMConfig();
+	//PWMConfig();
 	Config_I2C_Peripheral();
 	Config_USART_Peripheral();
 	Init__vMPU_6050();
 	SensAdapt_initialize();
 
-
 	while (1)
 	{
 		SensAdapt_step();
-		_delay_ms(1000);
+		_delay_ms(10000);
 	}
 
 

@@ -12,7 +12,7 @@
 void Init__vMPU_6050()
 {
 	unsigned char dest;
-	// reset chip 1
+	// reset chip 1 - exit sleep mode
 		_delay_ms(1000);
 		I2C__vWriteSingleByteBuffer(mpu_6050_adress,mpu_6050_pwr_mgmnt_1,init_byte_107);
 		_delay_ms(1000);
@@ -43,8 +43,8 @@ void Init__vMPU_6050()
 			printf("\r\n MPU chip 2 reset failed !\r\n");
 		}
 		_delay_ms(1000);
-	// sample divide rate
-		I2C__vWriteSingleByteBuffer(mpu_6050_adress, mpu_6050_smprt_div,0x07);
+	// sample divide rate  sample rate = 8kHz / (1+divide rate)  =  8000/110 = 72 Hz
+		I2C__vWriteSingleByteBuffer(mpu_6050_adress, mpu_6050_smprt_div,109);
 		_delay_ms(1000);
 		I2C__vReadBuffer(mpu_6050_adress,mpu_6050_smprt_div,&dest,1);
 		if ((dest == init_byte_104))
@@ -59,7 +59,7 @@ void Init__vMPU_6050()
 		_delay_ms(1000);
 
 	// digital low pass filter
-		I2C__vWriteSingleByteBuffer(mpu_6050_adress, mpu_6050_config,0x01);
+		I2C__vWriteSingleByteBuffer(mpu_6050_adress, mpu_6050_config,0x00);
 		_delay_ms(1000);
 		I2C__vReadBuffer(mpu_6050_adress,mpu_6050_config,&dest,1);
 		if (dest == 0x01)
@@ -72,8 +72,8 @@ void Init__vMPU_6050()
 			printf("\r\n MPU digital low pass filter configuration failed !\r\n");
 		}
 		_delay_ms(1000);
-	// gyroscope config
-		I2C__vWriteSingleByteBuffer(mpu_6050_adress, mpu_6050_gyro_config,0b00001000);
+	// gyroscope config - gyro full scale = +/- 2000dps
+		I2C__vWriteSingleByteBuffer(mpu_6050_adress, mpu_6050_gyro_config,0b00111000);
 		_delay_ms(1000);
 		I2C__vReadBuffer(mpu_6050_adress,mpu_6050_gyro_config,&dest,1);
 		if (dest == 0b00001000)
@@ -86,8 +86,8 @@ void Init__vMPU_6050()
 			printf("\r\n MPU gyroscope configuration failed !\r\n");
 		}
 		_delay_ms(10);
-	// accelerometer config
-		I2C__vWriteSingleByteBuffer(mpu_6050_adress, mpu_6050_accel_config,0b00010000);
+	// accelerometer config - accelerometer full scale = +/- 4g
+		I2C__vWriteSingleByteBuffer(mpu_6050_adress, mpu_6050_accel_config,0b00001000);
 		_delay_ms(1000);
 		I2C__vReadBuffer(mpu_6050_adress,mpu_6050_accel_config,&dest,1);
 		if (dest == 0b00010000)
@@ -106,19 +106,19 @@ void Init__vMPU_6050()
 
 IMU_tstInRawData GetData__stMPU_6050()
 {
-	uint8_t u16ImuRawData[14];
-	uint16_t u16FinalImuRawData[6];
+	int8_t u8ImuRawData[14];
+	int16_t u16FinalImuRawData[6];
 
-	IMU_tstInRawData IMUstRawData ;
+	IMU_tstInRawData IMUstRawData;
 
-	I2C__vReadBuffer(mpu_6050_adress,mpu_6050_accel_x_h,u16ImuRawData,14);
+	I2C__vReadBuffer(mpu_6050_adress,mpu_6050_accel_x_h,u8ImuRawData,14);
 
-	u16FinalImuRawData[0] = (u16ImuRawData[0]<<8)|(u16ImuRawData[1]); //acc_x
-	u16FinalImuRawData[1] = (u16ImuRawData[2]<<8)|(u16ImuRawData[3]); //acc_y
-	u16FinalImuRawData[2] = (u16ImuRawData[4]<<8)|(u16ImuRawData[5]); //acc_z
-	u16FinalImuRawData[3] = (u16ImuRawData[8]<<8)|(u16ImuRawData[9]); //gyro_x
-	u16FinalImuRawData[4] = (u16ImuRawData[10]<<8)|(u16ImuRawData[11]); //gyro_y
-	u16FinalImuRawData[5] = (u16ImuRawData[12]<<8)|(u16ImuRawData[13]); //gyro_z
+	u16FinalImuRawData[0] = (u8ImuRawData[0]<<8)|(u8ImuRawData[1]); //acc_x
+	u16FinalImuRawData[1] = (u8ImuRawData[2]<<8)|(u8ImuRawData[3]); //acc_y
+	u16FinalImuRawData[2] = (u8ImuRawData[4]<<8)|(u8ImuRawData[5]); //acc_z
+	u16FinalImuRawData[3] = (u8ImuRawData[8]<<8)|(u8ImuRawData[9]); //gyro_x
+	u16FinalImuRawData[4] = (u8ImuRawData[10]<<8)|(u8ImuRawData[11]); //gyro_y
+	u16FinalImuRawData[5] = (u8ImuRawData[12]<<8)|(u8ImuRawData[13]); //gyro_z
 
 	/*copy array data into dedicated structure*/
 

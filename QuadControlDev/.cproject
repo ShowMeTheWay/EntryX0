@@ -37,11 +37,11 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/driver/iicb/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/driver/uart/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/SensAdapt/src&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/driver/pwm/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/driver/clock/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/driver/dio/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/appdrv/ers/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/appdrv/IMU/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/driver/pwm/inc&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1560169198" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32F429ZITx"/>
@@ -100,11 +100,11 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/driver/iicb/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/driver/uart/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/SensAdapt/src&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/driver/pwm/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/driver/clock/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/driver/dio/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/appdrv/ers/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/appdrv/IMU/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/driver/pwm/inc&quot;"/>
 								</option>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.828498583" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.462570362" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
