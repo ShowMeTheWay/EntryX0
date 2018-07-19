@@ -23,6 +23,7 @@
 #include "dio_interface.h"
 #include "ers.h"
 #include "imu.h"
+#include "task.h"
 
 /******************************** Buffer for all Communication variables **********************************************/
 ComLayer_tstComData ComLayer_stComData;
@@ -55,23 +56,40 @@ int main(void)
 	ControlClock();
 	ConfigureLED();
 	ConfigureButton();
-	//PWMConfig();
+	PWMConfig();
 	Config_I2C_Peripheral();
 	Config_USART_Peripheral();
 	Init__vMPU_6050();
 	SensAdapt_initialize();
+	Config_vTask1();
+
+	/* Output SYSCLK  / 1 on MCO1 pin(PA.08) */
+	//HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_PLLCLK, RCC_MCODIV_1);
 
 	while (1)
 	{
-		SensAdapt_step();
-		_delay_ms(10000);
-	}
+		//SensAdapt_step();
+		//_delay_ms(10000);
 
+	}
 
 	return 0;
 
 
 }
+
+void TIM6_DAC_IRQHandler(void)
+{
+	volatile static uint8_t a = 0;
+	/*clear UIF flag*/
+	TIM6->SR &= ~TIM_SR_UIF;
+	a = a^1;
+	SetResetLed(LED_BLUE,a);
+
+
+}
+
+
 
 /***************************************************** MAIN END *******************************************************************/
 

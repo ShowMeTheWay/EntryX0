@@ -6,7 +6,7 @@
  * Model version                  : 1.95
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Fri Jun 01 22:36:56 2018
+ * C/C++ source code generated on : Sat Jun 02 11:43:10 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -57,18 +57,18 @@ typedef struct {
 /* Block states (auto storage) for system '<Root>' */
 typedef struct {
   IMU_tstRawData UnitDelay12_DSTATE;   /* '<Root>/Unit Delay12' */
-  real_T TappedDelay_X[9];             /* '<S14>/Tapped Delay' */
-  real_T TappedDelay_X_ekvt[9];        /* '<S13>/Tapped Delay' */
-  real_T TappedDelay_X_lceu[9];        /* '<S12>/Tapped Delay' */
-  real_T TappedDelay_X_la2x[9];        /* '<S11>/Tapped Delay' */
-  real_T TappedDelay_X_kvli[9];        /* '<S10>/Tapped Delay' */
-  real_T TappedDelay_X_b4iy[9];        /* '<S9>/Tapped Delay' */
-  real_T TappedDelay_X_cw5c[9];        /* '<S8>/Tapped Delay' */
-  real_T TappedDelay_X_ouxw[9];        /* '<S7>/Tapped Delay' */
-  real_T TappedDelay_X_jphy[9];        /* '<S6>/Tapped Delay' */
-  real_T TappedDelay_X_iau4[9];        /* '<S5>/Tapped Delay' */
-  real_T TappedDelay_X_ido1[9];        /* '<S4>/Tapped Delay' */
-  real_T TappedDelay_X_n51i[9];        /* '<S3>/Tapped Delay' */
+  real_T TappedDelay_X[19];            /* '<S14>/Tapped Delay' */
+  real_T TappedDelay_X_ekvt[19];       /* '<S13>/Tapped Delay' */
+  real_T TappedDelay_X_lceu[19];       /* '<S12>/Tapped Delay' */
+  real_T TappedDelay_X_la2x[19];       /* '<S11>/Tapped Delay' */
+  real_T TappedDelay_X_kvli[19];       /* '<S10>/Tapped Delay' */
+  real_T TappedDelay_X_b4iy[19];       /* '<S9>/Tapped Delay' */
+  real_T TappedDelay_X_cw5c[19];       /* '<S8>/Tapped Delay' */
+  real_T TappedDelay_X_ouxw[19];       /* '<S7>/Tapped Delay' */
+  real_T TappedDelay_X_jphy[19];       /* '<S6>/Tapped Delay' */
+  real_T TappedDelay_X_iau4[19];       /* '<S5>/Tapped Delay' */
+  real_T TappedDelay_X_ido1[19];       /* '<S4>/Tapped Delay' */
+  real_T TappedDelay_X_n51i[19];       /* '<S3>/Tapped Delay' */
 } D_Work_SensAdapt;
 
 /* Block signals (auto storage) */
