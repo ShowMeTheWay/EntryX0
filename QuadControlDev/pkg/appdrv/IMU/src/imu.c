@@ -9,6 +9,18 @@
 #include "uart_interface.h"
 #include "main.h"
 
+
+/*create the delay function*/
+void _delay_ms(int time)
+{
+	volatile int i,j;
+
+	for(i=0;i<time;i++)
+	{
+		j++;
+	}
+}
+
 void Init__vMPU_6050()
 {
 	unsigned char dest;

@@ -15,8 +15,6 @@
 
 int main(void);
 
-void _delay_ms(int time);
-
 void TIM6_DAC_IRQHandler(void);
 
 #endif /* MAIN_H_ */

@@ -16,5 +16,7 @@ void Init__vMPU_6050();
 
 IMU_tstInRawData GetData__stMPU_6050();
 
+void _delay_ms(int time);
+
 
 #endif /* APPDRV_IMU_INC_IMU_H_ */
