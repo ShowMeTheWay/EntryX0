@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.95
+ * Model version                  : 1.246
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Sat Jun 02 11:43:10 2018
+ * C/C++ source code generated on : Fri Aug 24 19:41:56 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -35,32 +35,21 @@
 #endif                                 /* TMWTYPES_PREVIOUSLY_INCLUDED */
 #endif                                 /* __RTWTYPES_H__ */
 
-extern void SensAdapt_AccConvToG(void);
-extern void SensAdapt_GyroConvToRadpsec(void);
+extern void madgwick_f_Outputs_wrapper(const real_T *accx,
+  const real_T *accy,
+  const real_T *accz,
+  const real_T *gyrox,
+  const real_T *gyroy,
+  const real_T *gyroz,
+  real_T *qt0,
+  real_T *qt1,
+  real_T *qt2,
+  real_T *qt3);
+extern void SensAdapt_AccConv(void);
+extern void SensAdapt_GyroConv(void);
+extern void SensAdapt_calibrationBlock(void);
 extern void SensAdapt_smoothData_Init(void);
 extern void SensAdapt_smoothData(void);
-extern void SensAdapt_smoothData1_Init(void);
-extern void SensAdapt_smoothData1(void);
-extern void SensAdapt_smoothData10_Init(void);
-extern void SensAdapt_smoothData10(void);
-extern void SensAdapt_smoothData11_Init(void);
-extern void SensAdapt_smoothData11(void);
-extern void SensAdapt_smoothData2_Init(void);
-extern void SensAdapt_smoothData2(void);
-extern void SensAdapt_smoothData3_Init(void);
-extern void SensAdapt_smoothData3(void);
-extern void SensAdapt_smoothData4_Init(void);
-extern void SensAdapt_smoothData4(void);
-extern void SensAdapt_smoothData5_Init(void);
-extern void SensAdapt_smoothData5(void);
-extern void SensAdapt_smoothData6_Init(void);
-extern void SensAdapt_smoothData6(void);
-extern void SensAdapt_smoothData7_Init(void);
-extern void SensAdapt_smoothData7(void);
-extern void SensAdapt_smoothData8_Init(void);
-extern void SensAdapt_smoothData8(void);
-extern void SensAdapt_smoothData9_Init(void);
-extern void SensAdapt_smoothData9(void);
 
 #endif                                 /* RTW_HEADER_SensAdapt_private_h_ */
 

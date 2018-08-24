@@ -25,7 +25,7 @@
 #include "imu.h"
 #include "task.h"
 
-#define nInitTotal 20
+#define nInitTotal 12
 
 /******************************** Buffer for all Communication variables **********************************************/
 ComLayer_tstComData ComLayer_stComData;
@@ -63,14 +63,14 @@ int main(void)
 /******************************************** 10ms Task ******************************************88*/
 void TIM6_DAC_IRQHandler(void)
 {
-	//SensAdapt_step();
+
 	volatile static uint8_t a = 0;
 	/*clear UIF flag*/
 	TIM6->SR &= ~TIM_SR_UIF;
 	a = a^1;
 	SetResetLed(LED_BLUE,a);
 
-
+	SensAdapt_step();
 }
 
 

@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.95
+ * Model version                  : 1.246
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Sat Jun 02 11:43:10 2018
+ * C/C++ source code generated on : Fri Aug 24 19:41:56 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -28,24 +28,28 @@
 
 /* Block signals (auto storage) */
 typedef struct {
-  real_T u16AccXData;                  /* '<Root>/Bus Selector' */
-  real_T u16AccYData;                  /* '<Root>/Bus Selector' */
-  real_T u16AccZData;                  /* '<Root>/Bus Selector' */
-  real_T u16GyroXData;                 /* '<Root>/Bus Selector' */
-  real_T u16GyroYData;                 /* '<Root>/Bus Selector' */
-  real_T u16GyroZData;                 /* '<Root>/Bus Selector' */
-  real_T Product;                      /* '<S14>/Product' */
-  real_T Product_bkqq;                 /* '<S13>/Product' */
-  real_T Product_igt4;                 /* '<S12>/Product' */
-  real_T Product_kzvd;                 /* '<S11>/Product' */
-  real_T Product_hx1x;                 /* '<S10>/Product' */
-  real_T Product_chkv;                 /* '<S9>/Product' */
-  real_T Product_a1oc;                 /* '<S8>/Product' */
-  real_T Product_kzgj;                 /* '<S7>/Product' */
-  real_T Product_m02k;                 /* '<S6>/Product' */
-  real_T Product_jsq1;                 /* '<S5>/Product' */
-  real_T Product_bnex;                 /* '<S4>/Product' */
-  real_T Product_mq0i;                 /* '<S3>/Product' */
+  real_T AccXData;                     /* '<Root>/Bus Selector' */
+  real_T AccYData;                     /* '<Root>/Bus Selector' */
+  real_T AccZData;                     /* '<Root>/Bus Selector' */
+  real_T GyroXData;                    /* '<Root>/Bus Selector' */
+  real_T GyroYData;                    /* '<Root>/Bus Selector' */
+  real_T GyroZData;                    /* '<Root>/Bus Selector' */
+  real_T SFunctionBuilder1_o1;         /* '<S5>/S-Function Builder1' */
+  real_T SFunctionBuilder1_o2;         /* '<S5>/S-Function Builder1' */
+  real_T SFunctionBuilder1_o3;         /* '<S5>/S-Function Builder1' */
+  real_T SFunctionBuilder1_o4;         /* '<S5>/S-Function Builder1' */
+  real_T Product;                      /* '<S8>/Product' */
+  real_T Product_jqhr;                 /* '<S9>/Product' */
+  real_T Product_krg1;                 /* '<S10>/Product' */
+  real_T Product_nhwi;                 /* '<S11>/Product' */
+  real_T Product_ax4f;                 /* '<S12>/Product' */
+  real_T Product_pz1k;                 /* '<S13>/Product' */
+  real_T axc;                          /* '<S3>/MATLAB Function' */
+  real_T ayc;                          /* '<S3>/MATLAB Function' */
+  real_T azc;                          /* '<S3>/MATLAB Function' */
+  real_T gxc;                          /* '<S3>/MATLAB Function' */
+  real_T gyc;                          /* '<S3>/MATLAB Function' */
+  real_T gzc;                          /* '<S3>/MATLAB Function' */
   real_T accx;                         /* '<S2>/accx' */
   real_T accy;                         /* '<S2>/accy' */
   real_T accz;                         /* '<S2>/accz' */
@@ -57,18 +61,12 @@ typedef struct {
 /* Block states (auto storage) for system '<Root>' */
 typedef struct {
   IMU_tstRawData UnitDelay12_DSTATE;   /* '<Root>/Unit Delay12' */
-  real_T TappedDelay_X[19];            /* '<S14>/Tapped Delay' */
-  real_T TappedDelay_X_ekvt[19];       /* '<S13>/Tapped Delay' */
-  real_T TappedDelay_X_lceu[19];       /* '<S12>/Tapped Delay' */
-  real_T TappedDelay_X_la2x[19];       /* '<S11>/Tapped Delay' */
-  real_T TappedDelay_X_kvli[19];       /* '<S10>/Tapped Delay' */
-  real_T TappedDelay_X_b4iy[19];       /* '<S9>/Tapped Delay' */
-  real_T TappedDelay_X_cw5c[19];       /* '<S8>/Tapped Delay' */
-  real_T TappedDelay_X_ouxw[19];       /* '<S7>/Tapped Delay' */
-  real_T TappedDelay_X_jphy[19];       /* '<S6>/Tapped Delay' */
-  real_T TappedDelay_X_iau4[19];       /* '<S5>/Tapped Delay' */
-  real_T TappedDelay_X_ido1[19];       /* '<S4>/Tapped Delay' */
-  real_T TappedDelay_X_n51i[19];       /* '<S3>/Tapped Delay' */
+  real_T TappedDelay_X[9];             /* '<S8>/Tapped Delay' */
+  real_T TappedDelay_X_h4nz[9];        /* '<S9>/Tapped Delay' */
+  real_T TappedDelay_X_auph[9];        /* '<S10>/Tapped Delay' */
+  real_T TappedDelay_X_ahra[9];        /* '<S11>/Tapped Delay' */
+  real_T TappedDelay_X_nmbc[9];        /* '<S12>/Tapped Delay' */
+  real_T TappedDelay_X_byda[9];        /* '<S13>/Tapped Delay' */
 } D_Work_SensAdapt;
 
 /* Block signals (auto storage) */
@@ -80,6 +78,19 @@ extern D_Work_SensAdapt SensAdapt_DWork;
 /* Model entry point functions */
 extern void SensAdapt_initialize(void);
 extern void SensAdapt_step(void);
+
+/*-
+ * These blocks were eliminated from the model due to optimizations:
+ *
+ * Block '<S1>/Multiport Switch' : Eliminated due to constant selection input
+ * Block '<S2>/Multiport Switch' : Eliminated due to constant selection input
+ * Block '<S1>/Constant' : Unused code path elimination
+ * Block '<S1>/choose' : Unused code path elimination
+ * Block '<S1>/tomssquare' : Unused code path elimination
+ * Block '<S2>/Constant1' : Unused code path elimination
+ * Block '<S2>/choose' : Unused code path elimination
+ * Block '<S2>/choose1' : Unused code path elimination
+ */
 
 /*-
  * The generated code includes comments that allow you to trace directly
@@ -96,20 +107,19 @@ extern void SensAdapt_step(void);
  * Here is the system hierarchy for this model
  *
  * '<Root>' : 'SensAdapt'
- * '<S1>'   : 'SensAdapt/AccConvToG'
- * '<S2>'   : 'SensAdapt/GyroConvToRadpsec'
- * '<S3>'   : 'SensAdapt/smoothData'
- * '<S4>'   : 'SensAdapt/smoothData1'
- * '<S5>'   : 'SensAdapt/smoothData10'
- * '<S6>'   : 'SensAdapt/smoothData11'
- * '<S7>'   : 'SensAdapt/smoothData2'
- * '<S8>'   : 'SensAdapt/smoothData3'
- * '<S9>'   : 'SensAdapt/smoothData4'
- * '<S10>'  : 'SensAdapt/smoothData5'
- * '<S11>'  : 'SensAdapt/smoothData6'
- * '<S12>'  : 'SensAdapt/smoothData7'
- * '<S13>'  : 'SensAdapt/smoothData8'
- * '<S14>'  : 'SensAdapt/smoothData9'
+ * '<S1>'   : 'SensAdapt/AccConv'
+ * '<S2>'   : 'SensAdapt/GyroConv'
+ * '<S3>'   : 'SensAdapt/calibrationBlock'
+ * '<S4>'   : 'SensAdapt/nothing'
+ * '<S5>'   : 'SensAdapt/processData'
+ * '<S6>'   : 'SensAdapt/smoothData'
+ * '<S7>'   : 'SensAdapt/calibrationBlock/MATLAB Function'
+ * '<S8>'   : 'SensAdapt/smoothData/filter'
+ * '<S9>'   : 'SensAdapt/smoothData/filter1'
+ * '<S10>'  : 'SensAdapt/smoothData/filter2'
+ * '<S11>'  : 'SensAdapt/smoothData/filter3'
+ * '<S12>'  : 'SensAdapt/smoothData/filter4'
+ * '<S13>'  : 'SensAdapt/smoothData/filter5'
  */
 
 /*-

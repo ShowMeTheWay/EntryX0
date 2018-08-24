@@ -6,16 +6,13 @@
  */
 #include <mdlSensInterface.h>
 #include "uart_interface.h"
+#include "MadgwickAHRS.h"
 
-void UART_DisplayData(IMU_tstRawData data_in)
+void UART_DisplayData(IMU_tstRawData din)
 {
-	printf("\r\n %f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f \r\n",data_in.signal7,data_in.signal8,
-														   data_in.signal9,data_in.signal10,
-														   data_in.signal11,data_in.signal12,
-			                                               data_in.u16AccXDataS,data_in.u16AccYDataS,
-														   data_in.u16AccZDataS,data_in.u16GyroXDataS,
-														   data_in.u16GyroYDataS,data_in.u16GyroZDataS);
+	printf("\r\n %f,%f,%f,%f,%f,%f,%f,%f,%f,%f",din.AccXDataS,din.AccYDataS,din.AccZDataS, \
+			                                    din.GyroXDataS,din.GyroYDataS,din.GyroZDataS, \
+												din.q0,din.q1,din.q2,din.q3);
+
 }
-
-
 

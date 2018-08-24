@@ -85,7 +85,7 @@ void Init__vMPU_6050()
 		}
 		_delay_ms(1000);
 	// gyroscope config - gyro full scale = +/- 2000dps
-		I2C__vWriteSingleByteBuffer(mpu_6050_adress, mpu_6050_gyro_config,0b00111000);
+		I2C__vWriteSingleByteBuffer(mpu_6050_adress, mpu_6050_gyro_config,0b00011000);
 		_delay_ms(1000);
 		I2C__vReadBuffer(mpu_6050_adress,mpu_6050_gyro_config,&dest,1);
 		if (dest == 0b00001000)
@@ -118,28 +118,28 @@ void Init__vMPU_6050()
 
 IMU_tstInRawData GetData__stMPU_6050()
 {
-	int8_t u8ImuRawData[14];
-	int16_t u16FinalImuRawData[6];
-
+	uint8_t u8ImuRawData[14] = {0};
+	int16_t int16FinalImuRawData[6]={0};
 	IMU_tstInRawData IMUstRawData;
+
 
 	I2C__vReadBuffer(mpu_6050_adress,mpu_6050_accel_x_h,u8ImuRawData,14);
 
-	u16FinalImuRawData[0] = (u8ImuRawData[0]<<8)|(u8ImuRawData[1]); //acc_x
-	u16FinalImuRawData[1] = (u8ImuRawData[2]<<8)|(u8ImuRawData[3]); //acc_y
-	u16FinalImuRawData[2] = (u8ImuRawData[4]<<8)|(u8ImuRawData[5]); //acc_z
-	u16FinalImuRawData[3] = (u8ImuRawData[8]<<8)|(u8ImuRawData[9]); //gyro_x
-	u16FinalImuRawData[4] = (u8ImuRawData[10]<<8)|(u8ImuRawData[11]); //gyro_y
-	u16FinalImuRawData[5] = (u8ImuRawData[12]<<8)|(u8ImuRawData[13]); //gyro_z
+	int16FinalImuRawData[0] = (u8ImuRawData[0]<<8)|(u8ImuRawData[1]); //acc_x
+	int16FinalImuRawData[1] = (u8ImuRawData[2]<<8)|(u8ImuRawData[3]); //acc_y
+	int16FinalImuRawData[2] = (u8ImuRawData[4]<<8)|(u8ImuRawData[5]); //acc_z
+	int16FinalImuRawData[3] = (u8ImuRawData[8]<<8)|(u8ImuRawData[9]); //gyro_x
+	int16FinalImuRawData[4] = (u8ImuRawData[10]<<8)|(u8ImuRawData[11]); //gyro_y
+	int16FinalImuRawData[5] = (u8ImuRawData[12]<<8)|(u8ImuRawData[13]); //gyro_z
 
 	/*copy array data into dedicated structure*/
 
-	IMUstRawData.u16AccXData = u16FinalImuRawData[0];
-	IMUstRawData.u16AccYData = u16FinalImuRawData[1];
-	IMUstRawData.u16AccZData = u16FinalImuRawData[2];
-	IMUstRawData.u16GyroXData = u16FinalImuRawData[3];
-	IMUstRawData.u16GyroYData = u16FinalImuRawData[4];
-	IMUstRawData.u16GyroZData = u16FinalImuRawData[5];
+	IMUstRawData.AccXData = (float)int16FinalImuRawData[0];
+	IMUstRawData.AccYData = (float)int16FinalImuRawData[1];
+	IMUstRawData.AccZData = (float)int16FinalImuRawData[2];
+	IMUstRawData.GyroXData = (float)int16FinalImuRawData[3];
+	IMUstRawData.GyroYData = (float)int16FinalImuRawData[4];
+	IMUstRawData.GyroZData = (float)int16FinalImuRawData[5];
 
 
 

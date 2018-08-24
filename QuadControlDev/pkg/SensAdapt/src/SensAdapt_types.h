@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.95
+ * Model version                  : 1.246
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Sat Jun 02 11:43:10 2018
+ * C/C++ source code generated on : Fri Aug 24 19:41:56 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -22,12 +22,12 @@
 
 /* Uart data to be displayed  */
 typedef struct {
-  real_T u16AccXData;
-  real_T u16AccYData;
-  real_T u16AccZData;
-  real_T u16GyroXData;
-  real_T u16GyroYData;
-  real_T u16GyroZData;
+  real_T AccXData;
+  real_T AccYData;
+  real_T AccZData;
+  real_T GyroXData;
+  real_T GyroYData;
+  real_T GyroZData;
 } IMU_tstInRawData;
 
 #endif
@@ -37,18 +37,16 @@ typedef struct {
 
 /* Uart data to be displayed  */
 typedef struct {
-  real_T u16AccXDataS;
-  real_T u16AccYDataS;
-  real_T u16AccZDataS;
-  real_T u16GyroXDataS;
-  real_T u16GyroYDataS;
-  real_T u16GyroZDataS;
-  real_T signal7;
-  real_T signal8;
-  real_T signal9;
-  real_T signal10;
-  real_T signal11;
-  real_T signal12;
+  real_T AccXDataS;
+  real_T AccYDataS;
+  real_T AccZDataS;
+  real_T GyroXDataS;
+  real_T GyroYDataS;
+  real_T GyroZDataS;
+  real_T q0;
+  real_T q1;
+  real_T q2;
+  real_T q3;
 } IMU_tstRawData;
 
 #endif
