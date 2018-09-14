@@ -17,4 +17,6 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart);
 
 void UART_Transmit_Data(UART_HandleTypeDef UartHandle, float data_in);
 
+uint8_t UART_Receive_Data();
+
 #endif /* DRIVER_UART_INC_UART_INTERFACE_H_ */

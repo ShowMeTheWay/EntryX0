@@ -8,8 +8,6 @@ set_param(sys, 'SystemTargetFile', 'ert.tlc');
 %Set shared utils option to Auto (Code is generated into c-file and not into separate file.)
 set_param(sys, 'UtilityFuncGeneration', 'Auto');
 
-
-
  %generate raport
  set_param(sys, 'GenerateReport', 'on');
  set_param(sys, 'IncludeHyperlinkInReport', 'on');

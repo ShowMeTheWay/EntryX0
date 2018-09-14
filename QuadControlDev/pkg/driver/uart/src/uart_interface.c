@@ -55,7 +55,7 @@ void Config_USART_Peripheral(void)
 	      - Hardware flow control disabled (RTS and CTS signals) */
 	UartHandle.Instance        = USARTx;
 
-	UartHandle.Init.BaudRate   = 921600;
+	UartHandle.Init.BaudRate   = 1000000;
 	UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
 	UartHandle.Init.StopBits   = UART_STOPBITS_1;
 	UartHandle.Init.Parity     = UART_PARITY_NONE;
@@ -169,4 +169,12 @@ void UART_Transmit_Data(UART_HandleTypeDef UartHandle, float data_in)
 
 	HAL_UART_Transmit(&UartHandle,(uint8_t *)buff,buffLeng,0xFFFF);
 
+}
+
+uint8_t UART_Receive_Data()
+{
+	uint8_t buf = 0;
+	HAL_UART_Receive(&UartHandle,(uint8_t*)&buf,1,0xFFFF);
+
+	return buf;
 }

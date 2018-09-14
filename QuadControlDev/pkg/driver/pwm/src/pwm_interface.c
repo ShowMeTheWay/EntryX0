@@ -6,6 +6,7 @@
  */
 #include "pwm_interface.h"
 
+
 /* Timer handler declaration */
 TIM_HandleTypeDef TimHandle;
 
@@ -58,7 +59,7 @@ void PWMConfig()
 	  */
 
 	/* Compute the prescaler value to have TIM3 counter clock equal to 15000000 Hz */
-	uhPrescalerValue = (uint32_t)((SystemCoreClock/2) / 2000000) - 1;
+	uhPrescalerValue = (uint32_t)((SystemCoreClock/2) / 1000000) - 1;
 
 	TimHandle.Instance = TIMx;                       // choose the timer instance defined as tim3
 	TimHandle.Init.Prescaler = uhPrescalerValue;
@@ -85,7 +86,7 @@ void PWMConfig()
 	sConfig.OCIdleState  = TIM_OCIDLESTATE_RESET;
 
 	/* Set the pulse value for channel 1 */
-	sConfig.Pulse = PULSE1_VALUE;
+	sConfig.Pulse = 0;
 	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_1) != HAL_OK)
 	{
 		/* Configuration Error */
@@ -93,7 +94,7 @@ void PWMConfig()
 	}
 
 	/* Set the pulse value for channel 2 */
-	sConfig.Pulse = PULSE2_VALUE;
+	sConfig.Pulse = 0;
 	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_2) != HAL_OK)
 	{
 	  /* Configuration Error */
@@ -101,7 +102,7 @@ void PWMConfig()
 	}
 
 	/* Set the pulse value for channel 3 */
-	sConfig.Pulse = PULSE3_VALUE;
+	sConfig.Pulse = 0;
 	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_3) != HAL_OK)
 	{
 	  /* Configuration Error */
@@ -109,7 +110,7 @@ void PWMConfig()
 	}
 
 	/* Set the pulse value for channel 4 */
-	sConfig.Pulse = PULSE4_VALUE;
+	sConfig.Pulse = 0;
 	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_4) != HAL_OK)
 	{
 	  /* Configuration Error */
@@ -148,63 +149,11 @@ void PWMConfig()
 
 void SetPWM(uint32_t pulse1 ,uint32_t pulse2 ,uint32_t pulse3 ,uint32_t pulse4)
 {
-	/* Set the pulse value for channel 1 */
-	sConfig.Pulse = pulse1;
-	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_1) != HAL_OK)
-	{
-		/* Configuration Error */
-			Error_Handler("pwm error");
-	}
 
-	/* Set the pulse value for channel 2 */
-	sConfig.Pulse = pulse2;
-	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_2) != HAL_OK)
-	{
-		/* Configuration Error */
-		Error_Handler("pwm error");
-	}
-
-	/* Set the pulse value for channel 3 */
-	sConfig.Pulse = pulse3;
-	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_3) != HAL_OK)
-	{
-		/* Configuration Error */
-		Error_Handler("pwm error");
-	}
-
-	/* Set the pulse value for channel 4 */
-	sConfig.Pulse = pulse4;
-	if (HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_4) != HAL_OK)
-	{
-		/* Configuration Error */
-		Error_Handler("pwm error");
-	}
-
-	/*##-3- Start PWM signals generation #######################################*/
-	/* Start channel 1 */
-	if (HAL_TIM_PWM_Start(&TimHandle, TIM_CHANNEL_1) != HAL_OK)
-	{
-		/* PWM Generation Error */
-		Error_Handler("pwm error");
-	}
-	/* Start channel 2 */
-	if (HAL_TIM_PWM_Start(&TimHandle, TIM_CHANNEL_2) != HAL_OK)
-	{
-		/* PWM Generation Error */
-		Error_Handler("pwm error");
-	}
-	/* Start channel 3 */
-	if (HAL_TIM_PWM_Start(&TimHandle, TIM_CHANNEL_3) != HAL_OK)
-	{
-		/* PWM generation Error */
-		Error_Handler("pwm error");
-	}
-	/* Start channel 4 */
-	if (HAL_TIM_PWM_Start(&TimHandle, TIM_CHANNEL_4) != HAL_OK)
-	{
-		/* PWM generation Error */
-		Error_Handler("pwm error");
-	}
+	__HAL_TIM_SET_COMPARE(&TimHandle, TIM_CHANNEL_1, pulse1);
+	__HAL_TIM_SET_COMPARE(&TimHandle, TIM_CHANNEL_2, pulse2);
+	__HAL_TIM_SET_COMPARE(&TimHandle, TIM_CHANNEL_3, pulse3);
+	__HAL_TIM_SET_COMPARE(&TimHandle, TIM_CHANNEL_4, pulse3);
 }
 
 

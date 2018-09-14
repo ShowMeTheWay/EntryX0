@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.246
+ * Model version                  : 1.352
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Fri Aug 24 19:41:56 2018
+ * C/C++ source code generated on : Tue Sep 11 00:14:29 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -18,8 +18,13 @@
 #define RTW_HEADER_SensAdapt_h_
 #ifndef SensAdapt_COMMON_INCLUDES_
 # define SensAdapt_COMMON_INCLUDES_
+#include <math.h>
 #include <string.h>
 #include "rtwtypes.h"
+#include "rt_nonfinite.h"
+#include "rtGetInf.h"
+#include "rtGetNaN.h"
+#include "rt_defines.h"
 #endif                                 /* SensAdapt_COMMON_INCLUDES_ */
 
 #include "SensAdapt_types.h"
@@ -28,52 +33,62 @@
 
 /* Block signals (auto storage) */
 typedef struct {
-  real_T AccXData;                     /* '<Root>/Bus Selector' */
-  real_T AccYData;                     /* '<Root>/Bus Selector' */
-  real_T AccZData;                     /* '<Root>/Bus Selector' */
-  real_T GyroXData;                    /* '<Root>/Bus Selector' */
-  real_T GyroYData;                    /* '<Root>/Bus Selector' */
-  real_T GyroZData;                    /* '<Root>/Bus Selector' */
-  real_T SFunctionBuilder1_o1;         /* '<S5>/S-Function Builder1' */
-  real_T SFunctionBuilder1_o2;         /* '<S5>/S-Function Builder1' */
-  real_T SFunctionBuilder1_o3;         /* '<S5>/S-Function Builder1' */
-  real_T SFunctionBuilder1_o4;         /* '<S5>/S-Function Builder1' */
-  real_T Product;                      /* '<S8>/Product' */
-  real_T Product_jqhr;                 /* '<S9>/Product' */
-  real_T Product_krg1;                 /* '<S10>/Product' */
-  real_T Product_nhwi;                 /* '<S11>/Product' */
-  real_T Product_ax4f;                 /* '<S12>/Product' */
-  real_T Product_pz1k;                 /* '<S13>/Product' */
-  real_T axc;                          /* '<S3>/MATLAB Function' */
-  real_T ayc;                          /* '<S3>/MATLAB Function' */
-  real_T azc;                          /* '<S3>/MATLAB Function' */
-  real_T gxc;                          /* '<S3>/MATLAB Function' */
-  real_T gyc;                          /* '<S3>/MATLAB Function' */
-  real_T gzc;                          /* '<S3>/MATLAB Function' */
-  real_T accx;                         /* '<S2>/accx' */
-  real_T accy;                         /* '<S2>/accy' */
-  real_T accz;                         /* '<S2>/accz' */
-  real_T accx_gf4n;                    /* '<S1>/accx' */
-  real_T accy_azyn;                    /* '<S1>/accy' */
-  real_T accz_nuj4;                    /* '<S1>/accz' */
+  real_T AccXData;                     /* '<S1>/Bus Selector' */
+  real_T AccYData;                     /* '<S1>/Bus Selector' */
+  real_T AccZData;                     /* '<S1>/Bus Selector' */
+  real_T GyroXData;                    /* '<S1>/Bus Selector' */
+  real_T GyroYData;                    /* '<S1>/Bus Selector' */
+  real_T GyroZData;                    /* '<S1>/Bus Selector' */
+  real_T Merge[4];                     /* '<S7>/Merge' */
+  real_T SFunctionBuilder1_o1;         /* '<S18>/S-Function Builder1' */
+  real_T SFunctionBuilder1_o2;         /* '<S18>/S-Function Builder1' */
+  real_T SFunctionBuilder1_o3;         /* '<S18>/S-Function Builder1' */
+  real_T SFunctionBuilder1_o4;         /* '<S18>/S-Function Builder1' */
+  real_T Add;                          /* '<S9>/Add' */
+  real_T Add_pnfv;                     /* '<S10>/Add' */
+  real_T Add_bu3s;                     /* '<S11>/Add' */
+  real_T gyrox_data_in;                /* '<S6>/gyrox_data_in' */
+  real_T gyroy_data_in;                /* '<S6>/gyroy_data_in' */
+  real_T gyroz_data_in;                /* '<S6>/gyroz_data_in' */
+  real_T axc;                          /* '<S4>/MATLAB Function' */
+  real_T ayc;                          /* '<S4>/MATLAB Function' */
+  real_T azc;                          /* '<S4>/MATLAB Function' */
+  real_T gxc;                          /* '<S4>/MATLAB Function' */
+  real_T gyc;                          /* '<S4>/MATLAB Function' */
+  real_T gzc;                          /* '<S4>/MATLAB Function' */
+  real_T accx;                         /* '<S3>/accx' */
+  real_T accy;                         /* '<S3>/accy' */
+  real_T accz;                         /* '<S3>/accz' */
+  real_T accx_gf4n;                    /* '<S2>/accx' */
+  real_T accy_azyn;                    /* '<S2>/accy' */
+  real_T accz_nuj4;                    /* '<S2>/accz' */
 } BlockIO_SensAdapt;
 
 /* Block states (auto storage) for system '<Root>' */
 typedef struct {
-  IMU_tstRawData UnitDelay12_DSTATE;   /* '<Root>/Unit Delay12' */
-  real_T TappedDelay_X[9];             /* '<S8>/Tapped Delay' */
-  real_T TappedDelay_X_h4nz[9];        /* '<S9>/Tapped Delay' */
-  real_T TappedDelay_X_auph[9];        /* '<S10>/Tapped Delay' */
-  real_T TappedDelay_X_ahra[9];        /* '<S11>/Tapped Delay' */
-  real_T TappedDelay_X_nmbc[9];        /* '<S12>/Tapped Delay' */
-  real_T TappedDelay_X_byda[9];        /* '<S13>/Tapped Delay' */
+  IMU_tstRawData UnitDelay12_DSTATE;   /* '<S1>/Unit Delay12' */
+  real_T UnitDelay_DSTATE;             /* '<S9>/Unit Delay' */
+  real_T UnitDelay_DSTATE_luzf;        /* '<S10>/Unit Delay' */
+  real_T UnitDelay_DSTATE_i4hd;        /* '<S11>/Unit Delay' */
+  real_T R[9];                         /* '<S16>/Data Store Memory' */
 } D_Work_SensAdapt;
+
+/* Constant parameters (auto storage) */
+typedef struct {
+  /* Expression: [1 0 0;0 1 0; 0 0 1]
+   * Referenced by: '<S16>/Data Store Memory'
+   */
+  real_T DataStoreMemory_InitialValue[9];
+} ConstParam_SensAdapt;
 
 /* Block signals (auto storage) */
 extern BlockIO_SensAdapt SensAdapt_B;
 
 /* Block states (auto storage) */
 extern D_Work_SensAdapt SensAdapt_DWork;
+
+/* Constant parameters (auto storage) */
+extern const ConstParam_SensAdapt SensAdapt_ConstP;
 
 /* Model entry point functions */
 extern void SensAdapt_initialize(void);
@@ -82,14 +97,14 @@ extern void SensAdapt_step(void);
 /*-
  * These blocks were eliminated from the model due to optimizations:
  *
- * Block '<S1>/Multiport Switch' : Eliminated due to constant selection input
  * Block '<S2>/Multiport Switch' : Eliminated due to constant selection input
- * Block '<S1>/Constant' : Unused code path elimination
- * Block '<S1>/choose' : Unused code path elimination
- * Block '<S1>/tomssquare' : Unused code path elimination
- * Block '<S2>/Constant1' : Unused code path elimination
+ * Block '<S3>/Multiport Switch' : Eliminated due to constant selection input
+ * Block '<S2>/Constant' : Unused code path elimination
  * Block '<S2>/choose' : Unused code path elimination
- * Block '<S2>/choose1' : Unused code path elimination
+ * Block '<S2>/tomssquare' : Unused code path elimination
+ * Block '<S3>/Constant1' : Unused code path elimination
+ * Block '<S3>/choose' : Unused code path elimination
+ * Block '<S3>/choose1' : Unused code path elimination
  */
 
 /*-
@@ -107,19 +122,25 @@ extern void SensAdapt_step(void);
  * Here is the system hierarchy for this model
  *
  * '<Root>' : 'SensAdapt'
- * '<S1>'   : 'SensAdapt/AccConv'
- * '<S2>'   : 'SensAdapt/GyroConv'
- * '<S3>'   : 'SensAdapt/calibrationBlock'
- * '<S4>'   : 'SensAdapt/nothing'
- * '<S5>'   : 'SensAdapt/processData'
- * '<S6>'   : 'SensAdapt/smoothData'
- * '<S7>'   : 'SensAdapt/calibrationBlock/MATLAB Function'
- * '<S8>'   : 'SensAdapt/smoothData/filter'
- * '<S9>'   : 'SensAdapt/smoothData/filter1'
- * '<S10>'  : 'SensAdapt/smoothData/filter2'
- * '<S11>'  : 'SensAdapt/smoothData/filter3'
- * '<S12>'  : 'SensAdapt/smoothData/filter4'
- * '<S13>'  : 'SensAdapt/smoothData/filter5'
+ * '<S1>'   : 'SensAdapt/SensAdapt'
+ * '<S2>'   : 'SensAdapt/SensAdapt/AccConv'
+ * '<S3>'   : 'SensAdapt/SensAdapt/GyroConv'
+ * '<S4>'   : 'SensAdapt/SensAdapt/calibrationBlock'
+ * '<S5>'   : 'SensAdapt/SensAdapt/nothing'
+ * '<S6>'   : 'SensAdapt/SensAdapt/smoothData'
+ * '<S7>'   : 'SensAdapt/SensAdapt/stateEstimator'
+ * '<S8>'   : 'SensAdapt/SensAdapt/calibrationBlock/MATLAB Function'
+ * '<S9>'   : 'SensAdapt/SensAdapt/smoothData/FTJ'
+ * '<S10>'  : 'SensAdapt/SensAdapt/smoothData/FTJ1'
+ * '<S11>'  : 'SensAdapt/SensAdapt/smoothData/FTJ2'
+ * '<S12>'  : 'SensAdapt/SensAdapt/smoothData/FTS'
+ * '<S13>'  : 'SensAdapt/SensAdapt/smoothData/FTS1'
+ * '<S14>'  : 'SensAdapt/SensAdapt/smoothData/FTS2'
+ * '<S15>'  : 'SensAdapt/SensAdapt/smoothData/filter'
+ * '<S16>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator'
+ * '<S17>'  : 'SensAdapt/SensAdapt/stateEstimator/kalEstimator'
+ * '<S18>'  : 'SensAdapt/SensAdapt/stateEstimator/madgEstimator'
+ * '<S19>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator/MATLAB Function'
  */
 
 /*-

@@ -31,7 +31,7 @@
 #define TIMx_GPIO_AF_CHANNEL3          GPIO_AF2_TIM3
 #define TIMx_GPIO_AF_CHANNEL4          GPIO_AF2_TIM3
 
-#define  PERIOD_VALUE       (uint32_t)(40900 - 1)  /* Period Value  */
+#define  PERIOD_VALUE       (uint32_t)(10000 - 1)  /* Period Value  */
 #define  PULSE1_VALUE       (uint32_t)(PERIOD_VALUE/2)        /* Capture Compare 1 Value  */
 #define  PULSE2_VALUE       (uint32_t)(PERIOD_VALUE*37.5/100) /* Capture Compare 2 Value  */
 #define  PULSE3_VALUE       (uint32_t)(PERIOD_VALUE/4)        /* Capture Compare 3 Value  */
