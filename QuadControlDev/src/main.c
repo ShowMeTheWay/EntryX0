@@ -78,8 +78,8 @@ void TIM6_DAC_IRQHandler(void)
 	a = a^1;
 	SetResetLed(LED_BLUE,a);
 
-	//SensAdapt_step();
-
+	SensAdapt_step();
+/*
 	HAL_UART_Receive(&UartHandle, (uint8_t*)&aRxBuffer, 1, 0xFFFF);
 
 	if(aRxBuffer == 49)
@@ -144,7 +144,7 @@ void TIM6_DAC_IRQHandler(void)
 	}
 
 
-
+*/
 
 
 

@@ -20,7 +20,8 @@
 #define EXT_LIB_GENDIGITSESTIMATOR_INC_GENDIGITSEST_H_
 
 #include <math.h>
-#include "stm32f4xx.h"
+
+extern volatile float the,chi,phi;
 
 typedef struct{
 	float i,j,k;
@@ -28,17 +29,13 @@ typedef struct{
 
 void GeneralDigitsFuseIMUSensors(float accx, float accy, float accz, float gyrox, float gyroy, float gyroz);
 
-void prodRectAB(int m1, int m2, float mat1[][m2],
-              int n1, int n2, float mat2[][n2], float res[m1][n2]);
+void prodRectAB(int m1, int m2, float mat1[3][3],
+              int n1, int n2, float mat2[3][3], float res[3][3]);
 
-float dotProduct(Vector a, Vector b);
-
-Vector crossProduct(Vector a,Vector b);
-
-float scalarTripleProduct(Vector a,Vector b,Vector c);
-
-Vector vectorTripleProduct(Vector a,Vector b,Vector c);
+float * crossProduct(float a[] ,float b[]);
 
 float arrayNormAB(int nr, float array[]);
+
+void performOrtho(float x[], float y[], float R[3][3]);
 
 #endif /* EXT_LIB_GENDIGITSESTIMATOR_INC_GENDIGITSEST_H_ */

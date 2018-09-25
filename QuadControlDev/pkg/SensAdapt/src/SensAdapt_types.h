@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.352
+ * Model version                  : 1.361
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Tue Sep 11 00:14:29 2018
+ * C/C++ source code generated on : Sat Sep 22 20:29:49 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex

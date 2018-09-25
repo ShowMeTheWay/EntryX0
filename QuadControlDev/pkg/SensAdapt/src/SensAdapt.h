@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.352
+ * Model version                  : 1.361
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Tue Sep 11 00:14:29 2018
+ * C/C++ source code generated on : Sat Sep 22 20:29:49 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -18,13 +18,13 @@
 #define RTW_HEADER_SensAdapt_h_
 #ifndef SensAdapt_COMMON_INCLUDES_
 # define SensAdapt_COMMON_INCLUDES_
-#include <math.h>
 #include <string.h>
+#include <math.h>
 #include "rtwtypes.h"
-#include "rt_nonfinite.h"
 #include "rtGetInf.h"
 #include "rtGetNaN.h"
 #include "rt_defines.h"
+#include "rt_nonfinite.h"
 #endif                                 /* SensAdapt_COMMON_INCLUDES_ */
 
 #include "SensAdapt_types.h"
@@ -44,6 +44,9 @@ typedef struct {
   real_T SFunctionBuilder1_o2;         /* '<S18>/S-Function Builder1' */
   real_T SFunctionBuilder1_o3;         /* '<S18>/S-Function Builder1' */
   real_T SFunctionBuilder1_o4;         /* '<S18>/S-Function Builder1' */
+  real_T SFunctionBuilder1_o1_gqrs;    /* '<S20>/S-Function Builder1' */
+  real_T SFunctionBuilder1_o2_piyk;    /* '<S20>/S-Function Builder1' */
+  real_T SFunctionBuilder1_o3_cr03;    /* '<S20>/S-Function Builder1' */
   real_T Add;                          /* '<S9>/Add' */
   real_T Add_pnfv;                     /* '<S10>/Add' */
   real_T Add_bu3s;                     /* '<S11>/Add' */
@@ -70,13 +73,13 @@ typedef struct {
   real_T UnitDelay_DSTATE;             /* '<S9>/Unit Delay' */
   real_T UnitDelay_DSTATE_luzf;        /* '<S10>/Unit Delay' */
   real_T UnitDelay_DSTATE_i4hd;        /* '<S11>/Unit Delay' */
-  real_T R[9];                         /* '<S16>/Data Store Memory' */
+  real_T R[9];                         /* '<S19>/Data Store Memory' */
 } D_Work_SensAdapt;
 
 /* Constant parameters (auto storage) */
 typedef struct {
   /* Expression: [1 0 0;0 1 0; 0 0 1]
-   * Referenced by: '<S16>/Data Store Memory'
+   * Referenced by: '<S19>/Data Store Memory'
    */
   real_T DataStoreMemory_InitialValue[9];
 } ConstParam_SensAdapt;
@@ -140,7 +143,9 @@ extern void SensAdapt_step(void);
  * '<S16>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator'
  * '<S17>'  : 'SensAdapt/SensAdapt/stateEstimator/kalEstimator'
  * '<S18>'  : 'SensAdapt/SensAdapt/stateEstimator/madgEstimator'
- * '<S19>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator/MATLAB Function'
+ * '<S19>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator/Subsystem'
+ * '<S20>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator/Subsystem1'
+ * '<S21>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator/Subsystem/MATLAB Function'
  */
 
 /*-
