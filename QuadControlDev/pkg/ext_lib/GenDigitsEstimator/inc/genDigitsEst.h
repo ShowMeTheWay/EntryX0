@@ -20,6 +20,7 @@
 #define EXT_LIB_GENDIGITSESTIMATOR_INC_GENDIGITSEST_H_
 
 #include <math.h>
+#include <SensAdapt.h>
 
 extern volatile float the,chi,phi;
 
@@ -32,10 +33,12 @@ void GeneralDigitsFuseIMUSensors(float accx, float accy, float accz, float gyrox
 void prodRectAB(int m1, int m2, float mat1[3][3],
               int n1, int n2, float mat2[3][3], float res[3][3]);
 
-float * crossProduct(float a[] ,float b[]);
+void crossProduct(float a[] ,float b[], float c[]);
 
 float arrayNormAB(int nr, float array[]);
 
-void performOrtho(float x[], float y[], float R[3][3]);
+void performOrtho(float R[3][3]);
+
+IMU_tstInRawData smoothData(IMU_tstInRawData rawDataIn );
 
 #endif /* EXT_LIB_GENDIGITSESTIMATOR_INC_GENDIGITSEST_H_ */

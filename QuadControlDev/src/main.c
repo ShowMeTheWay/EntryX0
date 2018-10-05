@@ -24,11 +24,14 @@
 #include "ers.h"
 #include "imu.h"
 #include "task.h"
+#include "genDigitsEst.h"
 
 /* Buffer used for reception */
 uint8_t aRxBuffer;
 UART_HandleTypeDef UartHandle;
+IMU_tstInRawData myIMUData;
 
+extern volatile float the,chi,phi;
 
 #define nInitTotal 11
 
@@ -145,9 +148,19 @@ void TIM6_DAC_IRQHandler(void)
 
 
 */
-
-
-
+//
+//	myIMUData = GetData__stMPU_6050();
+//	myIMUData =  smoothData(myIMUData);
+//
+//	myIMUData.AccXData = (myIMUData.AccXData + 710) / 835.040;
+//	myIMUData.AccYData = (myIMUData.AccYData - 50 ) / 835.040;
+//	myIMUData.AccZData = (myIMUData.AccZData - 467) / 835.040;
+//	myIMUData.GyroXData = (myIMUData.GyroXData - 29) / 939.650784;
+//	myIMUData.GyroYData = (myIMUData.GyroYData + 5) / 939.650784;
+//	myIMUData.GyroZData = (myIMUData.GyroZData - 7) / 939.650784;
+//
+//	GeneralDigitsFuseIMUSensors(myIMUData.AccXData,myIMUData.AccYData,myIMUData.AccZData,myIMUData.GyroXData,myIMUData.GyroYData,myIMUData.GyroZData);
+//	printf("\r\n %f,%f,%f",the,chi,phi);
 
 
 

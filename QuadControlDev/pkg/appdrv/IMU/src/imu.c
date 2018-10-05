@@ -55,8 +55,8 @@ void Init__vMPU_6050()
 			printf("\r\n MPU chip 2 reset failed !\r\n");
 		}
 		_delay_ms(1000);
-	// sample divide rate  sample rate = 8kHz / (1+divide rate)  =  8000/110 = 72 Hz
-		I2C__vWriteSingleByteBuffer(mpu_6050_adress, mpu_6050_smprt_div,109);
+	// sample divide rate  sample rate = ex 8kHz / (1+divide rate)  =  8000/110 = 72 Hz
+		I2C__vWriteSingleByteBuffer(mpu_6050_adress, mpu_6050_smprt_div,80);
 		_delay_ms(1000);
 		I2C__vReadBuffer(mpu_6050_adress,mpu_6050_smprt_div,&dest,1);
 		if ((dest == init_byte_104))
