@@ -10,9 +10,9 @@
 
 void UART_DisplayData(IMU_tstRawData din)
 {
-	printf("\r\n %f,%f,%f,%f,%f,%f,%f,%f,%f,%f",din.AccXDataS,din.AccYDataS,din.AccZDataS, \
+	printf("\r\n %f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f",din.AccXDataS,din.AccYDataS,din.AccZDataS, \
 			                                    din.GyroXDataS,din.GyroYDataS,din.GyroZDataS, \
-												din.q0,din.q1,din.q2,din.q3);
+												din.q0,din.q1,din.q2,din.q3,din.th,din.ch,din.ph);
 
 }
 

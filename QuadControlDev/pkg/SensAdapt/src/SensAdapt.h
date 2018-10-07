@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.366
+ * Model version                  : 1.385
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Fri Oct 05 23:13:24 2018
+ * C/C++ source code generated on : Sat Oct 06 17:06:26 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -39,7 +39,7 @@ typedef struct {
   real_T GyroXData;                    /* '<S1>/Bus Selector' */
   real_T GyroYData;                    /* '<S1>/Bus Selector' */
   real_T GyroZData;                    /* '<S1>/Bus Selector' */
-  real_T Merge[4];                     /* '<S7>/Merge' */
+  real_T Merge[7];                     /* '<S7>/Merge' */
   real_T SFunctionBuilder1_o1;         /* '<S18>/S-Function Builder1' */
   real_T SFunctionBuilder1_o2;         /* '<S18>/S-Function Builder1' */
   real_T SFunctionBuilder1_o3;         /* '<S18>/S-Function Builder1' */
@@ -48,8 +48,8 @@ typedef struct {
   real_T SFunctionBuilder1_o2_piyk;    /* '<S20>/S-Function Builder1' */
   real_T SFunctionBuilder1_o3_cr03;    /* '<S20>/S-Function Builder1' */
   real_T Add;                          /* '<S9>/Add' */
-  real_T Add_pnfv;                     /* '<S10>/Add' */
-  real_T Add_bu3s;                     /* '<S11>/Add' */
+  real_T Add_g0zf;                     /* '<S11>/Add' */
+  real_T Add_p1ev;                     /* '<S10>/Add' */
   real_T gyrox_data_in;                /* '<S6>/gyrox_data_in' */
   real_T gyroy_data_in;                /* '<S6>/gyroy_data_in' */
   real_T gyroz_data_in;                /* '<S6>/gyroz_data_in' */
@@ -71,8 +71,8 @@ typedef struct {
 typedef struct {
   IMU_tstRawData UnitDelay12_DSTATE;   /* '<S1>/Unit Delay12' */
   real_T UnitDelay_DSTATE;             /* '<S9>/Unit Delay' */
-  real_T UnitDelay_DSTATE_luzf;        /* '<S10>/Unit Delay' */
-  real_T UnitDelay_DSTATE_i4hd;        /* '<S11>/Unit Delay' */
+  real_T UnitDelay_DSTATE_lfj0;        /* '<S11>/Unit Delay' */
+  real_T UnitDelay_DSTATE_er14;        /* '<S10>/Unit Delay' */
   real_T R[9];                         /* '<S19>/Data Store Memory' */
 } D_Work_SensAdapt;
 
@@ -104,7 +104,7 @@ extern void SensAdapt_step(void);
  * Block '<S3>/Multiport Switch' : Eliminated due to constant selection input
  * Block '<S2>/Constant' : Unused code path elimination
  * Block '<S2>/choose' : Unused code path elimination
- * Block '<S2>/tomssquare' : Unused code path elimination
+ * Block '<S2>/tog' : Unused code path elimination
  * Block '<S3>/Constant1' : Unused code path elimination
  * Block '<S3>/choose' : Unused code path elimination
  * Block '<S3>/choose1' : Unused code path elimination

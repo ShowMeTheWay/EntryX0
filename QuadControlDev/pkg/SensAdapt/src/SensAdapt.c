@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.366
+ * Model version                  : 1.385
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Fri Oct 05 23:13:24 2018
+ * C/C++ source code generated on : Sat Oct 06 17:06:26 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -31,19 +31,19 @@ D_Work_SensAdapt SensAdapt_DWork;
 void SensAdapt_AccConv(void)
 {
   /* Product: '<S2>/accx' incorporates:
-   *  Constant: '<S2>/tog'
+   *  Constant: '<S2>/tomssquare'
    */
-  SensAdapt_B.accx_gf4n = SensAdapt_B.axc / 8192.0;
+  SensAdapt_B.accx_gf4n = SensAdapt_B.axc / 835.04;
 
   /* Product: '<S2>/accy' incorporates:
-   *  Constant: '<S2>/tog'
+   *  Constant: '<S2>/tomssquare'
    */
-  SensAdapt_B.accy_azyn = SensAdapt_B.ayc / 8192.0;
+  SensAdapt_B.accy_azyn = SensAdapt_B.ayc / 835.04;
 
   /* Product: '<S2>/accz' incorporates:
-   *  Constant: '<S2>/tog'
+   *  Constant: '<S2>/tomssquare'
    */
-  SensAdapt_B.accz_nuj4 = SensAdapt_B.azc / 8192.0;
+  SensAdapt_B.accz_nuj4 = SensAdapt_B.azc / 835.04;
 }
 
 /* Output and update for atomic system: '<S1>/GyroConv' */
@@ -102,16 +102,6 @@ void SensAdapt_smoothData(void)
   SensAdapt_B.Add = (SensAdapt_B.accx_gf4n * 0.2) +
     (SensAdapt_DWork.UnitDelay_DSTATE * 0.8);
 
-  /* Sum: '<S10>/Add' incorporates:
-   *  Constant: '<S10>/Constant'
-   *  Constant: '<S10>/Constant1'
-   *  Product: '<S10>/Product'
-   *  Product: '<S10>/Product1'
-   *  UnitDelay: '<S10>/Unit Delay'
-   */
-  SensAdapt_B.Add_pnfv = (SensAdapt_B.accy_azyn * 0.2) +
-    (SensAdapt_DWork.UnitDelay_DSTATE_luzf * 0.8);
-
   /* Sum: '<S11>/Add' incorporates:
    *  Constant: '<S11>/Constant'
    *  Constant: '<S11>/Constant1'
@@ -119,8 +109,18 @@ void SensAdapt_smoothData(void)
    *  Product: '<S11>/Product1'
    *  UnitDelay: '<S11>/Unit Delay'
    */
-  SensAdapt_B.Add_bu3s = (SensAdapt_B.accz_nuj4 * 0.2) +
-    (SensAdapt_DWork.UnitDelay_DSTATE_i4hd * 0.8);
+  SensAdapt_B.Add_g0zf = (SensAdapt_B.accy_azyn * 0.2) +
+    (SensAdapt_DWork.UnitDelay_DSTATE_lfj0 * 0.8);
+
+  /* Sum: '<S10>/Add' incorporates:
+   *  Constant: '<S10>/Constant'
+   *  Constant: '<S10>/Constant1'
+   *  Product: '<S10>/Product'
+   *  Product: '<S10>/Product1'
+   *  UnitDelay: '<S10>/Unit Delay'
+   */
+  SensAdapt_B.Add_p1ev = (SensAdapt_B.accz_nuj4 * 0.2) +
+    (SensAdapt_DWork.UnitDelay_DSTATE_er14 * 0.8);
 
   /* Inport: '<S6>/gyrox_data_in' */
   SensAdapt_B.gyrox_data_in = SensAdapt_B.accx;
@@ -134,11 +134,11 @@ void SensAdapt_smoothData(void)
   /* Update for UnitDelay: '<S9>/Unit Delay' */
   SensAdapt_DWork.UnitDelay_DSTATE = SensAdapt_B.Add;
 
-  /* Update for UnitDelay: '<S10>/Unit Delay' */
-  SensAdapt_DWork.UnitDelay_DSTATE_luzf = SensAdapt_B.Add_pnfv;
-
   /* Update for UnitDelay: '<S11>/Unit Delay' */
-  SensAdapt_DWork.UnitDelay_DSTATE_i4hd = SensAdapt_B.Add_bu3s;
+  SensAdapt_DWork.UnitDelay_DSTATE_lfj0 = SensAdapt_B.Add_g0zf;
+
+  /* Update for UnitDelay: '<S10>/Unit Delay' */
+  SensAdapt_DWork.UnitDelay_DSTATE_er14 = SensAdapt_B.Add_p1ev;
 }
 
 real_T rt_atan2d_snf(real_T u0, real_T u1)
@@ -188,17 +188,17 @@ void SensAdapt_step(void)
   real_T OZ_acc[3];
   real_T OZ_gyro[3];
   int8_T I[9];
-  real_T y;
-  real_T d_y;
   real_T f_y;
   int32_T i;
   real_T scale;
-  real_T absxk;
-  real_T t;
   static const int8_T b[3] = { 0, 0, 1 };
 
+  real_T rtb_qy;
+  real_T rtb_qw;
+  real_T rtb_th;
+  real_T rtb_ph;
   real_T I_0[9];
-  real_T d_y_0[9];
+  real_T d_y[9];
   real_T tmp[9];
   int32_T i_0;
   int32_T i_1;
@@ -271,23 +271,21 @@ void SensAdapt_step(void)
   }
 
   /* SwitchCase: '<S7>/Switch Case' incorporates:
-   *  Constant: '<S19>/Constant'
    *  MATLAB Function: '<S19>/MATLAB Function'
    *  SignalConversion: '<S19>/OutportBufferForOut1'
    */
-  d_y_0[0] = 0.0;
-  d_y_0[3] = -SensAdapt_B.gyroz_data_in;
-  d_y_0[6] = SensAdapt_B.gyroy_data_in;
-  d_y_0[1] = SensAdapt_B.gyroz_data_in;
-  d_y_0[4] = 0.0;
-  d_y_0[7] = -SensAdapt_B.gyrox_data_in;
-  d_y_0[2] = -SensAdapt_B.gyroy_data_in;
-  d_y_0[5] = SensAdapt_B.gyrox_data_in;
-  d_y_0[8] = 0.0;
+  d_y[0] = 0.0;
+  d_y[3] = -SensAdapt_B.gyroz_data_in;
+  d_y[6] = SensAdapt_B.gyroy_data_in;
+  d_y[1] = SensAdapt_B.gyroz_data_in;
+  d_y[4] = 0.0;
+  d_y[7] = -SensAdapt_B.gyrox_data_in;
+  d_y[2] = -SensAdapt_B.gyroy_data_in;
+  d_y[5] = SensAdapt_B.gyrox_data_in;
+  d_y[8] = 0.0;
   for (i = 0; i < 3; i++) {
     for (i_1 = 0; i_1 < 3; i_1++) {
-      I_0[i_1 + (3 * i)] = ((real_T)I[i_1 + (3 * i)]) + (0.01 * d_y_0[i_1 + (3 *
-        i)]);
+      I_0[i_1 + (3 * i)] = ((real_T)I[i_1 + (3 * i)]) + (0.01 * d_y[i_1 + (3 * i)]);
     }
   }
 
@@ -311,12 +309,12 @@ void SensAdapt_step(void)
   }
 
   /* '<S21>:1:24' r1 = X - err/2*Y; */
-  y = err / 2.0;
+  rtb_qw = err / 2.0;
 
   /* '<S21>:1:25' r2 = Y - err/2*X; */
   err /= 2.0;
   for (i = 0; i < 3; i++) {
-    r[i] = R_test[i] - (y * R_test[3 + i]);
+    r[i] = R_test[i] - (rtb_qw * R_test[3 + i]);
     r_0[i] = R_test[3 + i] - (err * R_test[i]);
   }
 
@@ -331,7 +329,7 @@ void SensAdapt_step(void)
     err += r[i] * r[i];
   }
 
-  d_y = 0.5 * (3.0 - err);
+  rtb_ph = 0.5 * (3.0 - err);
 
   /* '<S21>:1:29' Yn = 1/2*(3-r2'*r2)*r2; */
   err = 0.0;
@@ -353,44 +351,44 @@ void SensAdapt_step(void)
   /*    sensor fusion */
   /* '<S21>:1:35' OZ_acc = ([accx;accy;accz]); */
   OZ_acc[0] = SensAdapt_B.Add;
-  OZ_acc[1] = SensAdapt_B.Add_pnfv;
-  OZ_acc[2] = SensAdapt_B.Add_bu3s;
+  OZ_acc[1] = SensAdapt_B.Add_g0zf;
+  OZ_acc[2] = SensAdapt_B.Add_p1ev;
 
   /* '<S21>:1:36' OZ_acc = OZ_acc/norm(OZ_acc); */
-  y = 0.0;
+  rtb_qw = 0.0;
   scale = 2.2250738585072014E-308;
   for (i = 0; i < 3; i++) {
-    absxk = fabs(OZ_acc[i]);
-    if (absxk > scale) {
-      t = scale / absxk;
-      y = 1.0 + ((y * t) * t);
-      scale = absxk;
+    rtb_qy = fabs(OZ_acc[i]);
+    if (rtb_qy > scale) {
+      rtb_th = scale / rtb_qy;
+      rtb_qw = 1.0 + ((rtb_qw * rtb_th) * rtb_th);
+      scale = rtb_qy;
     } else {
-      t = absxk / scale;
-      y += t * t;
+      rtb_th = rtb_qy / scale;
+      rtb_qw += rtb_th * rtb_th;
     }
   }
 
-  y = scale * sqrt(y);
+  rtb_qw = scale * sqrt(rtb_qw);
 
   /* '<S21>:1:37' OZ_gyro = R_test*[0;0;1]; */
   for (i = 0; i < 3; i++) {
-    d_y_0[i] = d_y * r[i];
-    OZ_acc[i] /= y;
+    d_y[i] = rtb_ph * r[i];
+    OZ_acc[i] /= rtb_qw;
   }
 
   for (i = 0; i < 3; i++) {
-    d_y_0[3 + i] = f_y * r_0[i];
+    d_y[3 + i] = f_y * r_0[i];
   }
 
   for (i = 0; i < 3; i++) {
-    d_y_0[6 + i] = err * r_1[i];
+    d_y[6 + i] = err * r_1[i];
   }
 
   for (i = 0; i < 3; i++) {
     OZ_gyro[i] = 0.0;
     for (i_1 = 0; i_1 < 3; i_1++) {
-      OZ_gyro[i] += d_y_0[i + (3 * i_1)] * ((real_T)b[i_1]);
+      OZ_gyro[i] += d_y[i + (3 * i_1)] * ((real_T)b[i_1]);
     }
   }
 
@@ -430,9 +428,9 @@ void SensAdapt_step(void)
 
   for (i = 0; i < 3; i++) {
     for (i_1 = 0; i_1 < 3; i_1++) {
-      d_y_0[i + (3 * i_1)] = 0.0;
+      d_y[i + (3 * i_1)] = 0.0;
       for (i_0 = 0; i_0 < 3; i_0++) {
-        d_y_0[i + (3 * i_1)] += SensAdapt_DWork.R[i + (3 * i_0)] * I_0[i_0 + (3 *
+        d_y[i + (3 * i_1)] += SensAdapt_DWork.R[i + (3 * i_0)] * I_0[i_0 + (3 *
           i_1)];
       }
     }
@@ -440,7 +438,7 @@ void SensAdapt_step(void)
 
   for (i = 0; i < 3; i++) {
     for (i_1 = 0; i_1 < 3; i_1++) {
-      SensAdapt_DWork.R[i_1 + (3 * i)] = d_y_0[i_1 + (3 * i)];
+      SensAdapt_DWork.R[i_1 + (3 * i)] = d_y[i_1 + (3 * i)];
     }
   }
 
@@ -454,12 +452,12 @@ void SensAdapt_step(void)
   }
 
   /* '<S21>:1:50' r1 = X - err/2*Y; */
-  y = err / 2.0;
+  rtb_qw = err / 2.0;
 
   /* '<S21>:1:51' r2 = Y - err/2*X; */
   err /= 2.0;
   for (i = 0; i < 3; i++) {
-    r[i] = SensAdapt_DWork.R[i] - (y * SensAdapt_DWork.R[3 + i]);
+    r[i] = SensAdapt_DWork.R[i] - (rtb_qw * SensAdapt_DWork.R[3 + i]);
     r_0[i] = SensAdapt_DWork.R[3 + i] - (err * SensAdapt_DWork.R[i]);
   }
 
@@ -474,7 +472,7 @@ void SensAdapt_step(void)
     err += r[i] * r[i];
   }
 
-  y = 0.5 * (3.0 - err);
+  rtb_qw = 0.5 * (3.0 - err);
 
   /* '<S21>:1:55' Yn = 1/2*(3-r2'*r2)*r2; */
   err = 0.0;
@@ -488,7 +486,7 @@ void SensAdapt_step(void)
   err = 0.0;
   for (i = 0; i < 3; i++) {
     err += r_1[i] * r_1[i];
-    SensAdapt_DWork.R[i] = y * r[i];
+    SensAdapt_DWork.R[i] = rtb_qw * r[i];
   }
 
   err = 0.5 * (3.0 - err);
@@ -503,71 +501,120 @@ void SensAdapt_step(void)
   }
 
   /* '<S21>:1:60' ch = asin(R(3,2)); */
-  y = asin(SensAdapt_DWork.R[5]);
+  f_y = asin(SensAdapt_DWork.R[5]);
 
   /* '<S21>:1:61' ch2 = -asin(R(3,2))+pi; */
   err = asin(SensAdapt_DWork.R[5]);
 
   /* '<S21>:1:63' if abs(cos(ch)) > 0.01 */
-  if (fabs(cos(y)) > 0.01) {
+  if (fabs(cos(f_y)) > 0.01) {
     /* '<S21>:1:64' ph = atan2(-R(3,1)/cos(ch),R(3,3)/cos(ch)); */
-    scale = rt_atan2d_snf((-SensAdapt_DWork.R[2]) / cos(y), SensAdapt_DWork.R[8]
-                          / cos(y));
+    rtb_ph = rt_atan2d_snf((-SensAdapt_DWork.R[2]) / cos(f_y),
+      SensAdapt_DWork.R[8] / cos(f_y));
 
     /* '<S21>:1:65' th = atan2(-R(2,1)/cos(ch2),R(2,2)/cos(ch2)); */
-    err = rt_atan2d_snf((-SensAdapt_DWork.R[1]) / cos((-err) +
+    rtb_th = rt_atan2d_snf((-SensAdapt_DWork.R[1]) / cos((-err) +
       3.1415926535897931), SensAdapt_DWork.R[4] / cos((-err) +
       3.1415926535897931));
   } else {
     /* '<S21>:1:66' else */
     /* '<S21>:1:67' ph = 0; */
-    scale = 0.0;
+    rtb_ph = 0.0;
 
     /* '<S21>:1:68' th = 0; */
-    err = 0.0;
+    rtb_th = 0.0;
   }
 
-  /* % aflare quaternioni */
-  /*  tr = R(1,1) + R(2,2) + R(3,3); */
-  /*  m00 = R(1,1); */
-  /*  m01 = R(1,2); */
-  /*  m02 = R(1,3); */
-  /*  m10 = R(2,1); */
-  /*  m11 = R(2,2); */
-  /*  m12 = R(2,3); */
-  /*  m20 = R(3,1); */
-  /*  m21 = R(3,2); */
-  /*  m22 = R(3,3); */
-  /*   */
-  /*  if (tr > 0) */
-  /*    S = sqrt(tr+1.0) * 2;  */
-  /*    qw = 0.25 * S; */
-  /*    qx = (m21 - m12) / S; */
-  /*    qy = (m02 - m20) / S;  */
-  /*    qz = (m10 - m01) / S;  */
-  /*  elseif ((m00 > m11)&&(m00 > m22)) */
-  /*    S = sqrt(1.0 + m00 - m11 - m22) * 2;  */
-  /*    qw = (m21 - m12) / S; */
-  /*    qx = 0.25 * S; */
-  /*    qy = (m01 + m10) / S;  */
-  /*    qz = (m02 + m20) / S;  */
-  /*  elseif (m11 > m22) */
-  /*    S = sqrt(1.0 + m11 - m00 - m22) * 2;  */
-  /*    qw = (m02 - m20) / S; */
-  /*    qx = (m01 + m10) / S;  */
-  /*    qy = 0.25 * S; */
-  /*    qz = (m12 + m21) / S;  */
-  /*   else  */
-  /*    S = sqrt(1.0 + m22 - m00 - m11) * 2;  */
-  /*    qw = (m10 - m01) / S; */
-  /*    qx = (m02 + m20) / S; */
-  /*    qy = (m12 + m21) / S; */
-  /*    qz = 0.25 * S; */
-  /*  end */
-  SensAdapt_B.Merge[0] = err;
-  SensAdapt_B.Merge[1] = y;
-  SensAdapt_B.Merge[2] = scale;
-  SensAdapt_B.Merge[3] = 0.0;
+  /*  aflare quaternioni */
+  /* '<S21>:1:72' tr = R(1,1) + R(2,2) + R(3,3); */
+  err = (SensAdapt_DWork.R[0] + SensAdapt_DWork.R[4]) + SensAdapt_DWork.R[8];
+
+  /* '<S21>:1:74' m00 = R(1,1); */
+  /* '<S21>:1:75' m01 = R(1,2); */
+  /* '<S21>:1:76' m02 = R(1,3); */
+  /* '<S21>:1:77' m10 = R(2,1); */
+  /* '<S21>:1:78' m11 = R(2,2); */
+  /* '<S21>:1:79' m12 = R(2,3); */
+  /* '<S21>:1:80' m20 = R(3,1); */
+  /* '<S21>:1:81' m21 = R(3,2); */
+  /* '<S21>:1:82' m22 = R(3,3); */
+  /* '<S21>:1:84' if (tr > 0) */
+  if (err > 0.0) {
+    /* '<S21>:1:85' S = sqrt(tr+1.0) * 2; */
+    err = sqrt(err + 1.0) * 2.0;
+
+    /* '<S21>:1:86' qw = 0.25 * S; */
+    rtb_qw = 0.25 * err;
+
+    /* '<S21>:1:87' qx = (m21 - m12) / S; */
+    scale = (SensAdapt_DWork.R[5] - SensAdapt_DWork.R[7]) / err;
+
+    /* '<S21>:1:88' qy = (m02 - m20) / S; */
+    rtb_qy = (SensAdapt_DWork.R[6] - SensAdapt_DWork.R[2]) / err;
+
+    /* '<S21>:1:89' qz = (m10 - m01) / S; */
+    err = (SensAdapt_DWork.R[1] - SensAdapt_DWork.R[3]) / err;
+  } else if ((SensAdapt_DWork.R[0] > SensAdapt_DWork.R[4]) &&
+             (SensAdapt_DWork.R[0] > SensAdapt_DWork.R[8])) {
+    /* '<S21>:1:90' elseif ((m00 > m11)&&(m00 > m22)) */
+    /* '<S21>:1:91' S = sqrt(1.0 + m00 - m11 - m22) * 2; */
+    err = sqrt(((1.0 + SensAdapt_DWork.R[0]) - SensAdapt_DWork.R[4]) -
+               SensAdapt_DWork.R[8]) * 2.0;
+
+    /* '<S21>:1:92' qw = (m21 - m12) / S; */
+    rtb_qw = (SensAdapt_DWork.R[5] - SensAdapt_DWork.R[7]) / err;
+
+    /* '<S21>:1:93' qx = 0.25 * S; */
+    scale = 0.25 * err;
+
+    /* '<S21>:1:94' qy = (m01 + m10) / S; */
+    rtb_qy = (SensAdapt_DWork.R[3] + SensAdapt_DWork.R[1]) / err;
+
+    /* '<S21>:1:95' qz = (m02 + m20) / S; */
+    err = (SensAdapt_DWork.R[6] + SensAdapt_DWork.R[2]) / err;
+  } else if (SensAdapt_DWork.R[4] > SensAdapt_DWork.R[8]) {
+    /* '<S21>:1:96' elseif (m11 > m22) */
+    /* '<S21>:1:97' S = sqrt(1.0 + m11 - m00 - m22) * 2; */
+    err = sqrt(((1.0 + SensAdapt_DWork.R[4]) - SensAdapt_DWork.R[0]) -
+               SensAdapt_DWork.R[8]) * 2.0;
+
+    /* '<S21>:1:98' qw = (m02 - m20) / S; */
+    rtb_qw = (SensAdapt_DWork.R[6] - SensAdapt_DWork.R[2]) / err;
+
+    /* '<S21>:1:99' qx = (m01 + m10) / S; */
+    scale = (SensAdapt_DWork.R[3] + SensAdapt_DWork.R[1]) / err;
+
+    /* '<S21>:1:100' qy = 0.25 * S; */
+    rtb_qy = 0.25 * err;
+
+    /* '<S21>:1:101' qz = (m12 + m21) / S; */
+    err = (SensAdapt_DWork.R[7] + SensAdapt_DWork.R[5]) / err;
+  } else {
+    /* '<S21>:1:102' else */
+    /* '<S21>:1:103' S = sqrt(1.0 + m22 - m00 - m11) * 2; */
+    err = sqrt(((1.0 + SensAdapt_DWork.R[8]) - SensAdapt_DWork.R[0]) -
+               SensAdapt_DWork.R[4]) * 2.0;
+
+    /* '<S21>:1:104' qw = (m10 - m01) / S; */
+    rtb_qw = (SensAdapt_DWork.R[1] - SensAdapt_DWork.R[3]) / err;
+
+    /* '<S21>:1:105' qx = (m02 + m20) / S; */
+    scale = (SensAdapt_DWork.R[6] + SensAdapt_DWork.R[2]) / err;
+
+    /* '<S21>:1:106' qy = (m12 + m21) / S; */
+    rtb_qy = (SensAdapt_DWork.R[7] + SensAdapt_DWork.R[5]) / err;
+
+    /* '<S21>:1:107' qz = 0.25 * S; */
+    err *= 0.25;
+  }
+
+  SensAdapt_B.Merge[0] = rtb_qw;
+  SensAdapt_B.Merge[1] = scale;
+  SensAdapt_B.Merge[2] = rtb_qy;
+  SensAdapt_B.Merge[3] = err;
+  SensAdapt_B.Merge[4] = rtb_th;
+  SensAdapt_B.Merge[5] = f_y;
+  SensAdapt_B.Merge[6] = rtb_ph;
 
   /* End of Outputs for SubSystem: '<S16>/Subsystem' */
   /* End of Outputs for SubSystem: '<S7>/geEstimator' */
@@ -576,8 +623,8 @@ void SensAdapt_step(void)
    *  BusCreator: '<S1>/Bus Creator'
    */
   SensAdapt_DWork.UnitDelay12_DSTATE.AccXDataS = SensAdapt_B.Add;
-  SensAdapt_DWork.UnitDelay12_DSTATE.AccYDataS = SensAdapt_B.Add_pnfv;
-  SensAdapt_DWork.UnitDelay12_DSTATE.AccZDataS = SensAdapt_B.Add_bu3s;
+  SensAdapt_DWork.UnitDelay12_DSTATE.AccYDataS = SensAdapt_B.Add_g0zf;
+  SensAdapt_DWork.UnitDelay12_DSTATE.AccZDataS = SensAdapt_B.Add_p1ev;
   SensAdapt_DWork.UnitDelay12_DSTATE.GyroXDataS = SensAdapt_B.gyrox_data_in;
   SensAdapt_DWork.UnitDelay12_DSTATE.GyroYDataS = SensAdapt_B.gyroy_data_in;
   SensAdapt_DWork.UnitDelay12_DSTATE.GyroZDataS = SensAdapt_B.gyroz_data_in;
@@ -585,6 +632,9 @@ void SensAdapt_step(void)
   SensAdapt_DWork.UnitDelay12_DSTATE.q1 = SensAdapt_B.Merge[1];
   SensAdapt_DWork.UnitDelay12_DSTATE.q2 = SensAdapt_B.Merge[2];
   SensAdapt_DWork.UnitDelay12_DSTATE.q3 = SensAdapt_B.Merge[3];
+  SensAdapt_DWork.UnitDelay12_DSTATE.th = SensAdapt_B.Merge[4];
+  SensAdapt_DWork.UnitDelay12_DSTATE.ch = SensAdapt_B.Merge[5];
+  SensAdapt_DWork.UnitDelay12_DSTATE.ph = SensAdapt_B.Merge[6];
 }
 
 /* Model initialize function */
@@ -598,7 +648,7 @@ void SensAdapt_initialize(void)
   /* block I/O */
   {
     int_T i;
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 7; i++) {
       SensAdapt_B.Merge[i] = 0.0;
     }
 
@@ -616,8 +666,8 @@ void SensAdapt_initialize(void)
     SensAdapt_B.SFunctionBuilder1_o2_piyk = 0.0;
     SensAdapt_B.SFunctionBuilder1_o3_cr03 = 0.0;
     SensAdapt_B.Add = 0.0;
-    SensAdapt_B.Add_pnfv = 0.0;
-    SensAdapt_B.Add_bu3s = 0.0;
+    SensAdapt_B.Add_g0zf = 0.0;
+    SensAdapt_B.Add_p1ev = 0.0;
     SensAdapt_B.gyrox_data_in = 0.0;
     SensAdapt_B.gyroy_data_in = 0.0;
     SensAdapt_B.gyroz_data_in = 0.0;
@@ -639,8 +689,8 @@ void SensAdapt_initialize(void)
   (void) memset((void *)&SensAdapt_DWork, 0,
                 sizeof(D_Work_SensAdapt));
   SensAdapt_DWork.UnitDelay_DSTATE = 0.0;
-  SensAdapt_DWork.UnitDelay_DSTATE_luzf = 0.0;
-  SensAdapt_DWork.UnitDelay_DSTATE_i4hd = 0.0;
+  SensAdapt_DWork.UnitDelay_DSTATE_lfj0 = 0.0;
+  SensAdapt_DWork.UnitDelay_DSTATE_er14 = 0.0;
 
   {
     int_T i;
@@ -663,7 +713,7 @@ void SensAdapt_initialize(void)
     /* End of Start for SubSystem: '<S7>/geEstimator' */
 
     /* Start for Merge: '<S7>/Merge' */
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 7; i++) {
       SensAdapt_B.Merge[i] = 0.0;
     }
 

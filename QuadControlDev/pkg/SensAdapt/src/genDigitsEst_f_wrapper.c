@@ -18,7 +18,7 @@
   *   in the Simulink Coder User's Manual in the Chapter titled,
   *   "Wrapper S-functions".
   *
-  *   Created: Sat Sep 22 20:25:28 2018
+  *   Created: Sat Oct  6 16:13:30 2018
   */
 
 
@@ -67,7 +67,7 @@ void genDigitsEst_f_Outputs_wrapper(const real_T *accx,
                           real_T *ph)
 {
 /* %%%-SFUNWIZ_wrapper_Outputs_Changes_BEGIN --- EDIT HERE TO _END */
-GeneralDigitsFuseIMUSensors(accx[0],accy[0],accz[0],gyrox[0],gyroy[0],gyroz[0]);
+GeneralDigitsFuseIMUSensors(accx[0],accy[0],-accz[0],gyrox[0],gyroy[0],-gyroz[0]);
 th[0] = the;
 ch[0] = chi;
 ph[0] = phi;
