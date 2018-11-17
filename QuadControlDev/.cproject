@@ -45,6 +45,7 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/system/task/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/ext_lib/MadgwickAHRS/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/ext_lib/GenDigitsEstimator/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/appdrv/nrf24l01/inc&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1560169198" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32F429ZITx"/>
@@ -114,6 +115,7 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/system/task/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/ext_lib/MadgwickAHRS/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/ext_lib/GenDigitsEstimator/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/pkg/appdrv/nrf24l01/inc&quot;"/>
 								</option>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.828498583" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.462570362" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>

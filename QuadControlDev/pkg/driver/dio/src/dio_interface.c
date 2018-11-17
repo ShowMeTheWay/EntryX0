@@ -55,3 +55,5 @@ void ConfigureButton(void)
 	GPIOC->MODER &= ~(GPIO_MODER_MODER13); // set the pin as general purpose input output mode
 	GPIOC->PUPDR &= ~(GPIO_PUPDR_PUPDR13); //set no pull up, pull down setting
 }
+
+

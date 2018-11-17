@@ -268,11 +268,44 @@ Set_Quaternion_UartDataOut.SampleTime = -1;
 Set_Quaternion_UartDataOut.SamplingMode = 'auto';
 Set_Quaternion_UartDataOut.InitialValue = '';
 
-% %% calibration offsets
-% SENS_CalibOffsetCurve = mpt.Parameter;
-% SENS_CalibOffsetCurve.DataType = 'int32';
-% SENS_CalibOffsetCurve.DocUnits='mpu';
-% SENS_CalibOffsetCurve.Value=[0,0,0,0,0,0];
+%%
+GetBtnState = mpt.Signal;
+GetBtnState.RTWInfo.StorageClass = 'Custom';
+GetBtnState.RTWInfo.Alias = '';
+GetBtnState.RTWInfo.CustomStorageClass = 'GetSet';
+GetBtnState.RTWInfo.CustomAttributes.HeaderFile = 'mdlSensInterface.h';
+GetBtnState.RTWInfo.CustomAttributes.GetFunction = 'GetButtonState';
+GetBtnState.RTWInfo.CustomAttributes.SetFunction = 'Set_vNotUsed';
+GetBtnState.Description = '';
+GetBtnState.DataType = 'uint8';
+GetBtnState.Min = -Inf;
+GetBtnState.Max = Inf;
+GetBtnState.DocUnits = '';
+GetBtnState.Dimensions = 1;
+GetBtnState.DimensionsMode = 'auto';
+GetBtnState.Complexity = 'auto';
+GetBtnState.SampleTime = -1;
+GetBtnState.SamplingMode = 'auto';
+GetBtnState.InitialValue = '';
 
+%%
+SetLedState = mpt.Signal;
+SetLedState.RTWInfo.StorageClass = 'Custom';
+SetLedState.RTWInfo.Alias = '';
+SetLedState.RTWInfo.CustomStorageClass = 'GetSet';
+SetLedState.RTWInfo.CustomAttributes.HeaderFile = 'mdlSensInterface.h';
+SetLedState.RTWInfo.CustomAttributes.GetFunction = 'Get_vNotUsed';
+SetLedState.RTWInfo.CustomAttributes.SetFunction = 'SetLedState';
+SetLedState.Description = '';
+SetLedState.DataType = 'uint8';
+SetLedState.Min = -Inf;
+SetLedState.Max = Inf;
+SetLedState.DocUnits = '';
+SetLedState.Dimensions = 1;
+SetLedState.DimensionsMode = 'auto';
+SetLedState.Complexity = 'auto';
+SetLedState.SampleTime = -1;
+SetLedState.SamplingMode = 'auto';
+SetLedState.InitialValue = '';
 
 

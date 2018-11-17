@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.385
+ * Model version                  : 1.386
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Sat Oct 06 17:06:26 2018
+ * C/C++ source code generated on : Fri Oct 19 20:34:59 2018
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -70,7 +70,10 @@ typedef struct {
 /* Block states (auto storage) for system '<Root>' */
 typedef struct {
   IMU_tstRawData UnitDelay12_DSTATE;   /* '<S1>/Unit Delay12' */
-  real_T UnitDelay_DSTATE;             /* '<S9>/Unit Delay' */
+  real_T UnitDelay_DSTATE;             /* '<S21>/Unit Delay' */
+  real_T UnitDelay_DSTATE_ayto;        /* '<S22>/Unit Delay' */
+  real_T UnitDelay_DSTATE_c4lw;        /* '<S23>/Unit Delay' */
+  real_T UnitDelay_DSTATE_lkem;        /* '<S9>/Unit Delay' */
   real_T UnitDelay_DSTATE_lfj0;        /* '<S11>/Unit Delay' */
   real_T UnitDelay_DSTATE_er14;        /* '<S10>/Unit Delay' */
   real_T R[9];                         /* '<S19>/Data Store Memory' */
@@ -145,7 +148,10 @@ extern void SensAdapt_step(void);
  * '<S18>'  : 'SensAdapt/SensAdapt/stateEstimator/madgEstimator'
  * '<S19>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator/Subsystem'
  * '<S20>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator/Subsystem1'
- * '<S21>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator/Subsystem/MATLAB Function'
+ * '<S21>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator/Subsystem/FTJ'
+ * '<S22>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator/Subsystem/FTJ1'
+ * '<S23>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator/Subsystem/FTJ2'
+ * '<S24>'  : 'SensAdapt/SensAdapt/stateEstimator/geEstimator/Subsystem/MATLAB Function'
  */
 
 /*-

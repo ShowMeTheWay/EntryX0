@@ -10,7 +10,13 @@
 
 #include "SensAdapt_types.h"
 #include "rtwtypes.h"
+#include "stm32f4xx.h"
+
 
 void UART_DisplayData(IMU_tstRawData din);
+
+uint8_t GetButtonState(void);
+
+void SetLedState(uint8_t u8state);
 
 #endif /* MATLAB_SOURCE_SIMULINKADAPT_H_ */

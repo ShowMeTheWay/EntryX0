@@ -25,13 +25,15 @@
 #include "imu.h"
 #include "task.h"
 #include "genDigitsEst.h"
+#include "mdlSensInterface.h"
+
 
 /* Buffer used for reception */
 uint8_t aRxBuffer;
 UART_HandleTypeDef UartHandle;
 IMU_tstInRawData myIMUData;
 
-extern volatile float the,chi,phi;
+extern volatile float qw,qx,qy,qz,the,chi,phi;
 
 #define nInitTotal 11
 
@@ -61,6 +63,7 @@ int main(void)
 	{
 		Init_vContainerTable[u8i]();
 	}
+
 	while (1){}
 
 	return 0;
@@ -75,92 +78,103 @@ void TIM6_DAC_IRQHandler(void)
 	volatile static uint8_t cnt = 0;
 	volatile static uint8_t buffer = 0;
 	static uint16_t pwm = 0;
+	static uint16_t cnt1 = 0;
 
 	/*clear UIF flag*/
 	TIM6->SR &= ~TIM_SR_UIF;
-	a = a^1;
-	SetResetLed(LED_BLUE,a);
 
-	SensAdapt_step();
-/*
-	HAL_UART_Receive(&UartHandle, (uint8_t*)&aRxBuffer, 1, 0xFFFF);
+	//SensAdapt_step();
 
-	if(aRxBuffer == 49)
-	{
-		pwm = 1000;
-		SetPWM(5000,pwm,5000,5000);
-		printf("\r\n %d",aRxBuffer);
-	}else if(aRxBuffer == 50)
-	{
-		pwm = 1250;
-		SetPWM(5000,pwm,5000,5000);
-		printf("\r\n %d",aRxBuffer);
-	}
-	else if(aRxBuffer == 51)
-	{
-		pwm = 1300;
-		SetPWM(5000,pwm,5000,5000);
-		printf("\r\n %d",aRxBuffer);
-	}
-	else if(aRxBuffer == 52)
-	{
-		pwm = 1500;
-		SetPWM(5000,pwm,5000,5000);
-		printf("\r\n %d",aRxBuffer);
-	}
-	else if(aRxBuffer == 53)
-	{
-		pwm = 1750;
-		SetPWM(5000,pwm,5000,5000);
-		printf("\r\n %d",aRxBuffer);
-	}
-	else if(aRxBuffer == 54)
-	{
-		pwm = 2000;
-		SetPWM(5000,pwm,5000,5000);
-		printf("\r\n %d",aRxBuffer);
-	}
-	else if (aRxBuffer == 55)
-	{
-		pwm+=10;
-		SetPWM(5000,pwm,5000,5000);
-		if(pwm == 2000)
-		{
-			pwm = 2000;
-		}
-		printf("\r\n %d",aRxBuffer);
-	}
-	else if (aRxBuffer == 56)
-	{
-		pwm-=10;
-		SetPWM(5000,pwm,5000,5000);
-		if(pwm == 1000)
-		{
-			pwm = 1000;
-		}
-		printf("\r\n %d",aRxBuffer);
-	}
-	else
-	{
-		SetPWM(5000,0,5000,5000);
-		printf("\r\n %d",aRxBuffer);
-	}
-
-
-*/
+//	HAL_UART_Receive(&UartHandle, (uint8_t*)&aRxBuffer, 1, 0xFFFF);
 //
-//	myIMUData = GetData__stMPU_6050();
-//	myIMUData =  smoothData(myIMUData);
+//	if(aRxBuffer == 49)
+//	{
+//		pwm = 1000;
+//		SetPWM(pwm,pwm,5000,5000);
+//		printf("\r\n %d",aRxBuffer);
+//	}else if(aRxBuffer == 50)
+//	{
+//		pwm = 1250;
+//		SetPWM(pwm,pwm,5000,5000);
+//		printf("\r\n %d",aRxBuffer);
+//	}
+//	else if(aRxBuffer == 51)
+//	{
+//		pwm = 1300;
+//		SetPWM(pwm,pwm,5000,5000);
+//		printf("\r\n %d",aRxBuffer);
+//	}
+//	else if(aRxBuffer == 52)
+//	{
+//		pwm = 1500;
+//		SetPWM(pwm,pwm,5000,5000);
+//		printf("\r\n %d",aRxBuffer);
+//	}
+//	else if(aRxBuffer == 53)
+//	{
+//		pwm = 1750;
+//		SetPWM(pwm,pwm,5000,5000);
+//		printf("\r\n %d",aRxBuffer);
+//	}
+//	else if(aRxBuffer == 54)
+//	{
+//		pwm = 2000;
+//		SetPWM(pwm,pwm,5000,5000);
+//		printf("\r\n %d",aRxBuffer);
+//	}
+//	else if (aRxBuffer == 55)
+//	{
+//		pwm+=10;
+//		SetPWM(pwm,pwm,5000,5000);
+//		if(pwm == 2000)
+//		{
+//			pwm = 2000;
+//		}
+//		printf("\r\n %d",aRxBuffer);
+//	}
+//	else if (aRxBuffer == 56)
+//	{
+//		pwm-=10;
+//		SetPWM(pwm,pwm,5000,5000);
+//		if(pwm == 1000)
+//		{
+//			pwm = 1000;
+//		}
+//		printf("\r\n %d",aRxBuffer);
+//	}
+//	else
+//	{
+//		SetPWM(pwm,pwm,5000,5000);
+//		printf("\r\n %d",aRxBuffer);
+//	}
+
+
 //
-//	myIMUData.AccXData = (myIMUData.AccXData + 710) / 835.040;
-//	myIMUData.AccYData = (myIMUData.AccYData - 50 ) / 835.040;
-//	myIMUData.AccZData = (myIMUData.AccZData - 467) / 835.040;
-//	myIMUData.GyroXData = (myIMUData.GyroXData - 29) / 939.650784;
-//	myIMUData.GyroYData = (myIMUData.GyroYData + 5) / 939.650784;
-//	myIMUData.GyroZData = (myIMUData.GyroZData - 7) / 939.650784;
 //
-//	GeneralDigitsFuseIMUSensors(myIMUData.AccXData,myIMUData.AccYData,myIMUData.AccZData,myIMUData.GyroXData,myIMUData.GyroYData,myIMUData.GyroZData);
-//	printf("\r\n %f,%f,%f",the,chi,phi);
+//	if(cnt1 <= 500)
+//	{
+//		SetPWM(1000,1000,5000,5000);
+//		cnt1++;
+//	}
+//	else
+//	{
+//		SetPWM(1500,1500,5000,5000);
+//	}
+
+	myIMUData = GetData__stMPU_6050();
+	myIMUData =  smoothDataMvgAvg(myIMUData);
+
+	myIMUData.AccXData = (myIMUData.AccXData + 710) / 835.040;
+	myIMUData.AccYData = (myIMUData.AccYData - 50 ) / 835.040;
+	myIMUData.AccZData = (myIMUData.AccZData - 467) / 835.040;
+	myIMUData.GyroXData = (myIMUData.GyroXData - 29) / 939.650784;
+	myIMUData.GyroYData = (myIMUData.GyroYData + 5) / 939.650784;
+	myIMUData.GyroZData = (myIMUData.GyroZData - 7) / 939.650784;
+
+	GeneralDigitsFuseIMUSensors(myIMUData.AccXData,myIMUData.AccYData,myIMUData.AccZData,myIMUData.GyroXData,myIMUData.GyroYData,myIMUData.GyroZData);
+	printf("\r\n %f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f",myIMUData.AccXData,myIMUData.AccYData,myIMUData.AccZData,
+														 myIMUData.GyroXData,myIMUData.GyroYData,myIMUData.GyroZData,
+														 qw,qx,qy,qz,the,chi,phi);
 
 
 

@@ -16,3 +16,23 @@ void UART_DisplayData(IMU_tstRawData din)
 
 }
 
+uint8_t GetButtonState(void)
+{
+	uint8_t btnS = 0;
+
+	if (GPIOC->IDR & (1<<13))
+	{
+		btnS = 1;
+	}
+	else
+	{
+		btnS = 0;
+	}
+
+	return btnS;
+}
+
+void SetLedState(uint8_t u8State)
+{
+	(u8State == 1)?(GPIOB->BSRR |= (GPIO_BSRR_BS_7)):(GPIOB->BSRR |= (GPIO_BSRR_BR_7));
+}

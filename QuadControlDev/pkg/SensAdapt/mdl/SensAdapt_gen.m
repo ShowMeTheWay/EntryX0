@@ -6,6 +6,6 @@ addpath(genpath('..\..\scripts'));
 SensAdapt_start;
 
 % generate code for sens adapt
-ConfigureModel('SensAdapt');
+ConfigureModel('blinky');
 
 
