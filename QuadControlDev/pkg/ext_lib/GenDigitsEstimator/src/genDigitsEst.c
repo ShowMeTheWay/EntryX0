@@ -72,7 +72,7 @@ void GeneralDigitsFuseIMUSensors(float ax, float ay, float az, float gx, float g
 	float norm = 0;
 	float S,tr;
 
-	/************************ Priori Integration START **********************************/
+	/************************ A Priori Integration START **********************************/
 	rows = sizeof(skewSimMat)/sizeof(skewSimMat[0]);
 	columns = (sizeof(skewSimMat)/sizeof(skewSimMat[0][0]))/rows;
 
@@ -85,7 +85,7 @@ void GeneralDigitsFuseIMUSensors(float ax, float ay, float az, float gx, float g
 	}
 
 	multiplyMatAB(3,3,rotationMatrix,3,3,R_test,R_temp);
-	/************************ Priori Integration END  **********************************/
+	/************************ A Priori Integration END  **********************************/
 
 	/************************ 1'st Orthogonalization START  **********************************/
 
@@ -114,7 +114,7 @@ void GeneralDigitsFuseIMUSensors(float ax, float ay, float az, float gx, float g
 
 	/************************ Data correction END  **********************************/
 
-	/************************ A Priori Integration START **********************************/
+	/************************ A Posteriori Integration START **********************************/
 
 	wb_vp[0][0] =  0;    wb_vp[0][1] = -W[2]; wb_vp[0][2] =  W[1];
 	wb_vp[1][0] =  W[2]; wb_vp[1][1] =  0;    wb_vp[1][2] = -W[0];
@@ -144,7 +144,7 @@ void GeneralDigitsFuseIMUSensors(float ax, float ay, float az, float gx, float g
 		}
 	}
 
-	/************************ A Priori Integration END **********************************/
+	/************************ A Posteriori Integration END **********************************/
 
 	/************************ Find angles START  **********************************/
 
