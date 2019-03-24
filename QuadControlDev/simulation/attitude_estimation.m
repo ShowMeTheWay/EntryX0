@@ -16,7 +16,7 @@ m = M_acc(1,:);
 % un FTJ pe acc pt ceva eliminare de zgomot
 for i = 2:length(t)
     m(i,:) = m(i-1,:)*0.9 + 0.1*M_acc(i,:);
-%     n(i,:) = n(i-1,:)*0.1 + 0.9*M_gyro(i,:);
+    %n(i,:) = n(i-1,:)*0.1 + 0.9*M_gyro(i,:);
 end
 
 % plot(M(:,1),m);

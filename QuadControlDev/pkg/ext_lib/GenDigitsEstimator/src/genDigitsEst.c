@@ -198,7 +198,7 @@ void GeneralDigitsFuseIMUSensors(float ax, float ay, float az, float gx, float g
 
 	/************************ Find quaternions END  **********************************/
 
-	applyFTJ(0.002);
+	//applyFTJ(1);
 
 }
 

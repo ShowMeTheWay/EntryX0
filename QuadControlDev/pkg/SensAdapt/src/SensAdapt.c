@@ -209,12 +209,12 @@ void SensAdapt_step(void)
   /* BusSelector: '<S1>/Bus Selector' incorporates:
    *  Inport: '<Root>/In1'
    */
-  SensAdapt_B.AccXData = GetData__stMPU_6050().AccXData;
-  SensAdapt_B.AccYData = GetData__stMPU_6050().AccYData;
-  SensAdapt_B.AccZData = GetData__stMPU_6050().AccZData;
-  SensAdapt_B.GyroXData = GetData__stMPU_6050().GyroXData;
-  SensAdapt_B.GyroYData = GetData__stMPU_6050().GyroYData;
-  SensAdapt_B.GyroZData = GetData__stMPU_6050().GyroZData;
+//  SensAdapt_B.AccXData = GetData__stMPU_9255().AccXData;
+//  SensAdapt_B.AccYData = GetData__stMPU_9255().AccYData;
+//  SensAdapt_B.AccZData = GetData__stMPU_9255().AccZData;
+//  SensAdapt_B.GyroXData = GetData__stMPU_9255().GyroXData;
+//  SensAdapt_B.GyroYData = GetData__stMPU_9255().GyroYData;
+//  SensAdapt_B.GyroZData = GetData__stMPU_9255().GyroZData;
 
   /* Outputs for Atomic SubSystem: '<S1>/calibrationBlock' */
   SensAdapt_calibrationBlock();

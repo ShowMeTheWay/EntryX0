@@ -55,12 +55,14 @@ OutputPosition = cell2mat(OutputPosition);
 PosWorkspace =  [80 65 110 75];
 PosDataType =   [225 65 250 75]; 
 PosBusCre =     [395 65 430 145];
-PosOut =        [485 98 515 112]; 
+PosOut =        [485 98 515 112];
 PosIn =         [55 223 85 237]; 
 PosBusSel =     [130 185 165 280]; 
 PosToWork =     [325 200 355 220]; 
 delta =         [0 70 0 70]; 
 deltaInConv =   [90 0 90 0];
+%Gets the high of the block
+BlockModelLength = ModelPosition(4)-ModelPosition(2);
             
 allPos = {PosWorkspace,PosDataType,PosBusCre,PosOut,PosIn,PosBusSel,PosToWork,delta,deltaInConv};
 %count the number of inputs and outputs
@@ -89,7 +91,9 @@ for Inidx=1:NumberOfInputs
         structNoElements = numel(structContent.Elements);
         
         %-create a subsystem with a bus creator and all struct elements
-        add_block('built-in/SubSystem', [sys ['/Subsystem' num2str(Inidx) ]], 'Position', InputPosition(Inidx,:));
+        %add_block('built-in/SubSystem', [sys ['/Subsystem' num2str(Inidx) ]], 'Position', InputPosition(Inidx,:));
+        InputPosition = [350 x 400 y];
+        add_block('built-in/SubSystem', [sys ['/Subsystem' num2str(Inidx) ]], 'Position', InputPosition);
         %add an out port
         add_block('built-in/Outport', [sys ['/Subsystem' num2str(Inidx)] ['/Outport' num2str(Inidx)]], 'Position', PosOut);
         %add a bus creator inside the created subsytem

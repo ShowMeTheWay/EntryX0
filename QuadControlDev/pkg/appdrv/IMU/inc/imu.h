@@ -10,11 +10,25 @@
 
 #include "mpu_6050.h"
 #include "SensAdapt_types.h"
+#include "main.h"
 
 
-void Init__vMPU_6050();
+typedef struct ImuData {
+	float AccXData;
+	float AccYData;
+	float AccZData;
+	float Temp;
+	float GyroXData;
+	float GyroYData;
+	float GyroZData;
+	float MagXData;
+	float MagYData;
+	float MagZData;
+}IMU_tstImuData;
 
-IMU_tstInRawData GetData__stMPU_6050();
+void Init__vMPU_9255(uint8_t u8asax[3]);
+
+IMU_tstImuData GetData__stMPU_9255();
 
 void _delay_ms(int time);
 

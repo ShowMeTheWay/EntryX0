@@ -19,4 +19,4 @@
 %Add the path to the input folder
 addpath '..\input'
 
-testEnvironmentCreation('xxx')
+testEnvironmentCreation('SensAdapt')

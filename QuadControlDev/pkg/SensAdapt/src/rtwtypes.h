@@ -1,12 +1,12 @@
 /*
  * File: rtwtypes.h
  *
- * Code generated for Simulink model 'blinky'.
+ * Code generated for Simulink model 'mariusTest'.
  *
- * Model version                  : 1.389
+ * Model version                  : 1.397
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Fri Nov 02 23:13:27 2018
+ * C/C++ source code generated on : Tue Mar 05 23:40:45 2019
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
