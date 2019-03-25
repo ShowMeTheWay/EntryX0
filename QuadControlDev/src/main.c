@@ -186,16 +186,16 @@ void TIM6_DAC_IRQHandler(void)
 //	myIMUData.GyroYData = (myIMUData.GyroYData) / 939.650784;
 //	myIMUData.GyroZData = (myIMUData.GyroZData) / 939.650784;
 
-	myIMUData.AccXData  =  myIMUData.AccXData/4;
-	myIMUData.AccYData  =  myIMUData.AccYData/4;
-	myIMUData.AccZData  =  myIMUData.AccZData/4;
-	myIMUData.Temp 	    =  myIMUData.Temp/340 + 36.53;
-	myIMUData.GyroXData =  myIMUData.GyroXData/500;
-	myIMUData.GyroYData =  myIMUData.GyroYData/500;
-	myIMUData.GyroZData =  myIMUData.GyroZData/500;
-	myIMUData.MagXData  =  myIMUData.MagXData * u8asax[0] * 1;
-	myIMUData.MagYData  =  myIMUData.MagYData * u8asax[1] * 1;
-	myIMUData.MagZData  =  myIMUData.MagZData * u8asax[2] * 1;
+	myIMUData.AccXData  =  myIMUData.AccXData/835.040; // [SI] = m/s^2
+	myIMUData.AccYData  =  myIMUData.AccYData/835.040; // [SI] = m/s^2
+	myIMUData.AccZData  =  myIMUData.AccZData/835.040; // [SI] = m/s^2
+	myIMUData.Temp 	    =  ((myIMUData.Temp)/333.87) + 21; // [SI] = deg
+	myIMUData.GyroXData =  myIMUData.GyroXData/3756.72; // [SI] = rad/s
+	myIMUData.GyroYData =  myIMUData.GyroYData/3756.72; // [SI] = rad/s
+	myIMUData.GyroZData =  myIMUData.GyroZData/3756.72; // [SI] = rad/s
+	myIMUData.MagXData  =  myIMUData.MagXData * u8asax[0] * 4800; //fixed scale +/-4800 uT
+	myIMUData.MagYData  =  myIMUData.MagYData * u8asax[1] * 4800; //fixed scale +/-4800 uT
+	myIMUData.MagZData  =  myIMUData.MagZData * u8asax[2] * 4800; //fixed scale +/-4800 uT
 
 
 
