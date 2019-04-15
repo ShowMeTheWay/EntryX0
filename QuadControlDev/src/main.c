@@ -28,15 +28,15 @@
 #include "mdlSensInterface.h"
 
 
-/* Buffer used for reception */
-uint8_t aRxBuffer;
-UART_HandleTypeDef UartHandle;
+extern UART_HandleTypeDef huart2;
 IMU_tstImuData myIMUData;
 uint8_t u8asax[3];
+/* Single byte to store input */
+uint8_t byte;
 
 extern volatile float qw,qx,qy,qz,the,chi,phi;
 
-#define nInitTotal 10
+#define nInitTotal 11
 
 /******************************** Buffer for all Communication variables **********************************************/
 ComLayer_tstComData ComLayer_stComData;
@@ -48,7 +48,8 @@ void (* const Init_vContainerTable[nInitTotal])(void) = {
 		ConfigureButton,
 		PWMConfig,
 		Config_I2C_Peripheral,
-		Config_USART_Peripheral,
+		uart_gpio_init,
+		uart_init,
 		SensAdapt_initialize,
 		Config_vTask1
 };
@@ -65,13 +66,13 @@ int main(void)
 	{
 		Init_vContainerTable[u8i]();
 
-		if (u8i == 8)
+		if (u8i == 9)
 		{
 			Init__vMPU_9255(u8asax);
 		}
 	}
 
-
+	HAL_UART_Receive_IT(&huart2, &byte, 1);
 
 	while (1){
 	}
@@ -89,15 +90,34 @@ void TIM6_DAC_IRQHandler(void)
 	volatile static uint8_t buffer = 0;
 	static uint16_t pwm = 0;
 	static uint16_t cnt1 = 0;
+	uint8_t  idx;
 
 
 	/*clear UIF flag*/
 	TIM6->SR &= ~TIM_SR_UIF;
 
 
+
+
+//	for (idx = 0; idx < UART_RXBUFFERSIZE;idx++)
+//	{
+//		UART_aTxBuffer[idx] = UART_aRxBuffer[idx];
+//	}
+//	/*##-4- Start the transmission process #####################################*/
+//	/* While the UART in reception process, user can transmit data through
+//	   "aTxBuffer" buffer */
+//	if(HAL_UART_Transmit_IT(&UartHandle, (uint8_t*)UART_aTxBuffer, UART_RXBUFFERSIZE)!= HAL_OK)
+//	{
+//
+//	}
+
+
+
+
 	//SensAdapt_step();
 
-//	HAL_UART_Receive(&UartHandle, (uint8_t*)&aRxBuffer, 1, 0xFFFF);
+
+
 //
 //	if(aRxBuffer == 49)
 //	{
@@ -209,6 +229,51 @@ void TIM6_DAC_IRQHandler(void)
 
 
 }
+
+/**
+  * @brief  Tx Transfer completed callback
+  * @param  UartHandle: UART handle.
+  * @note   This example shows a simple way to report end of IT Tx transfer, and
+  *         you can add your own implementation.
+  * @retval None
+  */
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
+{
+  /* Set transmission flag: transfer complete*/
+
+}
+
+/**
+  * @brief  Rx Transfer completed callback
+  * @param  UartHandle: UART handle
+  * @note   This example shows a simple way to report end of IT Rx transfer, and
+  *         you can add your own implementation.
+  * @retval None
+  */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if (huart->Instance == USART2)
+	{
+	    /* Transmit one byte with 100 ms timeout */
+	    HAL_UART_Transmit(&huart2, &byte, 1, 100);
+	    /* Receive one byte in interrupt mode */
+	    HAL_UART_Receive_IT(huart, &byte, 1);
+
+	    if (byte == 60)
+	    {
+	    	printf("\r\n");
+	    }
+	}
+
+}
+
+void USART2_IRQHandler(void)
+{
+  HAL_UART_IRQHandler(&huart2);
+
+}
+
+
 
 
 

@@ -8,10 +8,12 @@
 #ifndef DRIVER_UART_INC_UART_INTERFACE_H_
 #define DRIVER_UART_INC_UART_INTERFACE_H_
 
-#include "uart_interface_ci.h"
-#include "ers.h"
 
-void Config_USART_Peripheral(void);
+//void Config_USART_Peripheral(void);
+
+void uart_gpio_init();
+
+void uart_init();
 
 void HAL_UART_MspInit(UART_HandleTypeDef *huart);
 

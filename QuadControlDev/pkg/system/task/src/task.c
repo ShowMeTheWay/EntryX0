@@ -22,7 +22,7 @@ void Config_vTask1()
 	uint32_t              pFLatency;
 
 	/*Configure the TIM6 IRQ priority */
-	//HAL_NVIC_SetPriority(TIM6_DAC_IRQn, TickPriority ,0U);
+	HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 0U ,0U);
 	/* Enable the TIM6 global Interrupt */
 	HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
 	/*enable clock source for timer 6 APB BUS*/

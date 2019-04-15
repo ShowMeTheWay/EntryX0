@@ -1,7 +1,7 @@
 #ifndef IICB_INTERFACE_H
 #define IICB_INTERFACE_H
 
-#include "iicb_interface_ci.h"
+
 #include "ers.h"
 
 void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c);

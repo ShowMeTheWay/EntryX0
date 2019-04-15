@@ -17,4 +17,6 @@ int main(void);
 
 void TIM6_DAC_IRQHandler(void);
 
+void USART2_IRQHandler(void);
+
 #endif /* MAIN_H_ */

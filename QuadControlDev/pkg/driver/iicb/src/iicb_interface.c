@@ -1,4 +1,5 @@
 
+#include "iicb_interface_ci.h"
 #include "iicb_interface.h"
 
 #define I2C_ADDRESS        0x68F
@@ -7,10 +8,12 @@
 I2C_HandleTypeDef I2cHandle;
 
 /* Buffer used for transmission */
-uint8_t aTxBuffer[]=" ****I2C_TwoBoards advanced communication";
+uint8_t aTxBuffer[]="";
 
 /* Buffer used for reception */
 uint8_t aRxBuffer[RXBUFFERSIZE];
+
+
 
 /**
   * @brief I2C MSP Initialization

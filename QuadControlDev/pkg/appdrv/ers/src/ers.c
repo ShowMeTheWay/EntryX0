@@ -5,7 +5,10 @@
  *      Author: User
  */
 
+#include "stm32f4xx_hal.h"
+#include "stm32f4xx_nucleo_144.h"
 #include "uart_interface.h"
+#include "dio_interface.h"
 
 
 void Error_Handler(char msg[])
