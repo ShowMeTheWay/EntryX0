@@ -6,6 +6,7 @@ clc;clear all; close all;
 
 IMU_tstRawData = Simulink.Bus;
 IMU_tstRawData.Description = 'Uart data to be displayed ';
+IMU_tstRawData.DataScope = 'Auto';
 IMU_tstRawData.HeaderFile = '';
 saveVarsTmp{1} = Simulink.BusElement;
 saveVarsTmp{1}.Name = 'AccXDataS';
@@ -117,7 +118,8 @@ clear saveVarsTmp;
 
 IMU_tstInRawData = Simulink.Bus;
 IMU_tstInRawData.Description = 'Uart data to be displayed ';
-IMU_tstInRawData.HeaderFile = '';
+IMU_tstInRawData.DataScope = 'Imported'
+IMU_tstInRawData.HeaderFile = 'genDigitsEst.h';
 saveVarsTmp{1} = Simulink.BusElement;
 saveVarsTmp{1}.Name = 'AccXData';
 saveVarsTmp{1}.DataType = 'double';
@@ -234,7 +236,7 @@ GET_stIMUData_in.RTWInfo.StorageClass = 'Custom';
 GET_stIMUData_in.RTWInfo.Alias = '';
 GET_stIMUData_in.RTWInfo.CustomStorageClass = 'GetSet';
 GET_stIMUData_in.RTWInfo.CustomAttributes.HeaderFile = 'imu.h';
-GET_stIMUData_in.RTWInfo.CustomAttributes.GetFunction = 'GetData__stMPU_6050';
+GET_stIMUData_in.RTWInfo.CustomAttributes.GetFunction = 'GetData__stMPU_9255';
 GET_stIMUData_in.RTWInfo.CustomAttributes.SetFunction = 'Set_vNotUsed';
 GET_stIMUData_in.Description = '';
 GET_stIMUData_in.DataType = 'Bus: IMU_tstInRawData';

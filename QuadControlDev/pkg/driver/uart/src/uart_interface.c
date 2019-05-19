@@ -69,7 +69,7 @@ void uart_init()
 	__USART2_CLK_ENABLE();
 
 	huart2.Instance = USART2;
-	huart2.Init.BaudRate = 9600;
+	huart2.Init.BaudRate = 19200;
 	huart2.Init.WordLength = UART_WORDLENGTH_8B;
 	huart2.Init.StopBits = UART_STOPBITS_1;
 	huart2.Init.Parity = UART_PARITY_NONE;
@@ -79,7 +79,7 @@ void uart_init()
 	HAL_UART_Init(&huart2);
 
 	/* Peripheral interrupt init*/
-	HAL_NVIC_SetPriority(USART2_IRQn, 0, 1);
+	HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(USART2_IRQn);
 }
 

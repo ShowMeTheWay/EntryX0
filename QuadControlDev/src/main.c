@@ -33,6 +33,9 @@ IMU_tstImuData myIMUData;
 uint8_t u8asax[3];
 /* Single byte to store input */
 uint8_t byte;
+uint8_t finalString[20] = {0};
+uint8_t idx = 0;
+
 
 extern volatile float qw,qx,qy,qz,the,chi,phi;
 
@@ -90,7 +93,8 @@ void TIM6_DAC_IRQHandler(void)
 	volatile static uint8_t buffer = 0;
 	static uint16_t pwm = 0;
 	static uint16_t cnt1 = 0;
-	uint8_t  idx;
+	uint8_t i;
+
 
 
 	/*clear UIF flag*/
@@ -114,7 +118,7 @@ void TIM6_DAC_IRQHandler(void)
 
 
 
-	//SensAdapt_step();
+	SensAdapt_step();
 
 
 
@@ -194,7 +198,7 @@ void TIM6_DAC_IRQHandler(void)
 //	}
 
 
-	myIMUData = GetData__stMPU_9255();
+//	myIMUData = GetData__stMPU_9255();
 
 
 	//myIMUData =  smoothDataMvgAvg(myIMUData);
@@ -206,25 +210,47 @@ void TIM6_DAC_IRQHandler(void)
 //	myIMUData.GyroYData = (myIMUData.GyroYData) / 939.650784;
 //	myIMUData.GyroZData = (myIMUData.GyroZData) / 939.650784;
 
-	myIMUData.AccXData  =  myIMUData.AccXData/835.040; // [SI] = m/s^2
-	myIMUData.AccYData  =  myIMUData.AccYData/835.040; // [SI] = m/s^2
-	myIMUData.AccZData  =  myIMUData.AccZData/835.040; // [SI] = m/s^2
-	myIMUData.Temp 	    =  ((myIMUData.Temp)/333.87) + 21; // [SI] = deg
-	myIMUData.GyroXData =  myIMUData.GyroXData/3756.72; // [SI] = rad/s
-	myIMUData.GyroYData =  myIMUData.GyroYData/3756.72; // [SI] = rad/s
-	myIMUData.GyroZData =  myIMUData.GyroZData/3756.72; // [SI] = rad/s
-	myIMUData.MagXData  =  myIMUData.MagXData * u8asax[0] * 4800; //fixed scale +/-4800 uT
-	myIMUData.MagYData  =  myIMUData.MagYData * u8asax[1] * 4800; //fixed scale +/-4800 uT
-	myIMUData.MagZData  =  myIMUData.MagZData * u8asax[2] * 4800; //fixed scale +/-4800 uT
+//	myIMUData.AccXData  =  myIMUData.AccXData/835.040; // [SI] = m/s^2
+//	myIMUData.AccYData  =  myIMUData.AccYData/835.040; // [SI] = m/s^2
+//	myIMUData.AccZData  =  myIMUData.AccZData/835.040; // [SI] = m/s^2
+//	myIMUData.Temp 	    =  ((myIMUData.Temp)/333.87) + 21; // [SI] = deg
+//	myIMUData.GyroXData =  myIMUData.GyroXData/3756.72; // [SI] = rad/s
+//	myIMUData.GyroYData =  myIMUData.GyroYData/3756.72; // [SI] = rad/s
+//	myIMUData.GyroZData =  myIMUData.GyroZData/3756.72; // [SI] = rad/s
+//	myIMUData.MagXData  =  myIMUData.MagXData * u8asax[0] * 4800; //fixed scale +/-4800 uT
+//	myIMUData.MagYData  =  myIMUData.MagYData * u8asax[1] * 4800; //fixed scale +/-4800 uT
+//	myIMUData.MagZData  =  myIMUData.MagZData * u8asax[2] * 4800; //fixed scale +/-4800 uT
 
 
 
 
 //	GeneralDigitsFuseIMUSensors(myIMUData.AccXData,myIMUData.AccYData,myIMUData.AccZData,myIMUData.GyroXData,myIMUData.GyroYData,myIMUData.GyroZData);
 
-	printf("\r\n %f,%f,%f,%f,%f,%f,%f,%f,%f,%f",myIMUData.AccXData,myIMUData.AccYData,myIMUData.AccZData,myIMUData.Temp,
-														 myIMUData.GyroXData,myIMUData.GyroYData,myIMUData.GyroZData,
-														 myIMUData.MagXData,myIMUData.MagYData,myIMUData.MagZData );
+//	printf("\r\n %f,%f,%f,%f,%f,%f,%f,%f,%f,%f",myIMUData.AccXData,myIMUData.AccYData,myIMUData.AccZData,myIMUData.Temp,
+//														 myIMUData.GyroXData,myIMUData.GyroYData,myIMUData.GyroZData,
+//														 myIMUData.MagXData,myIMUData.MagYData,myIMUData.MagZData );
+	uint8_t newLine =  '\n';
+	static uint8_t oneSec = 0;
+
+	if (oneSec == 100)
+	{
+		/* Transmit one byte with 100 ms timeout */
+		//HAL_UART_Transmit(&huart2, &finalString[0], 20, 1000);
+		//HAL_UART_Transmit(&huart2, &newLine, 1, 100);
+		for (i = 0; i < idx;i++)
+		{
+			//printf("%c",(finalString[i]));
+		}
+
+		//printf("\r\n");
+
+		oneSec = 0;
+	}
+	else
+	{
+		oneSec++;
+	}
+
 
 
 
@@ -252,18 +278,35 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
   */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+
+	static uint8_t recFlag = 0;
+	static uint8_t u8arrByte[20] = {0};
+	uint8_t u8i = 0;
+
 	if (huart->Instance == USART2)
 	{
-	    /* Transmit one byte with 100 ms timeout */
-	    HAL_UART_Transmit(&huart2, &byte, 1, 100);
+		HAL_UART_Transmit(&huart2,&byte,1,100);
+//	}
+//		if (byte == 62)
+//		{
+//			idx = 0;
+//		}
+//		else if(byte == 60)
+//		{
+//			for (u8i = 0; u8i < idx ;u8i++)
+//			{
+//				finalString[u8i] = u8arrByte[u8i];
+//			}
+//		}
+//		else
+//		{
+//			u8arrByte[idx] = byte;
+//			idx++;
+//		}
 	    /* Receive one byte in interrupt mode */
 	    HAL_UART_Receive_IT(huart, &byte, 1);
-
-	    if (byte == 60)
-	    {
-	    	printf("\r\n");
-	    }
 	}
+
 
 }
 

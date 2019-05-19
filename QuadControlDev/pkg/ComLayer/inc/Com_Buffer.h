@@ -3,6 +3,7 @@
 
 #include "stm32f4xx.h"
 #include "imu.h"
+#include "genDigitsEst.h"
 
 /*All buffers needed to transfer data from one module to another */
 typedef struct

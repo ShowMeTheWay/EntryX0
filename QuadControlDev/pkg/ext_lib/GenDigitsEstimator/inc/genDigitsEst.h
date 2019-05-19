@@ -20,7 +20,17 @@
 #define EXT_LIB_GENDIGITSESTIMATOR_INC_GENDIGITSEST_H_
 
 #include <math.h>
-#include <SensAdapt.h>
+
+
+/* Uart data to be displayed  */
+typedef struct {
+  float AccXData;
+  float AccYData;
+  float AccZData;
+  float GyroXData;
+  float GyroYData;
+  float GyroZData;
+} IMU_tstInRawData;
 
 extern volatile float qw,qx,qx,qz,the,chi,phi;
 

@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.386
+ * Model version                  : 1.391
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Fri Oct 19 20:34:59 2018
+ * C/C++ source code generated on : Sun May 19 14:18:58 2019
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -54,7 +54,6 @@ extern void madgwick_f_Outputs_wrapper(const real_T *accx,
   real_T *qt1,
   real_T *qt2,
   real_T *qt3);
-extern real_T rt_atan2d_snf(real_T u0, real_T u1);
 extern void SensAdapt_AccConv(void);
 extern void SensAdapt_GyroConv(void);
 extern void SensAdapt_calibrationBlock(void);

@@ -3,10 +3,10 @@
  *
  * Code generated for Simulink model 'SensAdapt'.
  *
- * Model version                  : 1.386
+ * Model version                  : 1.391
  * Simulink Coder version         : 8.4 (R2013a) 13-Feb-2013
  * TLC version                    : 8.4 (Jan 19 2013)
- * C/C++ source code generated on : Fri Oct 19 20:34:59 2018
+ * C/C++ source code generated on : Sun May 19 14:18:58 2019
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -17,21 +17,7 @@
 #ifndef RTW_HEADER_SensAdapt_types_h_
 #define RTW_HEADER_SensAdapt_types_h_
 #include "rtwtypes.h"
-#ifndef _DEFINED_TYPEDEF_FOR_IMU_tstInRawData_
-#define _DEFINED_TYPEDEF_FOR_IMU_tstInRawData_
-
-/* Uart data to be displayed  */
-typedef struct {
-  real_T AccXData;
-  real_T AccYData;
-  real_T AccZData;
-  real_T GyroXData;
-  real_T GyroYData;
-  real_T GyroZData;
-} IMU_tstInRawData;
-
-#endif
-
+#include "genDigitsEst.h"
 #ifndef _DEFINED_TYPEDEF_FOR_IMU_tstRawData_
 #define _DEFINED_TYPEDEF_FOR_IMU_tstRawData_
 
